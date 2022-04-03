@@ -91,6 +91,7 @@ public class MemberService {
     //회원 정보 보기 ?
 
     //회원 정보 수정
+    @Transactional
     public Member updateMemberInfo(Long id, MemberDto updateDTO){
         Member member = memberRepository.findOne(id);
         if(!member.equals(null)){

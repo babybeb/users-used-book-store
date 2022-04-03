@@ -3,6 +3,8 @@ package babybeb.usersusedbookstore.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,10 +23,10 @@ public class Member {
 
 //    @OneToMany
 //    private List<Purchase> purchaseList;
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<Sale> saleList = new ArrayList<>();
-//
+
+    @OneToMany(mappedBy = "member")
+    private List<Sale> saleList = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "member")
 //    private List<Wish> wishList = new ArrayList<>();
 //

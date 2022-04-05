@@ -11,6 +11,7 @@ public class MemberDto {
     private String name;
     private String nickname;
     private String phoneNumber;
+    private int rate;
 
     public MemberDto(String email, String password, String name, String nickname, String phoneNumber) {
         this.email = email;

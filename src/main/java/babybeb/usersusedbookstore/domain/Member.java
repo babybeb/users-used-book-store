@@ -19,10 +19,10 @@ public class Member {
     private String name;
     private String nickname;
     private String phoneNumber;
-    private String sex;
+    private int rate;
 
-//    @OneToMany
-//    private List<Purchase> purchaseList;
+    @OneToMany(mappedBy = "member")
+    private List<Purchase> purchaseList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Sale> saleList = new ArrayList<>();
@@ -50,6 +50,5 @@ public class Member {
         this.name = memberDTO.getName();
         this.nickname = memberDTO.getNickname();
         this.phoneNumber = memberDTO.getPhoneNumber();
-        this.sex = memberDTO.getSex();
     }
 }

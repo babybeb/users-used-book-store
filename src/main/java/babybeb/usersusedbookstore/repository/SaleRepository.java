@@ -1,5 +1,7 @@
 package babybeb.usersusedbookstore.repository;
 
+import babybeb.usersusedbookstore.domain.Item;
+import babybeb.usersusedbookstore.domain.Purchase;
 import babybeb.usersusedbookstore.domain.Sale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,7 +15,6 @@ public class SaleRepository {
 
     private final EntityManager em;
 
-    //거래 상품 등록
     public void save(Sale sale){
         em.persist(sale);
     }
@@ -22,8 +23,13 @@ public class SaleRepository {
         return em.find(Sale.class, id);
     }
 
-    public List<Sale> findAll(){
-        return em.createQuery("select s from Sale s", Sale.class)
+    public List<Sale> findByMemberId(Long memberId) {
+        return em.createQuery("select s from Sale s where s.member.id = :memberId", Sale.class)
+                .setParameter("memberId", memberId)
                 .getResultList();
+    }
+
+    public void removeSale(Sale sale){
+        em.remove(sale);
     }
 }

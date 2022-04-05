@@ -105,7 +105,7 @@ public class MemberServiceTest {
         memberService.join(member);
 
         //when
-        MemberDto memberDto = new MemberDto("ggeggrgg@naver.com", "테스트",
+        MemberDto memberDto = new MemberDto("ggeggrgg@naver.com", "1234","테스트",
                 "test", "010-5407-9254");
         memberService.updateMemberInfo(member.getId(), memberDto);
 

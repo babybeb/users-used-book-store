@@ -1,5 +1,5 @@
 package babybeb.usersusedbookstore.domain;
 
-public enum dealStatus {
+public enum DealStatus {
     SALE, RESERVED, COMP
 }

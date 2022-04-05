@@ -38,7 +38,7 @@ public class Item {
     private ImageInfo imageInfo;
     
     @Enumerated(EnumType.STRING)
-    private dealStatus dealStatus;
+    private DealStatus dealStatus;
     
     @OneToOne(fetch = FetchType.LAZY)
     private ChatRoom chatRoom;

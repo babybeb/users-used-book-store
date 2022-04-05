@@ -20,8 +20,8 @@ public class Member {
     private String nickname;
     private String phoneNumber;
 
-//    @OneToMany
-//    private List<Purchase> purchaseList;
+    @OneToMany(mappedBy = "member")
+    private List<Purchase> purchaseList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Sale> saleList = new ArrayList<>();

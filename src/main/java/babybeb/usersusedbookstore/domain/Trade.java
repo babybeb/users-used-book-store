@@ -7,11 +7,13 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype")
 @Getter
 public abstract class Trade {
 
     @Id @GeneratedValue
+    @Column(name="trade_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

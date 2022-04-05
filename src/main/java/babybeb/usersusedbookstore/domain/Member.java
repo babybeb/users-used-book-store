@@ -19,6 +19,7 @@ public class Member {
     private String name;
     private String nickname;
     private String phoneNumber;
+    private int rate;
 
     @OneToMany(mappedBy = "member")
     private List<Purchase> purchaseList = new ArrayList<>();

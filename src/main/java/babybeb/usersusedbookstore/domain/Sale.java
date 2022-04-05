@@ -16,7 +16,7 @@ public class Sale {
     @ManyToOne(fetch = LAZY)
     Member member;
 
-//    @ManyToOne(fetch = LAZY)
-//    Item item;
+    @ManyToOne(fetch = LAZY)
+    Item item;
 
 }

@@ -19,7 +19,6 @@ public class Member {
     private String name;
     private String nickname;
     private String phoneNumber;
-    private String sex;
 
 //    @OneToMany
 //    private List<Purchase> purchaseList;
@@ -50,6 +49,5 @@ public class Member {
         this.name = memberDTO.getName();
         this.nickname = memberDTO.getNickname();
         this.phoneNumber = memberDTO.getPhoneNumber();
-        this.sex = memberDTO.getSex();
     }
 }

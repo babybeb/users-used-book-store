@@ -11,12 +11,15 @@ import static javax.persistence.FetchType.*;
 public class Sale {
 
     @Id @GeneratedValue
+    @Column(name = "sale_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    Member member;
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @ManyToOne(fetch = LAZY)
-    Item item;
+    @JoinColumn(name = "item_id")
+    private Item item;
 
 }

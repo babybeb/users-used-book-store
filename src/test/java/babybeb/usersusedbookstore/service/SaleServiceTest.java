@@ -1,12 +1,7 @@
-package babybeb.usersusedbookstore.Service;
+package babybeb.usersusedbookstore.service;
 
-import babybeb.usersusedbookstore.domain.Item;
-import babybeb.usersusedbookstore.domain.Member;
-import babybeb.usersusedbookstore.domain.Sale;
 import babybeb.usersusedbookstore.repository.MemberRepository;
 import babybeb.usersusedbookstore.repository.SaleRepository;
-import babybeb.usersusedbookstore.service.MemberService;
-import babybeb.usersusedbookstore.service.SaleService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

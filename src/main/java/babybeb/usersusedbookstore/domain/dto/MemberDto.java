@@ -1,4 +1,4 @@
-package babybeb.usersusedbookstore.domain;
+package babybeb.usersusedbookstore.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;

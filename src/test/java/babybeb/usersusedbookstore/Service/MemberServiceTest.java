@@ -1,7 +1,7 @@
 package babybeb.usersusedbookstore.Service;
 
 import babybeb.usersusedbookstore.domain.Member;
-import babybeb.usersusedbookstore.domain.MemberDto;
+import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.repository.MemberRepository;
 import babybeb.usersusedbookstore.service.MemberService;
 import org.junit.jupiter.api.Test;

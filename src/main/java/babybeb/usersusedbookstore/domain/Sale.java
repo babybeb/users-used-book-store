@@ -38,16 +38,16 @@ public class Sale{
 
     //==비즈니스 로직==//
     /**
-     * 주문취소
+     * 판매 취소
      */
-//    public void cancel(){
-//        if(item.getDealStatus() == DealStatus.SALE){
-//
-//        }
-//        else{
-//            throw new IllegalStateException("판매 중인 상품만 취소 가능합니다.");
-//        }
-//    }
+    public void cancel(){
+        if(item.getDealStatus() == DealStatus.SALE){
+//            item.cancel();
+        }
+        else{
+            throw new IllegalStateException("판매 중인 상품만 취소 가능합니다.");
+        }
+    }
 
     /**
      * 구매자 평가

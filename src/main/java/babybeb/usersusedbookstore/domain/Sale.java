@@ -1,5 +1,6 @@
 package babybeb.usersusedbookstore.domain;
 
+import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import lombok.Getter;
 
 import javax.persistence.*;

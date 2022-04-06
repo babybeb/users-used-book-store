@@ -1,5 +1,6 @@
 package babybeb.usersusedbookstore.domain;
 
+import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -27,9 +28,12 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Sale> saleList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Wish> wishList = new ArrayList<>();
-//
+    @OneToMany(mappedBy = "member")
+    private List<BookWish> bookWishList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<ItemWish> itemWishList = new ArrayList<>();
+
 //    @OneToMany
 //    private List<chatRoom> chatRoomList;
 

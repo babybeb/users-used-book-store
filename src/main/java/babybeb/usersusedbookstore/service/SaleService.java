@@ -18,7 +18,7 @@ public class SaleService {
 //    private final BookRepository bookRepository;
 
     /**
-     * 상품 등록하기
+     * 판매 등록하기
      */
 //    public Long addSale(Long memberId, Long bookId){
 //
@@ -38,17 +38,17 @@ public class SaleService {
 //    }
 
     /**
-     * 상품 수정하기
+     * 판매 수정하기
      */
 //    public void updateSale(Long saleId, ItemDto updateDto){}
 
     /**
-     * 상품 삭제하기
+     * 판매 삭제하기
      */
-//    public void cancelSale(Long saleId){
-//        Sale sale = saleRepository.findOne(saleId);
-//        sale.cancel();
-//    }
+    public void cancelSale(Long saleId){
+        Sale sale = saleRepository.findOne(saleId);
+        sale.cancel();
+    }
 
     /**
      * 거래 평가하기

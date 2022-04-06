@@ -1,10 +1,13 @@
 package babybeb.usersusedbookstore.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.*;
 
 @Entity
+@Getter
 public class BookWish {
 
     @Id @GeneratedValue

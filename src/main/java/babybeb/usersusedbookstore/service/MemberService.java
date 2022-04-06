@@ -1,7 +1,7 @@
 package babybeb.usersusedbookstore.service;
 
 import babybeb.usersusedbookstore.domain.Member;
-import babybeb.usersusedbookstore.domain.MemberDto;
+import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

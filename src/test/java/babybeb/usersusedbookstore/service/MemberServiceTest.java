@@ -1,9 +1,8 @@
-package babybeb.usersusedbookstore.Service;
+package babybeb.usersusedbookstore.service;
 
 import babybeb.usersusedbookstore.domain.Member;
 import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.repository.MemberRepository;
-import babybeb.usersusedbookstore.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

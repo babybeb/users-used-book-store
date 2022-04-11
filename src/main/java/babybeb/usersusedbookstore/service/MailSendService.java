@@ -57,9 +57,9 @@ public class MailSendService {
                     .append(email)
                     .append("&authKey=")
                     .append(authKey)
-                    .append("' target='_blenk'>이메일 인증 확인</a>")
+                    .append("' target='_blank'>이메일 인증 확인</a>")
                     .toString());
-            sendMail.setFrom("이메일 주소", "관리자(표시이름)");
+            sendMail.setFrom("[인증 메일 전송하는 이메일 주소]", "[관리자, 이메일에 표시되는 이름]");
             sendMail.setTo(email);
             sendMail.send();
         } catch (MessagingException e){

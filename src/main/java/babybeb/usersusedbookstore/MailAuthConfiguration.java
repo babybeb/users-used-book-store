@@ -21,8 +21,8 @@ public class MailAuthConfiguration {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("UsersUsedBookStore");
-        mailSender.setPassword("비밀번호");
+        mailSender.setUsername("[인증 메일 전송하는 이메일 주소]");
+        mailSender.setPassword("[인증 메일 전송하는 계정의 패스워드(앱전용)]");
         mailSender.setDefaultEncoding("utf-8");
         mailSender.setJavaMailProperties(properties);
 

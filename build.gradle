@@ -39,6 +39,9 @@ dependencies {
 	//mail 라이브러리
 	implementation 'com.sun.mail:javax.mail:1.6.2'
 	implementation 'org.springframework:spring-context-support'
+
+	//JSON 라이브러리
+	implementation 'org.json:json:20220320'
 }
 
 tasks.named('test') {

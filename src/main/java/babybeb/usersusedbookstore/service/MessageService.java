@@ -25,7 +25,7 @@ public class MessageService {
     @Value("${fromNumber}")
     private String fromNumber;
 
-    public void sendMessage(String toNumber, String randomNumber){
+    public String sendMessage(String toNumber, String randomNumber){
 
         Message coolsms = new Message(apiKey, apiSecret);
 
@@ -37,6 +37,7 @@ public class MessageService {
 
         try{
             JSONObject obj = (JSONObject) coolsms.send(params);
+            return obj.toString();
         } catch (CoolsmsException e){
             throw new IllegalStateException("전송 실패");
         }

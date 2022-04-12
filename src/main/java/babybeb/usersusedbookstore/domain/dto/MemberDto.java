@@ -12,6 +12,7 @@ public class MemberDto {
     private String nickname;
     private String phoneNumber;
     private int rate;
+    private boolean auth;
 
     public MemberDto(String email, String password, String name, String nickname, String phoneNumber) {
         this.email = email;

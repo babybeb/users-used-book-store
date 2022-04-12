@@ -28,6 +28,7 @@ out/
 
 ### properties ###
 src/main/resources/application.properties
+src/main/resources/data.properties
 
 ### NetBeans ###
 /nbproject/private/

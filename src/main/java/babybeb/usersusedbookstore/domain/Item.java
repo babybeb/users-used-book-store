@@ -26,7 +26,7 @@ public class Item {
     @Embedded
     private Book book;
     
-    private int price;
+    private int itemPrice;
     
     private int hit;
     

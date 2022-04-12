@@ -55,9 +55,9 @@ public class Item {
     /**
      * 생성자
      */
-    public Item(Book book, int price, ItemCondition itemCondition, ImageInfo imageInfo) {
+    public Item(Book book, int itemPrice, ItemCondition itemCondition, ImageInfo imageInfo) {
         this.book = book;
-        this.price = price;
+        this.itemPrice = itemPrice;
         this.itemCondition = itemCondition;
         this.imageInfo = imageInfo;
     }

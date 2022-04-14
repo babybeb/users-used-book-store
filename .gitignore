@@ -28,7 +28,7 @@ out/
 
 ### properties ###
 src/main/resources/application.yml
-src/main/resources/data.yml
+src/test/resources/application.yml
 
 ### NetBeans ###
 /nbproject/private/

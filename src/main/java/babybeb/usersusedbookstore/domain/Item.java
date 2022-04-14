@@ -1,15 +1,14 @@
 package babybeb.usersusedbookstore.domain;
 
-import java.awt.print.Book;
+import java.util.ArrayList;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,22 +23,42 @@ public class Item {
     @Column(name = "item_id")
     private Long id;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "book_id")
+    @Embedded
     private Book book;
     
-    private int price;
+    private int itemPrice;
     
     private int hit;
     
     @Enumerated(EnumType.STRING)
     private ItemCondition itemCondition;
     
+    @Embedded
     private ImageInfo imageInfo;
     
     @Enumerated(EnumType.STRING)
     private DealStatus dealStatus;
+
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "chat_room_id")
+//    private List<ChatRoom> chatRooms = new ArrayList<>();
     
-    @OneToOne(fetch = FetchType.LAZY)
-    private ChatRoom chatRoom;
+    /**
+     * 생성 메서드
+     */
+    public static Item createItem(Book book, int price, ItemCondition itemCondition,
+                                  ImageInfo imageInfo) {
+        Item item = new Item(book, price, itemCondition, imageInfo);
+        return item;
+    }
+    
+    /**
+     * 생성자
+     */
+    public Item(Book book, int itemPrice, ItemCondition itemCondition, ImageInfo imageInfo) {
+        this.book = book;
+        this.itemPrice = itemPrice;
+        this.itemCondition = itemCondition;
+        this.imageInfo = imageInfo;
+    }
 }

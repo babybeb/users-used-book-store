@@ -20,8 +20,8 @@ public class BookWishService {
     /**
      * 도서 찜하기
      */
-    public Long addBookWish(Member member, Book book){
-        BookWish bookWish = new BookWish(member, book);
+    public Long addBookWish(Member member, BookDto bookDto){
+        BookWish bookWish = new BookWish(member, bookDto);
         bookWishRepository.save(bookWish);
         return bookWish.getId();
     }

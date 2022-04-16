@@ -13,16 +13,15 @@ import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
-@PropertySource("classpath:data.properties")
 public class MessageService {
 
-    @Value("${apiKey}")
+    @Value("${Phone.apiKey}")
     private String apiKey;
 
-    @Value("${apiSecret}")
+    @Value("${Phone.apiSecret}")
     private String apiSecret;
 
-    @Value("${fromNumber}")
+    @Value("${Phone.fromNumber}")
     private String fromNumber;
 
     public String sendMessage(String toNumber, String randomNumber){

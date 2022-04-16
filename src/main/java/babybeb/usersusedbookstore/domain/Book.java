@@ -22,4 +22,15 @@ public class Book {
     private int page;
     
     private String kdc;
+    
+    public Book(String isbn, String title, int bookPrice, String publisher, String author, int page,
+                String kdc) {
+        this.isbn = isbn;
+        this.title = title;
+        this.bookPrice = bookPrice;
+        this.publisher = publisher;
+        this.author = author;
+        this.page = page;
+        this.kdc = kdc;
+    }
 }

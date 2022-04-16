@@ -27,11 +27,19 @@ public class BookWishRepository {
                 .getResultList();
     }
 
-//    public List<BookWish> findByBookId(Long bookId){
-//        return em.createQuery("select bw from BookWish bw where bw.book.id = :bookId", BookWish.class)
-//                .setParameter("bookId", bookId)
-//                .getResultList();
-//    }
+    public List<BookWish> findByIsbn(String isbn){
+        return em.createQuery("select bw from BookWish bw where bw.book.isbn = :isbn", BookWish.class)
+                .setParameter("isbn", isbn)
+                .getResultList();
+    }
+
+    public BookWish findByIsbnWithMember(Long memberId, String isbn){
+        return em.createQuery("select bw from BookWish bw " +
+                        "where bw.book.isbn=:isbn and bw.member.id=:memberId", BookWish.class)
+                .setParameter("isbn", isbn)
+                .setParameter("memberId", memberId)
+                .getSingleResult();
+    }
 
     public void cancelBookWish(BookWish bookWish){
         em.remove(bookWish);

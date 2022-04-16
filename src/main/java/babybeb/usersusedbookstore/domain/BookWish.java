@@ -1,5 +1,6 @@
 package babybeb.usersusedbookstore.domain;
 
+import babybeb.usersusedbookstore.service.BookDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,8 +23,9 @@ public class BookWish {
     @Embedded
     private Book book;
 
-    public BookWish(Member member, Book book) {
+    public BookWish(Member member, BookDto dto) {
         this.member = member;
-        this.book = book;
+        this.book = new Book(dto.getIsbn(), dto.getTitle(), dto.getPrice(),
+                dto.getPublisher(), dto.getAuthor(), dto.getPage(), dto.getKdc());
     }
 }

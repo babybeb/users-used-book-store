@@ -38,7 +38,7 @@ class BookWishServiceTest {
 
         String searchTitle = "갈매기의 꿈";
         List<BookDto> bookInfos = bookSearchService.searchBookInfosByTitle(searchTitle);
-        Book selectBook = new Book(bookInfos.get(0));
+        BookDto selectBook = bookInfos.get(0);
 
         //when
         Long bookWishId = bookWishService.addBookWish(member, selectBook);
@@ -57,7 +57,7 @@ class BookWishServiceTest {
 
         String searchTitle = "갈매기의 꿈";
         List<BookDto> bookInfos = bookSearchService.searchBookInfosByTitle(searchTitle);
-        Book selectBook = new Book(bookInfos.get(0));
+        BookDto selectBook = bookInfos.get(0);
         bookWishService.addBookWish(member, selectBook);
 
         //when
@@ -76,14 +76,14 @@ class BookWishServiceTest {
 
         String searchTitle = "갈매기의 꿈";
         List<BookDto> bookInfos = bookSearchService.searchBookInfosByTitle(searchTitle);
-        Book selectBook = new Book(bookInfos.get(0));
-        bookWishService.addBookWish(member, selectBook);
+        BookDto selectBook = bookInfos.get(0);
+        Long bookWishId = bookWishService.addBookWish(member, selectBook);
 
         //when
         List<BookWish> bookWishList = bookWishService.findBookWishList(member);
         Long cancelBookWishId = bookWishService.cancelBookWish(bookWishList.get(0).getId());
 
         //then
-        assertThat(selectBook.getId()).isEqualTo(cancelBookWishId);
+        assertThat(bookWishId).isEqualTo(cancelBookWishId);
     }
 }

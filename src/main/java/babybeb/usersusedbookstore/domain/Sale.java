@@ -19,46 +19,40 @@ public class Sale{
     @JoinColumn(name="member_id")
     private Member member;
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
     private Item item;
 
     protected Sale() {
     }
 
-    public Sale(Member member, Item item) {
+    private Sale(Member member, Item item) {
         this.member = member;
         this.item = item;
+    }
+
+    //==연관관계 메소드==//
+    private void addSaleListToMember(Member member){
+        member.getSaleList().add(this);
     }
 
     //==생성 메소드==//
     public static Sale createSale(Member member, Item item){
         Sale sale = new Sale(member, item);
+        sale.addSaleListToMember(member);
         return sale;
     }
 
     //==비즈니스 로직==//
     /**
-     * 판매 취소
-     */
-    public void cancel(){
-        if(item.getDealStatus() == DealStatus.SALE){
-//            item.cancel();
-        }
-        else{
-            throw new IllegalStateException("판매 중인 상품만 취소 가능합니다.");
-        }
-    }
-
-    /**
      * 구매자 평가
      */
-    public void evaluate(int score){
+    public void evaluate(int score, Member buyer){
         int resultRate;
-        MemberDto updateDto = new MemberDto(member.getEmail(), member.getPassword() ,member.getName(),
-                member.getNickname(), member.getPhoneNumber());
-        resultRate = (int)(member.getRate() + score)/2;
+        MemberDto updateDto = new MemberDto(buyer.getEmail(), buyer.getPassword() ,buyer.getName(),
+                buyer.getNickname(), buyer.getPhoneNumber());
+        resultRate = (int)(buyer.getRate() + score)/2;
         updateDto.setRate(resultRate);
-        member.updateMemberInfo(updateDto);
+        buyer.updateMemberInfo(updateDto);
     }
 }

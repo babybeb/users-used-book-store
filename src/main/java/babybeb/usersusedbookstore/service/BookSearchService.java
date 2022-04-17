@@ -5,6 +5,7 @@ import java.beans.Encoder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -39,6 +40,20 @@ public class BookSearchService {
         sbURL.append("&page_no=1");
         sbURL.append("&page_size=10");
         sbURL.append("&title=" + URLEncoder.encode(searchTitle, "UTF-8"));
+        URL url = new URL(sbURL.toString());
+        
+        return parseData(url);
+    }
+    
+    public List<BookDto> searchBookInfosByAuthor(String searchAuthor) throws IOException {
+        
+        StringBuilder sbURL = new StringBuilder(
+            "https://seoji.nl.go.kr/landingPage/SearchApi.do?");
+        sbURL.append("cert_key=" + certKey);
+        sbURL.append("&result_style=json");
+        sbURL.append("&page_no=1");
+        sbURL.append("&page_size=10");
+        sbURL.append("&author=" + URLEncoder.encode(searchAuthor, "UTF-8"));
         URL url = new URL(sbURL.toString());
         
         return parseData(url);
@@ -102,7 +117,7 @@ public class BookSearchService {
     
     private int adjustPrePrice(String originPrePrice) {
         
-        if (originPrePrice.equals("비매품/무료")) {
+        if (originPrePrice.equals("비매품/무료") || originPrePrice.isEmpty()) {
             return 0;
         } else {
             String adjustedPrePrice = "";
@@ -115,9 +130,4 @@ public class BookSearchService {
             return Integer.parseInt(adjustedPrePrice);
         }
     }
-
-//    public List<BookDto> searchBookInfosByAuthor(String searchAuthor) {
-//
-//        return result;
-//    }
 }

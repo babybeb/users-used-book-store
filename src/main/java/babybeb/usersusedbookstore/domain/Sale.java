@@ -53,6 +53,6 @@ public class Sale{
                 buyer.getNickname(), buyer.getPhoneNumber());
         resultRate = (int)(buyer.getRate() + score)/2;
         updateDto.setRate(resultRate);
-        buyer.updateMemberInfo(updateDto);
+        buyer.updateMemberRate(updateDto);
     }
 }

@@ -1,8 +1,12 @@
 package babybeb.usersusedbookstore.service;
 
 import babybeb.usersusedbookstore.domain.Member;
+import babybeb.usersusedbookstore.domain.Purchase;
+import babybeb.usersusedbookstore.domain.Sale;
 import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.repository.MemberRepository;
+import babybeb.usersusedbookstore.repository.PurchaseRepository;
+import babybeb.usersusedbookstore.repository.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +19,8 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final SaleRepository saleRepository;
+    private final PurchaseRepository purchaseRepository;
 
     /**
      * 회원 가입
@@ -69,7 +75,7 @@ public class MemberService {
         throw new IllegalStateException("로그인 실패");
     }
     
-    //로그아웃
+    //로그아웃 ?
 //    public void logOut(Member member){}
 
     /**
@@ -115,10 +121,16 @@ public class MemberService {
      * 회원 내역 조회
      */
     //회원 판매내역 조회
-//    public List<Sale> findSales(memberId){}
+    public List<Sale> findSales(Long memberId){
+        List<Sale> saleList = saleRepository.findByMemberId(memberId);
+        return saleList;
+    }
 
     //회원 구매내역 조회
-//    public List<Purchase> findPurchases(memberId){}
+    public List<Purchase> findPurchases(Long memberId){
+        List<Purchase> purchaseList = purchaseRepository.findByMemberId(memberId);
+        return purchaseList;
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package babybeb.usersusedbookstore.service;
 
+import babybeb.usersusedbookstore.SessionUtil;
 import babybeb.usersusedbookstore.domain.Member;
 import babybeb.usersusedbookstore.domain.Purchase;
 import babybeb.usersusedbookstore.domain.Sale;
@@ -10,7 +11,6 @@ import babybeb.usersusedbookstore.repository.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -68,6 +68,11 @@ public class MemberService {
             Member targetMember = findMembers.get(0);
             if (targetMember.getPassword().equals(password)) {
                 //로그인 성공
+                try{
+                    SessionUtil.setAttribute(email, "LOGIN");
+                } catch(Exception e) {
+                    throw new IllegalStateException("세션 설정 실패");
+                }
                 return targetMember.getId();
             }
         }
@@ -75,8 +80,21 @@ public class MemberService {
         throw new IllegalStateException("로그인 실패");
     }
     
-    //로그아웃 ?
-//    public void logOut(Member member){}
+    //로그아웃
+    public void logOut(Member member){
+        String email = member.getEmail();
+        try{
+            if(SessionUtil.getAttribute(email)=="LOGIN"){
+                //로그아웃 성공(세션 값 삭제)
+                SessionUtil.removeAttribute(email);
+            }
+            else{
+                throw new IllegalStateException("로그아웃 실패");
+            }
+        } catch(Exception e) {
+            throw new IllegalStateException("세션 조회 실패");
+        }
+    }
 
     /**
      * 회원 조회

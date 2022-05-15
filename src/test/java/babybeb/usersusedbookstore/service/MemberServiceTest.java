@@ -1,5 +1,6 @@
 package babybeb.usersusedbookstore.service;
 
+import babybeb.usersusedbookstore.SessionUtil;
 import babybeb.usersusedbookstore.domain.Member;
 import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.repository.MemberRepository;
@@ -151,6 +152,7 @@ public class MemberServiceTest {
 
         //then
         assertThat(logInMemberId).isEqualTo(member1.getId());
+        assertThat(SessionUtil.getAttribute(member1.getEmail())).isEqualTo("LOGIN");
     }
     
     @Test
@@ -175,7 +177,21 @@ public class MemberServiceTest {
 
     }
     
+    @Test
+    public void 로그아웃() throws Exception{
+        //given
+        SessionUtil session = new SessionUtil();
+        Member member1 = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
+                "GgEgg", "010-5407-9254", false);
+        memberService.join(member1);
+        memberService.logIn("ggeggrgg@naver.com", "1234");
 
+        //when
+        memberService.logOut(member1);
 
-
+        //then
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+                () -> memberService.logOut(member1));
+        assertThat(e.getMessage()).isEqualTo("세션 조회 실패");
+    }
 }

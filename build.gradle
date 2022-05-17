@@ -43,8 +43,11 @@ dependencies {
 	//JSON 라이브러리
 	implementation 'org.json:json:20220320'
 
-//휴대폰 인증 라이브러리
+	//휴대폰 인증 라이브러리
 	implementation 'net.nurigo:javaSDK:2.2'
+
+	// AWS S3(이미지 서버) 연동을 위한 의존성
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {

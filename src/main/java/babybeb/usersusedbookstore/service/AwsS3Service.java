@@ -1,5 +1,8 @@
 package babybeb.usersusedbookstore.service;
 
+import babybeb.usersusedbookstore.domain.ImageFile;
+import babybeb.usersusedbookstore.domain.Item;
+import babybeb.usersusedbookstore.repository.ImageFileRepository;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -26,7 +29,9 @@ public class AwsS3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     
+    private final ImageFileRepository imageFileRepository;
     private final AmazonS3Client amazonS3Client;
+    private final ItemService itemService;
     
     /**
      * MultipartFile List를 매개변수로 받아 S3에 업로드하는 메서드
@@ -35,16 +40,19 @@ public class AwsS3Service {
      * @return fileNameList
      * @throws IOException
      */
-    public List<String> uploadImages(List<MultipartFile> multipartFiles) throws IOException {
-        List<String> fileNameList = new ArrayList<>();
-        
+    public List<ImageFile> uploadImages(Long itemId, List<MultipartFile> multipartFiles) throws IOException {
+        List<ImageFile> imageFileList = new ArrayList<>();
+        Item item = itemService.findById(itemId);
+    
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
-                fileNameList.add(uploadImage(multipartFile));
+                imageFileList.add(uploadImage(item, multipartFile));
             }
         }
         
-        return fileNameList;
+        imageFileRepository.saveAll(imageFileList);
+        
+        return imageFileList;
     }
     
     /**
@@ -64,15 +72,16 @@ public class AwsS3Service {
      * @param multipartFile
      * @return fileName
      */
-    private String uploadImage(MultipartFile multipartFile) {
+    private ImageFile uploadImage(Item item, MultipartFile multipartFile) {
         if (multipartFile.isEmpty()) {
             return null;
         }
         
         String fileName = createFileName(multipartFile.getOriginalFilename());
         putS3(multipartFile, fileName);
+    
         
-        return fileName;
+        return new ImageFile(item, multipartFile.getOriginalFilename(), fileName);
     }
     
     /**

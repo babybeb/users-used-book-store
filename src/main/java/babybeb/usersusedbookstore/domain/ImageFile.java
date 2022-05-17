@@ -8,12 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ImageFile {
     
     @Id
@@ -36,4 +37,8 @@ public class ImageFile {
         this.originalFileName = originalFileName;
         this.storeFileName = storeFileName;
     }
+    
+//    public void registerItem(Item item) {
+//        this.item = item;
+//    }
 }

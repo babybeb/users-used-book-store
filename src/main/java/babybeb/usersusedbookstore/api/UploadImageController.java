@@ -22,8 +22,8 @@ public class UploadImageController {
     
     @PostMapping("/{item_id}/images")
     public ResponseEntity<List<String>> uploadImages(
-        @RequestPart List<MultipartFile> multipartFiles) throws IOException {
-        return ApiResponse.success(awsS3Service.uploadImages(multipartFiles));
+        @RequestPart Long postId, @RequestPart List<MultipartFile> multipartFiles) throws IOException {
+        return ApiResponse.success(awsS3Service.uploadImages(postId, multipartFiles));
     }
     
     @DeleteMapping("/{item_id}/images")

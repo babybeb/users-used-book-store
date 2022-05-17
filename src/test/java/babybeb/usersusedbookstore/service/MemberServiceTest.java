@@ -1,6 +1,5 @@
 package babybeb.usersusedbookstore.service;
 
-import babybeb.usersusedbookstore.SessionUtil;
 import babybeb.usersusedbookstore.domain.Member;
 import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.repository.MemberRepository;
@@ -148,11 +147,10 @@ public class MemberServiceTest {
         memberService.join(member2);
 
         //when
-        Long logInMemberId = memberService.logIn("ggeggrgg@naver.com", "1234");
+        Long logInMemberId = memberService.signIn("ggeggrgg@naver.com", "1234");
 
         //then
         assertThat(logInMemberId).isEqualTo(member1.getId());
-        assertThat(SessionUtil.getAttribute(member1.getEmail())).isEqualTo("LOGIN");
     }
     
     @Test
@@ -167,31 +165,14 @@ public class MemberServiceTest {
 
         //when
         IllegalStateException e1 = assertThrows(IllegalStateException.class,
-                () -> memberService.logIn("ggeggrgg@naver.com", "1111"));
+                () -> memberService.signIn("ggeggrgg@naver.com", "1111"));
         IllegalStateException e2 = assertThrows(IllegalStateException.class,
-                () -> memberService.logIn("test", "1234"));
+                () -> memberService.signIn("test", "1234"));
         
         //then
         assertThat(e1.getMessage()).isEqualTo("로그인 실패");
         assertThat(e2.getMessage()).isEqualTo("로그인 실패");
 
     }
-    
-    @Test
-    public void 로그아웃() throws Exception{
-        //given
-        SessionUtil session = new SessionUtil();
-        Member member1 = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
-        memberService.join(member1);
-        memberService.logIn("ggeggrgg@naver.com", "1234");
 
-        //when
-        memberService.logOut(member1);
-
-        //then
-        IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> memberService.logOut(member1));
-        assertThat(e.getMessage()).isEqualTo("세션 조회 실패");
-    }
 }

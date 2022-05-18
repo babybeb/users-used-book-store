@@ -48,6 +48,14 @@ dependencies {
 
 	// AWS S3(이미지 서버) 연동을 위한 의존성
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	// swagger
+	implementation (group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'){
+		exclude module: 'swagger-annotations' exclude module: 'swagger-models'
+	}
+	implementation "io.swagger:swagger-annotations:1.5.21"
+	implementation "io.swagger:swagger-models:1.5.21"
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 }
 
 tasks.named('test') {

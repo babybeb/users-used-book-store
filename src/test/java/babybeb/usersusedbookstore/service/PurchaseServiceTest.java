@@ -37,9 +37,9 @@ class PurchaseServiceTest {
     public void 판매자_평가하기() throws Exception {
         //given
         Long member1 = memberService.join(new Member("1111@naver.com", "1111", "member1",
-                                                     "member1", "010-0000-1111"));
+                                                     "member1", "010-0000-1111", true));
         Long member2 = memberService.join(new Member("2222@naver.com", "2222", "member2",
-                                                     "member2", "010-1111-2222"));
+                                                     "member2", "010-1111-2222",true));
         
 //        purchaseRepository.save(new Purchase(memberRepository.findOne(member1), itemRepository.findOne(1L)));
         

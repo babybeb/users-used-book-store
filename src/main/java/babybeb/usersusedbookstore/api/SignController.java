@@ -5,9 +5,7 @@ import babybeb.usersusedbookstore.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +20,7 @@ public class SignController {
     /**
      * API 부분
      */
-    @RequestMapping("/signIn")
+    @PostMapping("/signIn")
     public signInResponse signIn(
             @RequestBody @Valid
             HttpServletRequest requestSession, signInRequest request){
@@ -34,7 +32,7 @@ public class SignController {
         return new signInResponse(findMember.getNickname());
     }
 
-    @RequestMapping("/signOut")
+    @DeleteMapping("/signOut")
     public void signOut(
             @RequestBody @Valid
             HttpServletRequest requestSession){

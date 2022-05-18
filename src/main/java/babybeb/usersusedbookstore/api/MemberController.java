@@ -20,6 +20,7 @@ public class MemberController {
     /**
      * API 부분
      */
+    //회원가입 API
     @PostMapping("/member/new")
     public SaveMemberResponse saveMember(
             @RequestBody
@@ -30,6 +31,7 @@ public class MemberController {
         return new SaveMemberResponse(id);
     }
 
+    //회원정보 수정 API
     @PutMapping("/member/{id}")
     public UpdateMemberResponse UpdateMember(
             @PathVariable("id") Long id,
@@ -42,15 +44,35 @@ public class MemberController {
         return new UpdateMemberResponse(findMember.getId(), findMember.getNickname());
     }
 
+    //회원정보 조회 API
     @GetMapping("/member/{id}")
-    public MemberInfoResponse MemberInfo(
-            @PathVariable("id") Long id){
+    public MemberInfoResponse MemberInfo(@PathVariable("id") Long id){
         Member findMember = memberService.findOne(id);
         return new MemberInfoResponse(findMember.getEmail(), findMember.getPassword(),
                 findMember.getName(), findMember.getNickname(), findMember.getPhoneNumber(),
                 findMember.isAuth());
     }
 
+    //회원탈퇴 API
+    @DeleteMapping("/member/{id}")
+    public MemberRemoveResponse MemberRemove(@PathVariable("id") Long id){
+        Member findMember = memberService.findOne(id);
+        memberService.removeMember(findMember.getId());
+        return new MemberRemoveResponse(findMember.getName());
+    }
+
+    //회원 판매 기록 조회 API (미완성)
+    @GetMapping("member/{id}/sales")
+    public MemberSalesResponse MemberSales(@PathVariable("id") Long id){
+        return new MemberSalesResponse();
+    }
+
+
+    //회원 구매 기록 조회 API (미완성)
+    @GetMapping("member/{id}/purchases")
+    public MemberPurchasesResponse MemberPurchases(@PathVariable("id") Long id){
+        return new MemberPurchasesResponse();
+    }
 
     /**
      * Data 부분
@@ -95,5 +117,23 @@ public class MemberController {
         private String nickname;
         private String phoneNumber;
         private boolean auth;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberRemoveResponse{
+        private String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberSalesResponse{
+
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberPurchasesResponse{
+
     }
 }

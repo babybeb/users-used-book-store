@@ -29,7 +29,7 @@ public class SaleController {
     /**
      * API 부분
      */
-    //상품 등록 API
+    //판매 등록 API
 //    @PostMapping("sale/{memberId}/new")
 //    public saveSaleResponse saveSale(
 //            @PathVariable("memberId") Long id,
@@ -37,7 +37,7 @@ public class SaleController {
 //        Sale sale = saleService.addSale(id, );
 //    }
 
-    //상품 삭제 API
+    //판매 삭제 API
     @DeleteMapping("sale/{saleId}")
     public DeleteSaleResponse delSale(
             @PathVariable("saleId") Long saleId){
@@ -47,7 +47,7 @@ public class SaleController {
         return new DeleteSaleResponse(bookTitle);
     }
 
-    //상품 거래 상태 변경 API
+    //판매 거래 상태 변경 API
     @PutMapping("sale/{saleId}/dealStatus")
     public ChangeStatusResponse ChangeSaleStatus(
             @Valid ChangeStatusRequest request,

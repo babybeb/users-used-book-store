@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Sale{
 
     @Id @GeneratedValue
-    @Column(name="Sale_id")
+    @Column(name="sale_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

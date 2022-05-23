@@ -1,6 +1,8 @@
 package babybeb.usersusedbookstore.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -44,17 +46,56 @@ public class Item {
     
     @Embedded
     private DealArea dealArea;
+    
+    private LocalDateTime createDate;
 
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "chat_room_id")
 //    private List<ChatRoom> chatRooms = new ArrayList<>();
     
-    public Item(Book book, int itemPrice, ItemCondition itemCondition,
-                List<ImageFile> imageFiles) {
+    public Item(Book book, int itemPrice, ItemCondition itemCondition, LocalDateTime createDate) {
         this.book = book;
         this.itemPrice = itemPrice;
         this.itemCondition = itemCondition;
+        this.dealStatus = DealStatus.SALE;
+        this.createDate = createDate;
+    }
+    
+    //== 비즈니스 로직 ==//
+    
+    /**
+     * 이미지 파일 추가
+     */
+    public void addImageFiles(List<ImageFile> imageFiles) {
         this.imageFiles = imageFiles;
+    }
+    
+    /**
+     * 책 변경
+     */
+    public void changeBook(Book book) {
+        this.book = book;
+    }
+    
+    /**
+     * 가격 변경
+     */
+    public void changeItemPrice(int itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+    
+    /**
+     * 아이템 상태 변경
+     */
+    public void changeItemCondition(ItemCondition itemCondition) {
+        this.itemCondition = itemCondition;
+    }
+    
+    /**
+     * 거래 지역 변경
+     */
+    public void changeDealArea(DealArea dealArea) {
+        this.dealArea = dealArea;
     }
     
     /**
@@ -68,5 +109,12 @@ public class Item {
         } else {
             this.dealStatus = DealStatus.COMP;
         }
+    }
+    
+    /**
+     * 조회수 증가
+     */
+    public void addHit() {
+        ++this.hit;
     }
 }

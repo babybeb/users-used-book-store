@@ -8,9 +8,11 @@ import babybeb.usersusedbookstore.domain.Item;
 import babybeb.usersusedbookstore.domain.ItemCondition;
 import babybeb.usersusedbookstore.repository.ItemRepository;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,9 @@ class ItemServiceTest {
 
     @Autowired
     EntityManager em;
-    
+
     @Test
+    @DisplayName("아이템이 정상적으로 저장되었는지 확인한다")
     public void 아이템_생성_테스트() throws Exception {
         //given
         Item item = createItem();
@@ -51,12 +54,14 @@ class ItemServiceTest {
     public void 아이템_수정_테스트() throws Exception {
         //given
         Item item = createItem();
-    
-        //when
         Long saveId = itemService.saveItem(item);
-    
+        Item updatedItem = itemService.findById(saveId);
+        
+        //when
+        itemService.updateItem(updatedItem.getId(), updatedItem.getBook(), 10000, updatedItem.getItemCondition());
+        
         //then
-        assertEquals(item, itemRepository.findOne(saveId));
+        assertEquals(10000, itemService.findById(updatedItem.getId()).getItemPrice());
     }
 
     @Test
@@ -73,19 +78,19 @@ class ItemServiceTest {
         Book book = new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getPrice(),
                              bookDto.getPublisher(), bookDto.getAuthor(), bookDto.getPage(),
                              bookDto.getKdc());
-        
-        String originalFileName = "original";
-        String storeFileName = "store";
-        List<ImageFile> imageFiles = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            imageFiles.add(new ImageFile(originalFileName, storeFileName));
-        }
-        
-        Item item = new Item(book, 5000, ItemCondition.MINT, imageFiles);
-        for (ImageFile imageFile : imageFiles) {
-            imageFile.registerItem(item);
-        }
-        
+
+        Item item = new Item(book, 5000, ItemCondition.MINT, LocalDateTime.now());
+//        for (ImageFile imageFile : imageFiles) {
+//            imageFile.registerItem(item);
+//        }
+
+//        String originalFileName = "original";
+//        String storeFileName = "store";
+//        List<ImageFile> imageFiles = new ArrayList<>();
+//        for (int i = 0; i < 3; i++) {
+//            imageFiles.add(new ImageFile(originalFileName, storeFileName));
+//        }
+
         return item;
     }
 }

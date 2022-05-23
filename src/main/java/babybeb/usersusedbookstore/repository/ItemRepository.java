@@ -21,6 +21,10 @@ public class ItemRepository {
         return item.getId();
     }
     
+    public void update(Item item) {
+        em.merge(item);
+    }
+    
     public Item findOne(Long id) {
         return em.find(Item.class,id);
     }

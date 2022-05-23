@@ -45,7 +45,7 @@ class BookSearchServiceTest {
         
         //then
         Assertions.assertThat(bookInfos.get(0).getTitle())
-            .containsIgnoringCase(searchTitle);
+            .containsIgnoringCase("갈매기");
     }
     
     @Test

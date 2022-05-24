@@ -1,6 +1,8 @@
 package babybeb.usersusedbookstore.domain;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,30 +11,36 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DealArea {
     
-    private String siDo;
+    @Enumerated(EnumType.STRING)
+    private SiDo siDo;
     
-    private String siGunGu;
+    @Enumerated(EnumType.STRING)
+    private SiGunGu siGunGu;
     
-    private String eupMyeonDong;
+    @Enumerated(EnumType.STRING)
+    private EupMyeonDong eupMyeonDong;
     
-    private String ri;
+    @Enumerated(EnumType.STRING)
+    private Ri ri;
     
-    public DealArea(String siDo) {
+    public DealArea(SiDo siDo) {
         this.siDo = siDo;
     }
     
-    public DealArea(String siDo, String siGunGu) {
+    public DealArea(SiDo siDo, SiGunGu siGunGu) {
         this.siDo = siDo;
         this.siGunGu = siGunGu;
     }
     
-    public DealArea(String siDo, String siGunGu, String eupMyeonDong) {
+    public DealArea(SiDo siDo, SiGunGu siGunGu,
+                    EupMyeonDong eupMyeonDong) {
         this.siDo = siDo;
         this.siGunGu = siGunGu;
         this.eupMyeonDong = eupMyeonDong;
     }
     
-    public DealArea(String siDo, String siGunGu, String eupMyeonDong, String ri) {
+    public DealArea(SiDo siDo, SiGunGu siGunGu,
+                    EupMyeonDong eupMyeonDong, Ri ri) {
         this.siDo = siDo;
         this.siGunGu = siGunGu;
         this.eupMyeonDong = eupMyeonDong;

@@ -4,14 +4,6 @@
     <meta charset="UTF-8">
     <title>중고 서적 직거래(Ur's ur)</title>
 </head>
-<script>
-    function signIn(){
-        window.open("/users-used-book-store/users-used-book-store.main/templates/sign/sign.html");
-    }
-    function signUp(){
-        window.open("/users-used-book-store/users-used-book-store.main/templates/member/new");
-    }
-</script>
 <body>
     <h1>Ur's ur</h1>
 
@@ -28,8 +20,8 @@
     </section>
 
     <section class="sign">
-        <button type="button" onClick="signIn()">로그인</button>
-        <button type="button" onClick="signUp()">회원가입</button>
+        <button type="button" onClick="window.open('/sign/sign.html')">로그인</button>
+        <button type="button" onClick="window.open('/member/new.html')">회원가입</button>
     </section>
 </body>
 </html>

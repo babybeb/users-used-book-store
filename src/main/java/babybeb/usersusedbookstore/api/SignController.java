@@ -20,7 +20,7 @@ public class SignController {
     /**
      * API 부분
      */
-    @PostMapping("/signIn")
+    @PostMapping("/sign")
     public signInResponse signIn(
             @RequestBody @Valid
             HttpServletRequest requestSession, signInRequest request){
@@ -32,7 +32,7 @@ public class SignController {
         return new signInResponse(findMember.getNickname());
     }
 
-    @DeleteMapping("/signOut")
+    @DeleteMapping("/sign")
     public void signOut(
             @RequestBody @Valid
             HttpServletRequest requestSession){

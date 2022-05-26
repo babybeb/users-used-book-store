@@ -14,14 +14,16 @@
     </section>
 
     <section class="search">
-        <input type="text" class="form-control" required>
-        <span class="border"></span>
-        <button type="submit">검색</button>
+        <form method="Get">
+            <input type="text" class="form-control" id="searchText" required>
+            <span class="border"></span>
+            <button type="submit">검색</button>
+        </form>
     </section>
 
     <section class="sign">
-        <button type="button" onClick="window.open('/sign/sign.html')">로그인</button>
-        <button type="button" onClick="window.open('/member/new.html')">회원가입</button>
+        <button type="button" onClick="window.open('/sign.html')">로그인</button>
+        <button type="button" onClick="window.open('/createMemberForm.html')">회원가입</button>
     </section>
 </body>
 </html>

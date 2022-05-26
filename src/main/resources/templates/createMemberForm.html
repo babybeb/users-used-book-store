@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<script>
+    async function post(path, body, headers = {}){
+        const url = path;
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+            body: JSON.stringify(body),
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
+    function signUp(){
+        const signEmail = document.getElementById("email").value;
+        const signPassword = document.getElementById("password").value;
+        const signName = document.getElementById("name").value;
+        const signNickName = document.getElementById("nickName").value;
+        const signPhoneNumber = document.getElementById("phoneNumber").value;
+
+        var returnId = null;
+
+        post("/member/new", {
+            email: signEmail,
+            password: signPassword,
+            name: signName,
+            nickname: signNickName,
+            phoneNumber: signPhoneNumber,
+        })
+            .then((data) => {
+                const userId = data.id;
+                alert("회원가입이 완료되었습니다.");
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("회원가입에 실패했습니다.");
+            });
+
+    }
+
+    function dto(temp1, temp2){
+        temp2 = temp1;
+    }
+</script>
+<body>
+    <h1>회원가입</h1>
+    <section class="signUp" id="board">
+        <label for="email">이메일:</label>
+        <input type="text" id="email" class="form-control" placeholder="email@test.com" required>
+        <button type="button">이메일 인증</button><br>
+
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" class="form-control" required><br>
+
+        <label for="name">이름:</label>
+        <input type="text" id="name" class="form-control" required><br>
+
+        <label for="nickName">닉네임:</label>
+        <input type="text" id="nickName" class="form-control" required><br>
+
+        <label for="phoneNumber">전화번호:</label>
+        <input type="text" id="phoneNumber" class="form-control" placeholder="010-0000-0000" required><br>
+
+        <button type="button" onclick="signUp()">회원가입</button>
+    </section>
+</body>
+</html>

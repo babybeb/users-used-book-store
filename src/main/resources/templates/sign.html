@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인화면</title>
+</head>
+<script>
+    async function post(path, body, headers = {}){
+        const url = path;
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+            body: JSON.stringify(body),
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
+    function signIn(){
+        const signEmail = document.getElementById("email").toString();
+        const signPassword = document.getElementById("password").toString();
+
+        post("/sign", "posts", {
+            email: signEmail,
+            password: signPassword,
+        })
+            .then((data) => console.log(data))
+            .catch((error) => console.log(error));
+    }
+</script>
+<body>
+    <h1>로그인</h1>
+    <section class="signIn">
+        <label for="email">이메일:</label>
+        <input type="text" id="email" class="form-control" required><br>
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" class="form-control" required><br>
+        <button type="button" onClick="signIn()">로그인</button>
+    </section>
+</body>
+</html>

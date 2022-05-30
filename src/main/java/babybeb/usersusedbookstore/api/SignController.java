@@ -22,8 +22,9 @@ public class SignController {
      */
     @PostMapping("/sign")
     public signInResponse signIn(
-            @RequestBody @Valid
-            HttpServletRequest requestSession, signInRequest request){
+            HttpServletRequest requestSession,
+            @Valid @RequestBody
+            signInRequest request){
         HttpSession session = requestSession.getSession();
         Long id = memberService.signIn(request.getEmail(), request.getPassword());
         Member findMember = memberService.findOne(id);
@@ -34,7 +35,6 @@ public class SignController {
 
     @DeleteMapping("/sign")
     public void signOut(
-            @RequestBody @Valid
             HttpServletRequest requestSession){
         HttpSession session = requestSession.getSession();
         session.removeAttribute("USER");
@@ -54,6 +54,6 @@ public class SignController {
     @Data
     @AllArgsConstructor
     static class signInResponse{
-        private String nickName;
+        private String nickname;
     }
 }

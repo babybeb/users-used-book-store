@@ -125,15 +125,12 @@ public class MemberServiceTest {
                 "test", "010-0000-0000", false);
         memberService.join(member1);
         memberService.join(member2);
-        List<Member> beforeMembers = memberService.findMembers();
 
         //when
         memberService.removeMember(member1.getId());
-        List<Member> afterMembers = memberService.findMembers();
 
         //then
         assertThat(memberService.findOne(member1.getId())).isEqualTo(null);
-        assertThat(beforeMembers.size()).isGreaterThan(afterMembers.size());
     }
 
     @Test

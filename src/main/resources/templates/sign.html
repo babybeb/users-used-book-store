@@ -25,15 +25,27 @@
     }
 
     function signIn(){
-        const signEmail = document.getElementById("email").toString();
-        const signPassword = document.getElementById("password").toString();
+        const signEmail = document.getElementById("email").value;
+        const signPassword = document.getElementById("password").value;
 
-        post("/sign", "posts", {
+        post("/sign", {
             email: signEmail,
             password: signPassword,
         })
-            .then((data) => console.log(data))
-            .catch((error) => console.log(error));
+            .then((data) => {
+                const userNickname = data.nickname;
+                if(userNickname != null){
+                    alert(userNickname+"님 환영합니다.");
+                    if(userNickname != null){
+                        location.replace("/home.html");
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("로그인에 실패했습니다.");
+            });
+
     }
 </script>
 <body>

@@ -28,10 +28,8 @@
         const signEmail = document.getElementById("email").value;
         const signPassword = document.getElementById("password").value;
         const signName = document.getElementById("name").value;
-        const signNickName = document.getElementById("nickName").value;
+        const signNickName = document.getElementById("nickname").value;
         const signPhoneNumber = document.getElementById("phoneNumber").value;
-
-        var returnId = null;
 
         post("/member/new", {
             email: signEmail,
@@ -43,16 +41,15 @@
             .then((data) => {
                 const userId = data.id;
                 alert("회원가입이 완료되었습니다.");
+                if(userId != null){
+                    location.replace("/home.html");
+                }
             })
             .catch((error) => {
                 console.log(error);
                 alert("회원가입에 실패했습니다.");
             });
 
-    }
-
-    function dto(temp1, temp2){
-        temp2 = temp1;
     }
 </script>
 <body>
@@ -68,8 +65,8 @@
         <label for="name">이름:</label>
         <input type="text" id="name" class="form-control" required><br>
 
-        <label for="nickName">닉네임:</label>
-        <input type="text" id="nickName" class="form-control" required><br>
+        <label for="nickname">닉네임:</label>
+        <input type="text" id="nickname" class="form-control" required><br>
 
         <label for="phoneNumber">전화번호:</label>
         <input type="text" id="phoneNumber" class="form-control" placeholder="010-0000-0000" required><br>

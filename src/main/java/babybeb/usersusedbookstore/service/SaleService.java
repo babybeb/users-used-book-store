@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class SaleService {
@@ -17,24 +19,24 @@ public class SaleService {
     /**
      * 판매 등록하기
      */
-//    public Long addSale(Long memberId, BookDto dto, int itemPrice, ItemCondition condition, ImageInfo image){
-//        //맴버 조회
-//        Member member = memberRepository.findOne(memberId);
-//
-//        //판매상품 정보 입력
-//        Book book = new Book(dto.getIsbn(), dto.getTitle(), dto.getPrice(), dto.getPublisher(), dto.getAuthor(),
-//                dto.getPage(), dto.getKdc());
-//
-//        //판매상품 생성
-//        Item item = Item.createItem(book, itemPrice, condition, image);
-//
-//        //판매 생성
-//        Sale sale = Sale.createSale(member, item);
-//
-//        //판매정보 저장
-//        saleRepository.save(sale);
-//        return sale.getId();
-//    }
+    public Long addSale(Long memberId, BookDto dto, int itemPrice, ItemCondition condition, LocalDateTime createTime){
+        //맴버 조회
+        Member member = memberRepository.findOne(memberId);
+
+        //판매상품 정보 입력
+        Book book = new Book(dto.getIsbn(), dto.getTitle(), dto.getPrice(), dto.getPublisher(), dto.getAuthor(),
+                dto.getPage(), dto.getKdc());
+
+        //판매상품 생성
+        Item item = new Item(book, itemPrice, condition, createTime);
+
+        //판매 생성
+        Sale sale = Sale.createSale(member, item);
+
+        //판매정보 저장
+        saleRepository.save(sale);
+        return sale.getId();
+    }
 
     /**
      * 판매 조회하기

@@ -1,22 +1,14 @@
 package babybeb.usersusedbookstore.service;
 
-
-import java.beans.Encoder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.List;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import lombok.RequiredArgsConstructor;
 
-import org.apache.commons.codec.StringEncoder;
-import org.apache.commons.codec.StringEncoderComparator;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -74,7 +66,7 @@ public class BookSearchService {
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray jsonArray = (JSONArray) jsonObject.get("docs");
             
-            for (int i = 0; i < jsonArray.size(); i++) {
+            for (int i = 0; (i < jsonArray.size()) && (i < 10); i++) {
                 JSONObject o = (JSONObject) jsonArray.get(i);
                 System.out.println("JSONObject: " + o.toString());
                 if (o.get("FORM").equals("전자책")) {

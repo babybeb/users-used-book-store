@@ -34,7 +34,7 @@ class BookSearchServiceTest {
     }
     
     @Test
-    @DisplayName("검색결과 첫번째 책의 제목은 searchTitle을 포함한다")
+    @DisplayName("검색결과는 8개이다")
     public void 한글_책_이름으로_정보_검색하기() throws Exception {
         
         //given
@@ -44,8 +44,7 @@ class BookSearchServiceTest {
         List<BookDto> bookInfos = bookSearchService.searchBookInfosByTitle(searchTitle);
         
         //then
-        Assertions.assertThat(bookInfos.get(0).getTitle())
-            .containsIgnoringCase("갈매기");
+        Assertions.assertThat(bookInfos.size()).isEqualTo(8);
     }
     
     @Test

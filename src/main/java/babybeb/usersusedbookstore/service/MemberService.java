@@ -78,14 +78,19 @@ public class MemberService {
     /**
      * 회원 조회
      */
-    //회원 전체 조회
-    public List<Member> findMembers(){
-        return memberRepository.findAll();
-    }
-
     //회원 개별 조회
     public Member findOne(Long memberId){
         return memberRepository.findOne(memberId);
+    }
+
+    //이메일로 회원 조회
+    public Member findByEmail(String email){
+        List<Member> members = memberRepository.findByEmail(email);
+        if(members.size() == 1){
+            return members.get(0);
+        } else {
+            throw new IllegalStateException("중복 이메일이 존재합니다.");
+        }
     }
 
     /**

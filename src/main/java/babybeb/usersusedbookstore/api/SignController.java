@@ -1,5 +1,8 @@
 package babybeb.usersusedbookstore.api;
 
+import babybeb.usersusedbookstore.api.dto.sign.SessionCheckResponse;
+import babybeb.usersusedbookstore.api.dto.sign.signInRequest;
+import babybeb.usersusedbookstore.api.dto.sign.signInResponse;
 import babybeb.usersusedbookstore.domain.Member;
 import babybeb.usersusedbookstore.service.MemberService;
 import lombok.AllArgsConstructor;
@@ -24,7 +27,7 @@ public class SignController {
     public signInResponse signIn(
             HttpServletRequest requestSession,
             @Valid @RequestBody
-            signInRequest request){
+            signInRequest request) {
         HttpSession session = requestSession.getSession();
         Long id = memberService.signIn(request.getEmail(), request.getPassword());
         Member findMember = memberService.findOne(id);
@@ -35,25 +38,23 @@ public class SignController {
 
     @DeleteMapping("/sign")
     public void signOut(
-            HttpServletRequest requestSession){
+            HttpServletRequest requestSession) {
         HttpSession session = requestSession.getSession();
         session.removeAttribute("USER");
         session.removeAttribute("SIGN");
         session.invalidate();
     }
 
-    /**
-     * Data 부분
-     */
-    @Data
-    static class signInRequest{
-        private String email;
-        private String password;
-    }
-
-    @Data
-    @AllArgsConstructor
-    static class signInResponse{
-        private String nickname;
+    @GetMapping("/session")
+    public SessionCheckResponse isSignIn(
+            HttpServletRequest requestSession) {
+        HttpSession session = requestSession.getSession();
+        String isSignIn = session.getAttribute("SIGN").toString();
+        if (isSignIn == "OK") {
+            return new SessionCheckResponse(isSignIn);
+        }
+        else{
+            return new SessionCheckResponse("NO");
+        }
     }
 }

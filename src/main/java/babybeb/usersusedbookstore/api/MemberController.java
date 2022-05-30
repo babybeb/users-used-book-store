@@ -105,7 +105,7 @@ public class MemberController {
     @AllArgsConstructor
     static class UpdateMemberResponse{
         private Long id;
-        private String nickName;
+        private String nickname;
     }
 
     @Data

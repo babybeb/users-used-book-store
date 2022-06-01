@@ -37,19 +37,16 @@
             name: signName,
             nickname: signNickName,
             phoneNumber: signPhoneNumber,
-        })
-            .then((data) => {
-                const userId = data.id;
-                alert("회원가입이 완료되었습니다.");
-                if(userId != null){
-                    location.replace("/home.html");
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                alert("회원가입에 실패했습니다.");
-            });
-
+        }).then((data) => {
+            const userId = data.id;
+            alert("회원가입이 완료되었습니다.");
+            if(userId != null){
+                location.replace("/home.html");
+            }
+        }).catch((error) => {
+            console.log(error);
+            alert("회원가입에 실패했습니다.");
+        });
     }
 </script>
 <body>

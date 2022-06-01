@@ -59,7 +59,7 @@ public class MailSendService {
                     .append(authKey)
                     .append("' target='_blank'>이메일 인증 확인</a>")
                     .toString());
-            sendMail.setFrom("[인증 메일 전송하는 이메일 주소]", "[관리자, 이메일에 표시되는 이름]");
+            sendMail.setFrom("Ur's ur", "중고 서적 직거래 사이트");
             sendMail.setTo(email);
             sendMail.send();
         } catch (MessagingException e){

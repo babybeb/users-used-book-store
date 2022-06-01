@@ -37,6 +37,7 @@ public class BookSearchService {
         return parseData(url);
     }
     
+    // 책 저자를 가지고 도서 API를 통해 도서 정보 받아오기
     public List<BookDto> searchBookInfosByAuthor(String searchAuthor) throws IOException {
         
         StringBuilder sbURL = new StringBuilder(

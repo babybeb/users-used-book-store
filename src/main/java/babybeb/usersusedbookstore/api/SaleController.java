@@ -1,9 +1,6 @@
 package babybeb.usersusedbookstore.api;
 
-import babybeb.usersusedbookstore.domain.DealStatus;
-import babybeb.usersusedbookstore.domain.Item;
-import babybeb.usersusedbookstore.domain.Member;
-import babybeb.usersusedbookstore.domain.Sale;
+import babybeb.usersusedbookstore.domain.*;
 import babybeb.usersusedbookstore.service.BookDto;
 import babybeb.usersusedbookstore.service.ItemService;
 import babybeb.usersusedbookstore.service.MemberService;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,12 +28,22 @@ public class SaleController {
      * API 부분
      */
     //판매 등록 API
-//    @PostMapping("sale/{memberId}/new")
-//    public saveSaleResponse saveSale(
-//            @PathVariable("memberId") Long id,
-//            @RequestBody @Valid SaveSaleRequest request){
-//        Sale sale = saleService.addSale(id, );
-//    }
+    @PostMapping("sale/{memberId}/new")
+    public SaveSaleResponse saveSale(
+            @PathVariable("memberId") Long id,
+            @RequestBody @Valid SaveSaleRequest request){
+        //판매 등록 시간 저장 (yyyy-MM-dd T HH:mm:ss)
+        LocalDateTime date = LocalDateTime.now();
+
+        //책정보
+        BookDto book = new BookDto(request.isbn, request.title, request.bookPrice, request.publisher,
+                request.author, request.page, request.kdc);
+
+        //세일 생성
+        Long saleId = saleService.addSale(id, book, request.price, request.itemCondition, date);
+        Sale sale = saleService.findOne(saleId);
+        return new SaveSaleResponse(sale.getItem().getBook().getTitle(), sale.getItem().getItemPrice());
+    }
 
     //판매 삭제 API
     @DeleteMapping("sale/{saleId}")
@@ -73,12 +81,24 @@ public class SaleController {
     @Data
     static class SaveSaleRequest{
         //받아야 하는 값
+        private int price;
+        private ItemCondition itemCondition;
+        //Book 데이터
+        private String isbn;
+        private String title;
+        private int bookPrice;
+        private String publisher;
+        private String author;
+        private int page;
+        private String kdc;
     }
 
     @Data
     @AllArgsConstructor
     static class SaveSaleResponse{
         //반환값
+        private String bookTitle;
+        private int price;
     }
 
     @Data

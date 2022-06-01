@@ -1,6 +1,7 @@
 package babybeb.usersusedbookstore.api;
 
 import babybeb.usersusedbookstore.domain.Member;
+import babybeb.usersusedbookstore.domain.Sale;
 import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.service.MemberService;
 import lombok.AllArgsConstructor;
@@ -63,7 +64,8 @@ public class MemberController {
 
     //회원 판매 기록 조회 API (미완성)
     @GetMapping("member/{id}/sales")
-    public MemberSalesResponse MemberSales(@PathVariable("id") Long id){
+    public MemberSalesResponse MemberSales(@PathVariable("id") Long memberId){
+        List<Sale> sales = memberService.findSales(memberId);
         return new MemberSalesResponse();
     }
 
@@ -126,8 +128,8 @@ public class MemberController {
     }
 
     @Data
-    @AllArgsConstructor
     static class MemberSalesResponse{
+
 
     }
 

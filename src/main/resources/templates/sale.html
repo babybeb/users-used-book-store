@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>판매 등록하기</title>
+</head>
+<script>
+    async function post(path, body, headers = {}){
+        const url = path;
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+            body: JSON.stringify(body),
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
+    function saveSale(){
+        const price = document.getElementById("price").value;
+        const condition = document.getElementById("condition").value;
+
+        post("/sale/", {
+
+        }).then((data) => {
+
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+    function bookInfo(){
+
+    }
+    function loadFiles(e){
+        const selectedFile = e.files[0];
+        console.log(selectedFile);
+    }
+</script>
+<body>
+    <h1>판매 등록화면</h1>
+    <section class="sale" id="board">
+        <label for="price">가격:</label>
+        <input type="text" id="price" class="form-control" required><br><br>
+
+        <label for="condition">상품 상태</label>
+        <select name = "condition" id="condition" required>
+            <option value="mint">매우 좋음</option>
+            <option value="veryGood">좋음</option>
+            <option value="good">보통</option>
+            <option value="notGood">나쁨</option>
+            <option value="bad">매우나쁨</option>
+        </select>
+
+        <p>매우 좋음 : 미개봉 혹은 책이 새것같은 상태</p>
+        <p>좋음 : 사용감은 있지만 구성품이 모두 있고 책 상태가 매우 좋음</p>
+        <p>보통 : 사용감이 있고 구성품이 전부 있진 않지만 책 상태가 좋음</p>
+        <p>안좋음 : 사용감이 있고 책 상태가 좋지 않음. 또는 책에 낙서가 있음.</p>
+        <p>나쁨 : 사용감이 있고 책 상태가 나쁨. 단, 책을 읽는 데 문제가 없으며 상품으로서의 가치가 남아있어야 함.</p>
+        <button type="button" onclick="bookInfo()">책 검색</button><br>
+
+        <label for="bookImage">책 사진</label>
+        <div id="bookImage">
+            <input type="file" id="bookImage1" name="bookImage" accept="image/*" onchange="loadFiles(this)"><br>
+            <input type="file" id="bookImage2" name="bookImage" accept="image/*" onchange="loadFiles(this)"><br>
+        </div>
+
+
+        <button type="button" onclick="saveSale()">판매 등록</button>
+    </section>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package babybeb.usersusedbookstore.service;
 
+import babybeb.usersusedbookstore.domain.Category;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -75,12 +76,14 @@ public class BookSearchService {
                 }
                 int page = calculatePage((String) o.get("PAGE"));
                 int adjustedPrePrice = adjustPrePrice((String) o.get("PRE_PRICE"));
+                Category category = findCategory((String) o.get("KDC"));
                 BookDto bookInfo = new BookDto((String) o.get("EA_ISBN"),
                                                (String) o.get("TITLE"), adjustedPrePrice,
                                                (String) o.get("PUBLISHER"),
                                                (String) o.get("AUTHOR"),
                                                page,
-                                               (String) o.get("KDC"));
+                                               (String) o.get("KDC"),
+                                               category);
                 
                 result.add(bookInfo);
             }
@@ -92,6 +95,67 @@ public class BookSearchService {
         return result;
     }
     
+    private Category findCategory(String kdc) {
+        
+        if (kdc.isEmpty()) {
+            return Category.미분류;
+        }
+        
+        Category category;
+        
+        switch (kdc.charAt(0)) {
+            case 0:
+                category = Category.총류;
+                break;
+            case 1:
+                category = Category.철학;
+                break;
+            
+            case 2:
+                category = Category.종교;
+                break;
+            
+            case 3:
+                category = Category.사회과학;
+                break;
+            
+            case 4:
+                category = Category.자연과학;
+                break;
+            
+            case 5:
+                category = Category.기술과학;
+                break;
+            
+            case 6:
+                category = Category.예술;
+                break;
+            
+            case 7:
+                category = Category.언어;
+                break;
+            
+            case 8:
+                category = Category.문학;
+                break;
+            
+            case 9:
+                category = Category.역사;
+                break;
+            
+            default:
+                category = Category.미분류;
+        }
+        
+        return category;
+    }
+    
+    /**
+     * 페이지 수 계산
+     *
+     * @param page
+     * @return
+     */
     private int calculatePage(String page) {
         
         if (page.isEmpty()) {
@@ -108,6 +172,12 @@ public class BookSearchService {
         }
     }
     
+    /**
+     * 가격 정보 예외처리
+     *
+     * @param originPrePrice
+     * @return
+     */
     private int adjustPrePrice(String originPrePrice) {
         
         if (originPrePrice.equals("비매품/무료") || originPrePrice.isEmpty()) {

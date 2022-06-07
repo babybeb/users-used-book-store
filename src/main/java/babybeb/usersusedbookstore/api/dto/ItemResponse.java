@@ -1,7 +1,7 @@
-package babybeb.usersusedbookstore.domain.dto;
+package babybeb.usersusedbookstore.api.dto;
 
 import babybeb.usersusedbookstore.domain.Book;
-import babybeb.usersusedbookstore.domain.DealArea;
+import babybeb.usersusedbookstore.domain.dealarea.DealArea;
 import babybeb.usersusedbookstore.domain.DealStatus;
 import babybeb.usersusedbookstore.domain.Item;
 import babybeb.usersusedbookstore.domain.ItemCondition;

@@ -21,7 +21,7 @@ public class Member {
     private String nickname;
     private String phoneNumber;
     private int rate;
-    private boolean auth;
+    private boolean auth = false;
     private String emailKey;
 
     @OneToMany(mappedBy = "member")

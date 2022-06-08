@@ -24,13 +24,13 @@ public class MemberServiceTest {
     public void 회원가입() throws Exception{
         //given
         Member member1 = new Member( "ggeggrgg@naver.com","1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
+                "GgEgg", "010-5407-9254");
         Member member2 = new Member( "test@naver.com","1234" ,"김민수",
-                "test1", "010-0000-0000", false);
+                "test1", "010-0000-0000");
         Member member3 = new Member( "test@gmail.com","1234" ,"테스트",
-                "test2", "010-1111-1111", false);
+                "test2", "010-1111-1111");
         Member member4 = new Member( "test2@gmail.com","1234" ,"테스트",
-                "test3", "000-0000-0000", false);
+                "test3", "000-0000-0000");
 
         //when
         Long saveId1 = memberService.join(member1);
@@ -49,9 +49,9 @@ public class MemberServiceTest {
     public void 닉네임_중복_예외() throws Exception{
         //given
         Member member1 = new Member( "ggeggrgg@naver.com","1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
+                "GgEgg", "010-5407-9254");
         Member member2 = new Member( "test@naver.com","1234" ,"김민수",
-                "GgEgg", "010-1111-1111", false);
+                "GgEgg", "010-1111-1111");
 
         //when
         memberService.join(member1);
@@ -66,9 +66,9 @@ public class MemberServiceTest {
     public void 이메일_중복_예외() throws Exception{
         //given
         Member member1 = new Member( "ggeggrgg@naver.com","1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
+                "GgEgg", "010-5407-9254");
         Member member2 = new Member( "ggeggrgg@naver.com","1234" ,"김민수",
-                "test", "010-5407-9254", false);
+                "test", "010-5407-9254");
 
         //when
         memberService.join(member1);
@@ -83,9 +83,9 @@ public class MemberServiceTest {
     public void 휴대폰번호_중복_예외() throws Exception{
         //given
         Member member1 = new Member( "ggeggrgg@naver.com","1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
+                "GgEgg", "010-5407-9254");
         Member member2 = new Member( "test@naver.com","1234" ,"테스트",
-                "test", "010-5407-9254", false);
+                "test", "010-5407-9254");
 
         //when
         memberService.join(member1);
@@ -100,7 +100,7 @@ public class MemberServiceTest {
     public void 회원정보_수정() throws Exception{
         //given
         Member member = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
+                "GgEgg", "010-5407-9254");
         memberService.join(member);
 
         //when
@@ -120,9 +120,9 @@ public class MemberServiceTest {
     public void 회원탈퇴() throws Exception{
         //given
         Member member1 = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
+                "GgEgg", "010-5407-9254");
         Member member2 = new Member("test@naver.com", "1234" ,"김민수",
-                "test", "010-0000-0000", false);
+                "test", "010-0000-0000");
         memberService.join(member1);
         memberService.join(member2);
 
@@ -137,9 +137,9 @@ public class MemberServiceTest {
     public void 로그인_성공() throws Exception{
         //given
         Member member1 = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
+                "GgEgg", "010-5407-9254");
         Member member2 = new Member("test@naver.com", "1234" ,"김민수",
-                "test", "010-0000-0000", false);
+                "test", "010-0000-0000");
         memberService.join(member1);
         memberService.join(member2);
 
@@ -154,9 +154,9 @@ public class MemberServiceTest {
     public void 로그인_실패() throws Exception{
         //given
         Member member1 = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-5407-9254", false);
+                "GgEgg", "010-5407-9254");
         Member member2 = new Member("test@naver.com", "1234" ,"김민수",
-                "test", "010-0000-0000", false);
+                "test", "010-0000-0000");
         memberService.join(member1);
         memberService.join(member2);
 

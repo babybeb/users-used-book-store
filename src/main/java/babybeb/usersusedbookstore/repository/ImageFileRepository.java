@@ -1,8 +1,6 @@
 package babybeb.usersusedbookstore.repository;
 
 import babybeb.usersusedbookstore.domain.ImageFile;
-import babybeb.usersusedbookstore.domain.Item;
-import babybeb.usersusedbookstore.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

@@ -1,8 +1,7 @@
 package babybeb.usersusedbookstore.service;
 
 import babybeb.usersusedbookstore.domain.Book;
-import babybeb.usersusedbookstore.domain.DealArea;
-import babybeb.usersusedbookstore.domain.ImageFile;
+import babybeb.usersusedbookstore.domain.dealarea.DealArea;
 import babybeb.usersusedbookstore.domain.Item;
 import babybeb.usersusedbookstore.domain.ItemCondition;
 import babybeb.usersusedbookstore.repository.ItemRepository;

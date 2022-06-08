@@ -1,12 +1,16 @@
 package babybeb.usersusedbookstore.domain;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Book {
     
     private String isbn;
@@ -23,14 +27,6 @@ public class Book {
     
     private String kdc;
     
-    public Book(String isbn, String title, int bookPrice, String publisher, String author, int page,
-                String kdc) {
-        this.isbn = isbn;
-        this.title = title;
-        this.bookPrice = bookPrice;
-        this.publisher = publisher;
-        this.author = author;
-        this.page = page;
-        this.kdc = kdc;
-    }
+    @Enumerated(EnumType.STRING)
+    private Category category;
 }

@@ -1,8 +1,8 @@
 package babybeb.usersusedbookstore.domain;
 
+import babybeb.usersusedbookstore.domain.dealarea.DealArea;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -53,12 +53,14 @@ public class Item {
 //    @JoinColumn(name = "chat_room_id")
 //    private List<ChatRoom> chatRooms = new ArrayList<>();
     
-    public Item(Book book, int itemPrice, ItemCondition itemCondition, LocalDateTime createDate) {
+    public Item(Book book, int itemPrice, ItemCondition itemCondition, LocalDateTime createDate, DealArea dealArea) {
         this.book = book;
         this.itemPrice = itemPrice;
         this.itemCondition = itemCondition;
-        this.dealStatus = DealStatus.SALE;
         this.createDate = createDate;
+        this.dealArea = dealArea;
+        this.dealStatus = DealStatus.SALE;
+        this.hit = 0;
     }
     
     //== 비즈니스 로직 ==//

@@ -1,10 +1,13 @@
 package babybeb.usersusedbookstore.service;
 
+import babybeb.usersusedbookstore.domain.Category;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class BookDto {
     
     private String isbn;
@@ -21,14 +24,6 @@ public class BookDto {
     
     private String kdc;
     
-    public BookDto(String isbn, String title, int price, String publisher, String author, int page,
-                   String kdc) {
-        this.isbn = isbn;
-        this.title = title;
-        this.price = price;
-        this.publisher = publisher;
-        this.author = author;
-        this.page = page;
-        this.kdc = kdc;
-    }
+    @Enumerated(EnumType.STRING)
+    private Category category;
 }

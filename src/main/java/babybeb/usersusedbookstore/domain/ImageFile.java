@@ -2,6 +2,7 @@ package babybeb.usersusedbookstore.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,7 +23,7 @@ public class ImageFile {
     @Column(name = "image_file_id")
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
     
@@ -37,8 +38,4 @@ public class ImageFile {
         this.originalFileName = originalFileName;
         this.storeFileName = storeFileName;
     }
-    
-//    public void registerItem(Item item) {
-//        this.item = item;
-//    }
 }

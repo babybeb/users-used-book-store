@@ -51,11 +51,11 @@ public class SignController {
         HttpSession session = requestSession.getSession();
         String user = session.getAttribute("USER").toString();
         if (user.equals("") || user.equals(null)) {
-            return new SessionCheckResponse("");
+            return new SessionCheckResponse();
         }
         else{
             Member member = memberService.findByEmail(user);
-            return new SessionCheckResponse(member.getNickname());
+            return new SessionCheckResponse(member.getId(), member.getNickname());
         }
     }
 }

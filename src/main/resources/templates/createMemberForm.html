@@ -41,7 +41,7 @@
             const userId = data.id;
             alert("회원가입이 완료되었습니다.");
             if(userId != null){
-                location.replace("/home.html");
+                window.open('', '_self').close();
             }
         }).catch((error) => {
             console.log(error);
@@ -66,7 +66,7 @@
         <input type="text" id="nickname" class="form-control" required><br>
 
         <label for="phoneNumber">전화번호:</label>
-        <input type="text" id="phoneNumber" class="form-control" placeholder="010-0000-0000" required><br>
+        <input type="text" id="phoneNumber" class="form-control" placeholder="'-' 없이 적어주세요" required><br>
 
         <button type="button" onclick="signUp()">회원가입</button>
     </section>

@@ -1,16 +1,22 @@
 package babybeb.usersusedbookstore.api;
 
+import babybeb.usersusedbookstore.api.dto.book.BookResponse;
 import babybeb.usersusedbookstore.api.dto.member.*;
+import babybeb.usersusedbookstore.domain.Book;
+import babybeb.usersusedbookstore.domain.Item;
 import babybeb.usersusedbookstore.domain.Member;
 import babybeb.usersusedbookstore.domain.Sale;
 import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.service.MailSendService;
 import babybeb.usersusedbookstore.service.MemberService;
 import babybeb.usersusedbookstore.service.MessageService;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -66,11 +72,18 @@ public class MemberController {
         return new MemberRemoveResponse(findMember.getName());
     }
 
-    //회원 판매 기록 조회 API (미완성)
+    //회원 판매 기록 조회 API
     @GetMapping("member/{id}/sales")
-    public MemberSalesResponse MemberSales(@PathVariable("id") Long memberId) {
+    public ResponseEntity<List<MemberSalesResponse>> MemberSales(@PathVariable("id") Long memberId) {
         List<Sale> sales = memberService.findSales(memberId);
-        return new MemberSalesResponse();
+        List<MemberSalesResponse> result = new ArrayList<>();
+        for (Sale sale : sales) {
+            Item item = sale.getItem();
+            result.add(MemberSalesResponse.toItemResponse(
+                    new Item(item.getBook(), item.getItemPrice(), item.getItemCondition(), item.getCreateDate(),
+                            item.getDealArea())));
+        }
+        return ResponseEntity.ok(result);
     }
 
 

@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class SessionCheckResponse {
-    private String isSignIn;
+    private String nickname;
 }

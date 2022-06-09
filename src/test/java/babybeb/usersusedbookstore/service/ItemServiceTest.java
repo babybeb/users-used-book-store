@@ -9,6 +9,7 @@ import babybeb.usersusedbookstore.domain.dealarea.DealArea;
 import babybeb.usersusedbookstore.domain.dealarea.First;
 import babybeb.usersusedbookstore.domain.dealarea.Second;
 import babybeb.usersusedbookstore.repository.ItemRepository;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import javax.persistence.EntityManager;

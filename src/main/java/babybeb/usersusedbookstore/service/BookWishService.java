@@ -4,6 +4,7 @@ import babybeb.usersusedbookstore.domain.Book;
 import babybeb.usersusedbookstore.domain.BookWish;
 import babybeb.usersusedbookstore.domain.Member;
 import babybeb.usersusedbookstore.repository.BookWishRepository;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ public class BookWishService {
     /**
      * 도서 찜하기
      */
+    @Transactional
     public Long addBookWish(Member member, BookDto bookDto){
         BookWish bookWish = new BookWish(member, bookDto);
         bookWishRepository.save(bookWish);
@@ -29,6 +31,7 @@ public class BookWishService {
     /**
      * 도서 찜 삭제하기
      */
+    @Transactional
     public Long cancelBookWish(Long bookWishId){
         BookWish bookWish = bookWishRepository.findOne(bookWishId);
         if(!bookWish.equals(null)){

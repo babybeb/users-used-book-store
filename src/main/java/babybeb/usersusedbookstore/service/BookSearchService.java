@@ -1,6 +1,7 @@
 package babybeb.usersusedbookstore.service;
 
 import babybeb.usersusedbookstore.domain.Category;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -104,42 +105,43 @@ public class BookSearchService {
         Category category;
         
         switch (kdc.charAt(0)) {
-            case 0:
+            case '0':
                 category = Category.총류;
                 break;
-            case 1:
+                
+            case '1':
                 category = Category.철학;
                 break;
             
-            case 2:
+            case '2':
                 category = Category.종교;
                 break;
             
-            case 3:
+            case '3':
                 category = Category.사회과학;
                 break;
             
-            case 4:
+            case '4':
                 category = Category.자연과학;
                 break;
             
-            case 5:
+            case '5':
                 category = Category.기술과학;
                 break;
             
-            case 6:
+            case '6':
                 category = Category.예술;
                 break;
             
-            case 7:
+            case '7':
                 category = Category.언어;
                 break;
             
-            case 8:
+            case '8':
                 category = Category.문학;
                 break;
             
-            case 9:
+            case '9':
                 category = Category.역사;
                 break;
             
@@ -180,7 +182,8 @@ public class BookSearchService {
      */
     private int adjustPrePrice(String originPrePrice) {
         
-        if (originPrePrice.equals("비매품/무료") || originPrePrice.isEmpty()) {
+        if (originPrePrice.equals("비매품/무료") || originPrePrice.equals("미정")
+            || originPrePrice.isEmpty()) {
             return 0;
         } else {
             String adjustedPrePrice = "";

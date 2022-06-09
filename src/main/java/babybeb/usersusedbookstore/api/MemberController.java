@@ -31,7 +31,7 @@ public class MemberController {
             @RequestBody
             @Valid SaveMemberRequest request) {
         Member member = new Member(request.getEmail(), request.getPassword(), request.getName(),
-                request.getNickname(), request.getPhoneNumber(), false);
+                request.getNickname(), request.getPhoneNumber());
         Long id = memberService.join(member);
         return new SaveMemberResponse(id);
     }
@@ -89,18 +89,18 @@ public class MemberController {
     }
 
     //이메일 인증 확인 API
-//    @GetMapping("/member/{email}/{authkey}")
-//    public MemberEmailAuthAcceptResponse EmailAuthAccept(
-//        @PathVariable("email") String email,
-//        @PathVariable("authkey") String authKey){
-//
-//        Member findMember = memberService.findByEmail(email);
-//        if(findMember.getAuthKey() == authKey){
-//            return new MemberEmailAuthAcceptResponse(findMember.getName());
-//        } else {
-//            throw new IllegalStateException("인증이 안되었습니다.");
-//        }
-//    }
+    @GetMapping("/member/{email}/{authkey}")
+    public MemberEmailAuthAcceptResponse EmailAuthAccept(
+        @PathVariable("email") String email,
+        @PathVariable("authkey") String authKey){
+
+        Member findMember = memberService.findByEmail(email);
+        if(findMember.getEmailKey() == authKey){
+            return new MemberEmailAuthAcceptResponse(findMember.getName());
+        } else {
+            throw new IllegalStateException("인증이 안되었습니다.");
+        }
+    }
 
     //휴대폰 인증 API
     @PostMapping("member/phone")

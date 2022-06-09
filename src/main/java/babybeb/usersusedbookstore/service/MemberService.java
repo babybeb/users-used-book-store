@@ -108,6 +108,7 @@ public class MemberService {
     }
 
     //회원 탈퇴
+    @Transactional
     public void removeMember(Long memberId){
         Member member = memberRepository.findOne(memberId);
         if(!member.equals(null)){

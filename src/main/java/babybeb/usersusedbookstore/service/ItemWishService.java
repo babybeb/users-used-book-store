@@ -21,6 +21,7 @@ public class ItemWishService {
     /**
      * 상품 찜하기
      */
+    @Transactional
     public Long addItemWish(ItemWish itemWish){
         itemWishRepository.save(itemWish);
         return itemWish.getId();
@@ -29,6 +30,7 @@ public class ItemWishService {
     /**
      * 상품 찜 삭제하기
      */
+    @Transactional
     public void cancelItemWish(Long itemWishId){
         ItemWish itemWish = itemWishRepository.findOne(itemWishId);
         if(!itemWish.equals(null)){

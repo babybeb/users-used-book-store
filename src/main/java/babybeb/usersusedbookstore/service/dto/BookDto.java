@@ -1,4 +1,4 @@
-package babybeb.usersusedbookstore.service;
+package babybeb.usersusedbookstore.service.dto;
 
 import babybeb.usersusedbookstore.domain.Category;
 import javax.persistence.EnumType;

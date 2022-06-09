@@ -1,4 +1,4 @@
-package babybeb.usersusedbookstore.api.dto;
+package babybeb.usersusedbookstore.api.dto.item;
 
 import babybeb.usersusedbookstore.domain.Book;
 import babybeb.usersusedbookstore.domain.DealStatus;
@@ -6,8 +6,9 @@ import babybeb.usersusedbookstore.domain.ItemCondition;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class ItemDto {
     

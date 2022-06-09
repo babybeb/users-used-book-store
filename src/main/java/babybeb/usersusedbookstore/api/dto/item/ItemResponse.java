@@ -1,4 +1,4 @@
-package babybeb.usersusedbookstore.api.dto;
+package babybeb.usersusedbookstore.api.dto.item;
 
 import babybeb.usersusedbookstore.domain.Book;
 import babybeb.usersusedbookstore.domain.dealarea.DealArea;

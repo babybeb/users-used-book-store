@@ -5,6 +5,7 @@ import babybeb.usersusedbookstore.domain.BookWish;
 import babybeb.usersusedbookstore.domain.Member;
 import babybeb.usersusedbookstore.repository.BookWishRepository;
 import babybeb.usersusedbookstore.repository.MemberRepository;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ class BookWishServiceTest {
     public void 도서_찜_추가하기() throws Exception{
         //given
         Member member = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-5407-9254", true);
+                "GgEgg", "010-5407-9254");
         memberService.join(member);
 
         String searchTitle = "갈매기의 꿈";
@@ -52,7 +53,7 @@ class BookWishServiceTest {
     public void 도서_찜_조회하기() throws Exception{
         //given
         Member member = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-5407-9254", true);
+                "GgEgg", "010-5407-9254");
         memberService.join(member);
 
         String searchTitle = "갈매기의 꿈";
@@ -71,7 +72,7 @@ class BookWishServiceTest {
     public void 도서_찜_삭제하기() throws Exception{
         //given
         Member member = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-5407-9254", true);
+                "GgEgg", "010-5407-9254");
         memberService.join(member);
 
         String searchTitle = "갈매기의 꿈";

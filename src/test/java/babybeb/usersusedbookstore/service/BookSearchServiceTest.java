@@ -1,5 +1,6 @@
 package babybeb.usersusedbookstore.service;
 
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

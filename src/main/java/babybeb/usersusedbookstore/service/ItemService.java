@@ -36,8 +36,4 @@ public class ItemService {
     public Item findById(Long itemId) {
         return itemRepository.findOne(itemId);
     }
-    
-    public List<Item> findItems() {
-        return itemRepository.findAll();
-    }
 }

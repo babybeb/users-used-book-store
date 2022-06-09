@@ -1,7 +1,6 @@
 package babybeb.usersusedbookstore.repository;
 
 import babybeb.usersusedbookstore.domain.Item;
-import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -27,10 +26,5 @@ public class ItemRepository {
     
     public Item findOne(Long id) {
         return em.find(Item.class,id);
-    }
-    
-    public List<Item> findAll() {
-        return em.createQuery("select i from Item i", Item.class)
-            .getResultList();
     }
 }

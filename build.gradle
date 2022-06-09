@@ -19,25 +19,25 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.7'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.7'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-    implementation 'junit:junit:4.13.1'
+    implementation 'junit:junit:4.13.2'
     compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'mysql:mysql-connector-java:8.0.29'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
 	testImplementation("org.junit.vintage:junit-vintage-engine"){
 		exclude group : "org.hamcrest", module: "hamcrest-core"
 	}
 
 	//Email 라이브러리
 	implementation 'com.sun.mail:javax.mail:1.6.2'
-	implementation 'org.springframework:spring-context-support'
+	implementation 'org.springframework:spring-context-support:5.3.20'
 
 	//JSON 라이브러리
 	implementation 'org.json:json:20220320'

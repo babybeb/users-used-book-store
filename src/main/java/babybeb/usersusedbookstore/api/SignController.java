@@ -49,12 +49,13 @@ public class SignController {
     public SessionCheckResponse isSignIn(
             HttpServletRequest requestSession) {
         HttpSession session = requestSession.getSession();
-        String isSignIn = session.getAttribute("SIGN").toString();
-        if (isSignIn == "OK") {
-            return new SessionCheckResponse(isSignIn);
+        String user = session.getAttribute("USER").toString();
+        if (user.equals("") || user.equals(null)) {
+            return new SessionCheckResponse("");
         }
         else{
-            return new SessionCheckResponse("NO");
+            Member member = memberService.findByEmail(user);
+            return new SessionCheckResponse(member.getNickname());
         }
     }
 }

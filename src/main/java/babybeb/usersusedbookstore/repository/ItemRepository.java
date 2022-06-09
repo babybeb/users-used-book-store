@@ -1,7 +1,6 @@
 package babybeb.usersusedbookstore.repository;
 
 import babybeb.usersusedbookstore.domain.Item;
-import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>책 검색</title>
+    <title>회원 정보 수정</title>
 </head>
 <script>
     //onload function 으로 start 를 지정
@@ -45,55 +45,8 @@
                 console.log(error);
             });
     }
-
-    function search(){
-        const searchValue = document.getElementById("searchValue").value;
-        const select = document.getElementById("select").value;
-
-        if(select === "title"){
-            bookSearchByTitle(searchValue);
-        } else if(select === "author"){
-            bookSearchByAuthor(searchValue);
-        } else {
-            alert("잘못된 조건 선택");
-        }
-    }
-
-    function bookSearchByTitle(searchText){
-        const textTitle = searchText;
-        get("/title", {
-            title: searchText,
-        })
-            .then((data) => {
-
-            })
-            .catch((error) => {
-
-            });
-    }
-
-    function bookSearchByAuthor(searchText){
-        const textAuthor = searchText;
-        get("/author", {
-            author: searchText,
-        })
-            .then((data) => {
-
-            })
-            .catch((error) => {
-
-            });
-    }
 </script>
 <body>
-    <h1>책 검색</h1>
-    <h3>검색 조건을 선택하고 검색하세요</h3>
-    <select id="select">
-        <option value="title">책 제목</option>
-        <option value="author">책 저자</option>
-    </select>
-    <input type="text" id="bookTitle" placeholder="검색 값 입력">
-    <button type="button" id="searchValue" onclick="search()">검색</button>
-    <hr>
+
 </body>
 </html>

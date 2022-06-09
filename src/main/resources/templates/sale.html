@@ -53,6 +53,9 @@
                 if(data.nickname != "" && data.nickname != null){
                     const target = document.getElementById("nickname");
                     target.innerHTML = data.nickname+" 님";
+                } else {
+                    alert("로그인 후에 이용해주세요");
+                    location.replace("/home.html");
                 }
             })
             .catch((error) => {

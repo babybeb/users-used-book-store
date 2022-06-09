@@ -1,6 +1,10 @@
 package babybeb.usersusedbookstore.service;
 
 import babybeb.usersusedbookstore.domain.*;
+import babybeb.usersusedbookstore.domain.dealarea.DealArea;
+import babybeb.usersusedbookstore.domain.dealarea.First;
+import babybeb.usersusedbookstore.domain.dealarea.Second;
+import babybeb.usersusedbookstore.domain.dealarea.Third;
 import babybeb.usersusedbookstore.repository.SaleRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -25,24 +30,28 @@ public class SaleServiceTest {
     @Autowired MemberService memberService;
     @Autowired BookSearchService bookSearchService;
 
-//    @Test
-//    public void 판매_등록하기() throws Exception{
-//        //given
-//        Member member = createMember();
-//
-//        String searchTitle = "갈매기의 꿈";
-//        List<BookDto> bookInfos = bookSearchService.searchBookInfosByTitle(searchTitle);
-//        BookDto selectBook = bookInfos.get(0);
-//        ImageInfo image = new ImageInfo();
-//
-//        //when
-//        Long saleId = saleService.addSale(member.getId(), selectBook, 30000, ItemCondition.MINT, image);
-//        Sale sale = saleRepository.findByMemberId(member.getId()).get(0);
-//
-//        //then
-//        assertThat(saleId).isEqualTo(sale.getId());
-//        assertEquals(DealStatus.SALE, sale.getItem().getDealStatus(), "상품의 거래상태가 SALE 이어야 한다.");
-//    }
+    @Test
+    public void 판매_등록하기() throws Exception{
+        //given
+        Member member = createMember();
+
+        String searchTitle = "갈매기의 꿈";
+        List<BookDto> bookInfos = bookSearchService.searchBookInfosByTitle(searchTitle);
+        BookDto selectBook = bookInfos.get(0);
+        LocalDateTime time = LocalDateTime.now();
+        First first = First.충청남도;
+        Second second = Second.천안시;
+        DealArea dealArea = new DealArea(first, second);
+
+        //when
+        Long itemId = saleService.addSale(member.getId(), selectBook, 30000, ItemCondition.MINT,
+                time, dealArea);
+        Sale sale = saleRepository.findByMemberId(member.getId()).get(0);
+
+        //then
+        assertThat(itemId).isEqualTo(sale.getItem().getId());
+        assertEquals(DealStatus.SALE, sale.getItem().getDealStatus(), "상품의 거래상태가 SALE 이어야 한다.");
+    }
 
     @Test
     public void 판매_수정하기() throws Exception{

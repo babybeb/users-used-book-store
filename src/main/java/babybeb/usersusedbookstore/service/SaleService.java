@@ -1,6 +1,7 @@
 package babybeb.usersusedbookstore.service;
 
 import babybeb.usersusedbookstore.domain.*;
+import babybeb.usersusedbookstore.domain.dealarea.DealArea;
 import babybeb.usersusedbookstore.repository.MemberRepository;
 import babybeb.usersusedbookstore.repository.SaleRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,27 +16,30 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final MemberRepository memberRepository;
+    private final ItemService itemService;
 
     /**
      * 판매 등록하기
      */
-    public Long addSale(Long memberId, BookDto dto, int itemPrice, ItemCondition condition, LocalDateTime createTime){
+    public Long addSale(Long memberId, BookDto dto, int itemPrice, ItemCondition condition, LocalDateTime createTime,
+                        DealArea dealArea){
         //맴버 조회
         Member member = memberRepository.findOne(memberId);
 
         //판매상품 정보 입력
         Book book = new Book(dto.getIsbn(), dto.getTitle(), dto.getPrice(), dto.getPublisher(), dto.getAuthor(),
-                dto.getPage(), dto.getKdc());
+                dto.getPage(), dto.getKdc(), dto.getCategory());
 
         //판매상품 생성
-        Item item = new Item(book, itemPrice, condition, createTime);
+        Item item = new Item(book, itemPrice, condition, createTime, dealArea);
 
         //판매 생성
         Sale sale = Sale.createSale(member, item);
 
         //판매정보 저장
+        itemService.saveItem(item);
         saleRepository.save(sale);
-        return sale.getId();
+        return item.getId();
     }
 
     /**

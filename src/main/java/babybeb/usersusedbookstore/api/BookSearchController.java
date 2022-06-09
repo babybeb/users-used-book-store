@@ -7,7 +7,6 @@ import babybeb.usersusedbookstore.service.dto.BookDto;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,36 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/book/")
+@RequestMapping("api/book/")
 public class BookSearchController {
     
     private final BookSearchService bookSearchService;
     
     @GetMapping("/title")
-    public ResponseEntity<List<BookResponse>> findBookByTitle(@NotEmpty @RequestParam String title)
+    public ResponseEntity<List<BookResponse>> findBookByOption(@RequestParam(required = false) String title,
+                                                               @RequestParam(required = false) String author)
         throws IOException {
         
         List<BookResponse> result = new ArrayList<>();
+        List<BookDto> bookDtoList;
         
-        List<BookDto> bookDtoList = bookSearchService.searchBookInfosByTitle(title);
-        
-        for (BookDto bookDto : bookDtoList) {
-            result.add(BookResponse.toItemResponse(
-                new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getPrice(),
-                         bookDto.getPublisher(), bookDto.getAuthor(), bookDto.getPage(),
-                         bookDto.getKdc(), bookDto.getCategory())));
+        if (title != null) {
+            bookDtoList = bookSearchService.searchBookInfosByTitle(title);
+        } else if (author != null) {
+            bookDtoList = bookSearchService.searchBookInfosByAuthor(author);
+        } else {
+            throw new IOException("검색 조건이 없습니다.");
         }
-        
-        return ResponseEntity.ok(result);
-    }
-    
-    @GetMapping("/author")
-    public ResponseEntity<List<BookResponse>> findBookByAuthor(@NotEmpty @RequestParam String author)
-        throws IOException {
-        
-        List<BookResponse> result = new ArrayList<>();
-        
-        List<BookDto> bookDtoList = bookSearchService.searchBookInfosByAuthor(author);
         
         for (BookDto bookDto : bookDtoList) {
             result.add(BookResponse.toItemResponse(

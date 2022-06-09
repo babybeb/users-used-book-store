@@ -45,10 +45,10 @@ public class MemberController {
     //회원정보 수정 API
     @PutMapping("/member/{id}")
     public UpdateMemberResponse UpdateMember(
-            @PathVariable("id") Long id,
+            @PathVariable("id") Long memberId,
             @RequestBody @Valid UpdateMemberRequest request) {
 
-        Member findMember = memberService.findOne(id);
+        Member findMember = memberService.findOne(memberId);
         MemberDto updateInfo = new MemberDto(request.getEmail(), request.getPassword(),
                 request.getName(), request.getNickname(), request.getPhoneNumber());
         memberService.updateMemberInfo(findMember.getId(), updateInfo);
@@ -57,8 +57,8 @@ public class MemberController {
 
     //회원정보 조회 API
     @GetMapping("/member/{id}")
-    public MemberInfoResponse MemberInfo(@PathVariable("id") Long id) {
-        Member findMember = memberService.findOne(id);
+    public MemberInfoResponse MemberInfo(@PathVariable("id") Long memberId) {
+        Member findMember = memberService.findOne(memberId);
         return new MemberInfoResponse(findMember.getEmail(), findMember.getPassword(),
                 findMember.getName(), findMember.getNickname(), findMember.getPhoneNumber(),
                 findMember.isAuth());
@@ -66,8 +66,8 @@ public class MemberController {
 
     //회원탈퇴 API
     @DeleteMapping("/member/{id}")
-    public MemberRemoveResponse MemberRemove(@PathVariable("id") Long id) {
-        Member findMember = memberService.findOne(id);
+    public MemberRemoveResponse MemberRemove(@PathVariable("id") Long memberId) {
+        Member findMember = memberService.findOne(memberId);
         memberService.removeMember(findMember.getId());
         return new MemberRemoveResponse(findMember.getName());
     }

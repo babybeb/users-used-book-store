@@ -6,6 +6,7 @@ import babybeb.usersusedbookstore.domain.dealarea.First;
 import babybeb.usersusedbookstore.domain.dealarea.Second;
 import babybeb.usersusedbookstore.domain.dealarea.Third;
 import babybeb.usersusedbookstore.repository.SaleRepository;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -105,7 +106,7 @@ public class SaleServiceTest {
 
     private Member createMember(){
         Member member = new Member("ggeggrgg@naver.com", "1234" ,"김민수",
-                "GgEgg", "010-1111-1111", true);
+                "GgEgg", "010-1111-1111");
         memberService.join(member);
         return member;
     }

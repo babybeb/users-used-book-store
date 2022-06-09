@@ -4,6 +4,7 @@ import babybeb.usersusedbookstore.domain.*;
 import babybeb.usersusedbookstore.domain.dealarea.DealArea;
 import babybeb.usersusedbookstore.repository.MemberRepository;
 import babybeb.usersusedbookstore.repository.SaleRepository;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class SaleService {
 
     private final SaleRepository saleRepository;
@@ -21,6 +23,7 @@ public class SaleService {
     /**
      * 판매 등록하기
      */
+    @Transactional
     public Long addSale(Long memberId, BookDto dto, int itemPrice, ItemCondition condition, LocalDateTime createTime,
                         DealArea dealArea){
         //맴버 조회
@@ -52,6 +55,7 @@ public class SaleService {
     /**
      * 판매 삭제하기
      */
+    @Transactional
     public void cancelSale(Long saleId){
         Sale sale = saleRepository.findOne(saleId);
         saleRepository.removeSale(sale);
@@ -60,6 +64,7 @@ public class SaleService {
     /**
      * 거래 평가하기
      */
+    @Transactional
     public void rateBuyer(Long saleId, int score, Long BuyerId){
         Sale sale = saleRepository.findOne(saleId);
         Member buyer = memberRepository.findOne(BuyerId);

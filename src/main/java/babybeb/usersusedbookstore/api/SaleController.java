@@ -1,19 +1,15 @@
 package babybeb.usersusedbookstore.api;
 
 import babybeb.usersusedbookstore.api.dto.sale.*;
-import babybeb.usersusedbookstore.domain.*;
-import babybeb.usersusedbookstore.domain.dealarea.DealArea;
-import babybeb.usersusedbookstore.service.BookDto;
+import babybeb.usersusedbookstore.domain.Member;
+import babybeb.usersusedbookstore.domain.Sale;
 import babybeb.usersusedbookstore.service.ItemService;
 import babybeb.usersusedbookstore.service.MemberService;
 import babybeb.usersusedbookstore.service.SaleService;
-import jdk.jfr.DataAmount;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
@@ -63,8 +59,8 @@ public class SaleController {
     //판매 거래 상태 변경 API
     @PutMapping("sale/{saleId}/dealStatus")
     public ChangeStatusResponse ChangeSaleStatus(
-            @Valid ChangeStatusRequest request,
-            @PathVariable("saleId") Long saleId){
+            @PathVariable("saleId") Long saleId,
+            @RequestBody @Valid ChangeStatusRequest request){
         Sale findSale = saleService.findOne(saleId);
         findSale.getItem().changeDealStatus(request.getDealStatus());
         return new ChangeStatusResponse(findSale.getItem().getDealStatus());
@@ -73,8 +69,8 @@ public class SaleController {
     //거래 평가하기 API
     @PutMapping("sale/{saleId}/rateBuyer")
     public RateBuyerResponse RateBuyer(
-            @Valid RateBuyerRequest request,
-            @PathVariable("saleId") Long saleId){
+            @PathVariable("saleId") Long saleId,
+            @RequestBody @Valid RateBuyerRequest request){
         saleService.rateBuyer(saleId, request.getRate(), request.getBuyerId());
         Member buyer = memberService.findOne(request.getBuyerId());
         return new RateBuyerResponse(buyer.getNickname(), request.getRate());

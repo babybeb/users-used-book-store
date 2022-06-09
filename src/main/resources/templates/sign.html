@@ -37,7 +37,8 @@
                 if(userNickname != null){
                     alert(userNickname+"님 환영합니다.");
                     if(userNickname != null){
-                        location.replace("/home.html");
+                        opener.location.reload();
+                        window.open('', '_self').close();
                     }
                 }
             })

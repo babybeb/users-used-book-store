@@ -1,12 +1,12 @@
 package babybeb.usersusedbookstore.domain;
 
-import babybeb.usersusedbookstore.service.BookDto;
+import babybeb.usersusedbookstore.service.dto.BookDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
@@ -26,6 +26,6 @@ public class BookWish {
     public BookWish(Member member, BookDto dto) {
         this.member = member;
         this.book = new Book(dto.getIsbn(), dto.getTitle(), dto.getPrice(),
-                dto.getPublisher(), dto.getAuthor(), dto.getPage(), dto.getKdc());
+                dto.getPublisher(), dto.getAuthor(), dto.getPage(), dto.getKdc(), dto.getCategory());
     }
 }

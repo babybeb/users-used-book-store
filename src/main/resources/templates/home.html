@@ -5,8 +5,84 @@
     <title>중고 서적 직거래(Ur's ur)</title>
 </head>
 <script>
+    window.onload = start;
+    var isSignIn = false;
+    async function get(path, headers = {}){
+        const url = path;
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
+    async function del(path, headers = {}){
+        const url = path;
+        const options = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+        };
+        const res = await fetch(url, options);
+    }
+
+    function start(){
+        get("/session", {})
+            .then((data) => {
+                //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
+                if(data.nickname != "" && data.nickname != null){
+                    const board = document.getElementById("sign");
+                    const p = document.getElementById("parent");
+                    p.removeChild(board);
+
+                    const nickname = document.createElement("p");
+                    nickname.innerHTML = data.nickname+" 님 환영합니다.";
+                    p.appendChild(nickname);
+
+                    const signOut = document.createElement("button");
+                    signOut.innerHTML = "로그아웃";
+                    signOut.setAttribute("onClick", "signOut()");
+                    p.appendChild(signOut);
+                }
+                isSignIn = true;
+            })
+            .catch((error) => {
+                console.log(error);
+                isSignIn = false;
+            });
+    }
+
+    function signOut(){
+        del("/sign", {});
+        location.reload();
+    }
+
+    function signIn(){
+        window.open('/sign.html', 'signIn', 'left=100, top=100, width=400, height=500');
+    }
+
+    function join(){
+        window.open('/createMemberForm.html', 'join', 'left=100, top=100, width=400, height=500');
+    }
+
     function sale(){
-        location.replace("/sale.html");
+        if(isSignIn){
+            window.open("/sale.html", "_self");
+        } else {
+            alert("로그인 후 이용해주세요");
+        }
+
     }
 </script>
 <body>
@@ -27,9 +103,11 @@
         </form>
     </section>
 
-    <section class="sign">
-        <button type="button" onClick="window.open('/sign.html')">로그인</button>
-        <button type="button" onClick="window.open('/createMemberForm.html')">회원가입</button>
-    </section>
+    <div id="parent">
+        <section class="sign" id="sign">
+            <button type="button" onClick="signIn()">로그인</button>
+            <button type="button" onClick="join()">회원가입</button>
+        </section>
+    </div>
 </body>
 </html>

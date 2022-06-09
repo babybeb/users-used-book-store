@@ -20,10 +20,10 @@ public class MemberSalesResponse {
     private int price;
     private int hit;
     private DealArea dealArea;
-    private LocalDateTime createDate;
+    private String createDate;
 
     public static MemberSalesResponse toItemResponse(Item item) {
         return new MemberSalesResponse(item.getBook().getTitle(), item.getItemPrice(), item.getHit(),
-                item.getDealArea(), item.getCreateDate());
+                item.getDealArea(), item.getCreateDate().toString());
     }
 }

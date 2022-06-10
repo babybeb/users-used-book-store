@@ -12,8 +12,9 @@ public class PurchaseRepository {
     
     private final EntityManager em;
     
-    public void save(Purchase purchase) {
+    public Long save(Purchase purchase) {
         em.persist(purchase);
+        return purchase.getId();
     }
     
     public Purchase findOne(Long id) {
@@ -21,7 +22,8 @@ public class PurchaseRepository {
     }
     
     public List<Purchase> findByMemberId(Long memberId) {
-        return em.createQuery("select p from Purchase p where p.member.id = :memberId", Purchase.class)
+        return em.createQuery("select p from Purchase p where p.member.id = :memberId",
+                              Purchase.class)
             .setParameter("memberId", memberId)
             .getResultList();
     }

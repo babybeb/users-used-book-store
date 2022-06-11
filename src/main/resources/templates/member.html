@@ -47,7 +47,7 @@
 
     //onload function
     function start(){
-        get("/session", {})
+        get("/api/sign/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
                 if(data.nickname != "" && data.memberId != null){
@@ -58,7 +58,7 @@
                     alert("로그인 후에 이용해주세요");
                     location.replace("/home.html");
                 }
-                get("/member/"+memberId, {})
+                get("/api/member/"+memberId, {})
                     .then((data) => {
                         const email = document.getElementById("email");
                         const name = document.getElementById("name");
@@ -86,7 +86,7 @@
     }
 
     function deleteMember(){
-        del("/member/"+memberId, {})
+        del("/api/member/"+memberId, {})
             .then((data) => {
                 alert("회원 탈퇴가 완료되었습니다.");
                 location.replace("home.html");

@@ -78,8 +78,9 @@ public class MemberController {
         for (Sale sale : sales) {
             Item item = sale.getItem();
             result.add(MemberSalesResponse.toItemResponse(
-                    new ResponseItem(item.getBook(), item.getItemPrice(), item.getHit(),
-                            item.getItemCondition(), item.getDealArea(), item.getCreateDate())));
+                    new ResponseItem(item.getBook(), item.getId(), item.getItemPrice(), item.getHit(),
+                            item.getItemCondition(), item.getDealArea(), item.getCreateDate(),
+                            item.getDealStatus())));
         }
         return ResponseEntity.ok(result);
     }
@@ -93,8 +94,9 @@ public class MemberController {
         for (Purchase purchase : purchases) {
             Item item = purchase.getItem();
             result.add(MemberPurchasesResponse.toItemResponse(
-                    new ResponseItem(item.getBook(), item.getItemPrice(), item.getHit(),
-                            item.getItemCondition(), item.getDealArea(), item.getCreateDate())));
+                    new ResponseItem(item.getBook(), item.getId(), item.getItemPrice(), item.getHit(),
+                            item.getItemCondition(), item.getDealArea(), item.getCreateDate(),
+                            item.getDealStatus())));
         }
         return ResponseEntity.ok(result);
     }

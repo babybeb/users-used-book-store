@@ -2,25 +2,19 @@ package babybeb.usersusedbookstore.api;
 
 import babybeb.usersusedbookstore.api.dto.item.ChangeDealStatusRequest;
 import babybeb.usersusedbookstore.api.dto.item.CreateItemDto;
-import babybeb.usersusedbookstore.api.dto.item.ItemDto;
 import babybeb.usersusedbookstore.api.dto.item.ItemResponse;
 import babybeb.usersusedbookstore.api.dto.item.SaveItemRequest;
 import babybeb.usersusedbookstore.api.dto.item.UpdateItemRequest;
-import babybeb.usersusedbookstore.api.dto.sale.ChangeStatusRequest;
-import babybeb.usersusedbookstore.api.dto.sale.ChangeStatusResponse;
-import babybeb.usersusedbookstore.api.dto.sale.DeleteSaleResponse;
-import babybeb.usersusedbookstore.api.dto.sale.SaveSaleRequest;
-import babybeb.usersusedbookstore.api.dto.sale.SaveSaleResponse;
 import babybeb.usersusedbookstore.domain.Book;
 import babybeb.usersusedbookstore.domain.Item;
-import babybeb.usersusedbookstore.domain.Member;
-import babybeb.usersusedbookstore.domain.Sale;
 import babybeb.usersusedbookstore.service.ItemService;
 import babybeb.usersusedbookstore.service.MemberService;
 import babybeb.usersusedbookstore.service.PurchaseService;
 import babybeb.usersusedbookstore.service.SaleService;
+import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/items")
+@RequestMapping("api/items")
 public class ItemController {
     
     private final ItemService itemService;
@@ -41,6 +35,13 @@ public class ItemController {
     private final PurchaseService purchaseService;
     private final MemberService memberService;
     
+    /**
+     * Item 저장
+     * @param memberId
+     * @param request
+     * @return itemId
+     */
+    @ApiOperation(value = "memberId와 SaveItemRequest를 받아 Item 저장")
     @PostMapping("/{member_id}")
     public ResponseEntity<Long> saveItem(
         @PathVariable("member_id") Long memberId,
@@ -62,6 +63,12 @@ public class ItemController {
         return ResponseEntity.ok(itemId);
     }
     
+    /**
+     * Item 삭제
+     * @param itemId
+     * @return return itemId
+     */
+    @ApiOperation(value = "itemId를 받아 Item 삭제")
     @DeleteMapping("/{item_id}")
     public ResponseEntity<Long> deleteItem(
         @PathVariable("item_id") Long itemId) {
@@ -72,26 +79,45 @@ public class ItemController {
         return ResponseEntity.ok(itemId);
     }
     
-    @PostMapping("{item_id}/dealstatus")
+    /**
+     * DealStatus 변경
+     * @param itemId
+     * @param request
+     * @return "존재하지 않는 회원입니다." 또는 ItemResponse
+     */
+    @ApiOperation(value = "itemId와 ChangeDealStatusRequest를 받아 Item의 DealStatus 변경")
+    @PostMapping("/{item_id}")
     public ResponseEntity<ItemResponse> changeDealStatus(
         @PathVariable("item_id") Long itemId,
         @RequestBody @Valid ChangeDealStatusRequest request) {
         
         Item findItem = itemService.findById(itemId);
         
-        if(request.getDealStatus().equals("COMP")) {
+        if (request.getDealStatus().equals("COMP")) {
             // 실재하는 회원인지 검사
-            // String option = memberService.실재하는 회원인가요?
-            // if option.isEqual("false") { throw exception }
-            // else if (option.isEqual("email")) {Long buyerId = memberService.findByEmail(request.getBuyerInfo);}
-            // else if (option.isEqual("phone")) {Long buyerId = memberService.findByPhoneNumber(request.getBuyerInfo);}
-            // purchaseService.savePurchase(buyerId, findItem);
+            Long buyerId = 0l;
+            String option = memberService.isAlreadyExists(request.getBuyerInfo());
+            if (option.isEqual("email")) { // option 값은 enum이나 int로 바꿔도 될듯?
+                buyerId = memberService.findByEmail(request.getBuyerInfo()).getId();
+            } else if (option.isEqual("phone")) {
+                buyerId = memberService.findByPhoneNumber(request.getBuyerInfo()).getId();
+            } else {
+                return new ResponseEntity("존재하지 않는 회원입니다.", HttpStatus.OK);
+            }
+            purchaseService.savePurchase(buyerId, findItem);
         }
         itemService.changeDealStatus(findItem, request.getDealStatus());
         
         return ResponseEntity.ok(ItemResponse.toItemResponse(itemService.findById(itemId)));
     }
     
+    /**
+     * Item 수정
+     * @param itemId
+     * @param request
+     * @return ItemResponse
+     */
+    @ApiOperation(value = "itemId와 UpdateItemRequest를 받아 Item Update")
     @PutMapping("/{item_id}")
     public ResponseEntity<ItemResponse> updateItem(
         @PathVariable("item_id") Long itemId,
@@ -104,6 +130,12 @@ public class ItemController {
         return ResponseEntity.ok(ItemResponse.toItemResponse(itemService.findById(itemId)));
     }
     
+    /**
+     * Item 찾기
+     * @param itemId
+     * @return ItemResponse
+     */
+    @ApiOperation(value = "itemId를 받아 Item 개별 조회")
     @GetMapping("/{item_id}")
     public ResponseEntity<ItemResponse> findItem(@PathVariable("item_id") Long itemId) {
         

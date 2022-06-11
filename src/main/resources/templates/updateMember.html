@@ -48,7 +48,7 @@
 
     //onload function
     function start(){
-        get("/session", {})
+        get("/api/sign/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
                 if(data.nickname != "" && data.memberId != null){
@@ -59,7 +59,7 @@
                     alert("로그인 후에 이용해주세요");
                     location.replace("/home.html");
                 }
-                get("/member/"+memberId, {})
+                get("/api/member/"+memberId, {})
                     .then((data) => {
                         console.log(data);
                         const email = document.getElementById("email");
@@ -89,7 +89,7 @@
         const name = document.getElementById("name").value;
         const nickname = document.getElementById("nickname").value;
         const phoneNumber = document.getElementById("phoneNumber").value;
-        put("/member/"+memberId, {
+        put("/api/member/"+memberId, {
             email: email,
             password: password,
             name: name,

@@ -29,7 +29,7 @@
 
     //onload function
     function start(){
-        get("/session", {})
+        get("/api/sign/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
                 if(data.nickname != "" && data.memberId != null){
@@ -41,7 +41,7 @@
                     location.replace("/home.html");
 
                 }
-                get("/member/"+memberId+"sales", {})
+                get("/api/member/"+memberId+"/sales", {})
                     .then((data) => {
 
                     })

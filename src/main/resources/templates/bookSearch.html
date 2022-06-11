@@ -29,7 +29,7 @@
 
     //onload function
     function start(){
-        get("/session", {})
+        get("/api/sign/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
                 const target = document.getElementById("nickname");
@@ -39,19 +39,6 @@
             .catch((error) => {
                 console.log(error);
             });
-        //메인화면에서 검색으로 넘어온 값이 있는 지 확인, 이후에 검색 값을 보여줌
-        if(sessionStorage.getItem("searchValue") != ""){
-            const searchText = document.getElementById("searchText");
-            const selectButton = document.getElementById("select");
-
-            const searchSelect = sessionStorage.getItem("searchSelect");
-            const searchValue = sessionStorage.getItem("searchValue");
-
-            searchText.value = searchValue;
-            selectButton.value = searchSelect;
-
-            sendSearchBook(searchSelect, searchValue);
-        }
     }
 
     function searchBook(){
@@ -130,6 +117,12 @@
                     category.innerHTML = "category: "+data[i].category;
                     bookForm.appendChild(category);
 
+                    const selectButton = document.createElement("button");
+                    selectButton.setAttribute("type", "button");
+                    selectButton.setAttribute("onclick", "selectBook(this)");
+                    selectButton.innerHTML = "책 선택";
+                    bookForm.appendChild(selectButton);
+
                     const line = document.createElement("hr");
                     bookForm.appendChild(line);
 
@@ -139,6 +132,26 @@
             .catch((error) => {
                 console.log(error);
             });
+    }
+
+    function selectBook(e){
+        const parent = e.parentElement;
+        const child = parent.childNodes;
+        var temp = [];
+
+        for(var i = 0; i < parent.childElementCount; i++){
+            temp[i] = child[i].innerHTML.split(": ");
+        }
+
+        sessionStorage.setItem("isbn", temp[0][1]);
+        sessionStorage.setItem("title", temp[1][1]);
+        sessionStorage.setItem("bookPrice", temp[2][1]);
+        sessionStorage.setItem("publisher", temp[3][1]);
+        sessionStorage.setItem("author", temp[4][1]);
+        sessionStorage.setItem("page", temp[5][1]);
+        sessionStorage.setItem("kdc", temp[6][1]);
+        sessionStorage.setItem("category", temp[7][1]);
+        history.back();
     }
 
 </script>

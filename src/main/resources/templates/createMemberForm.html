@@ -93,7 +93,7 @@
             phoneAuthKey = "1234"; //임시 인증키
 
             //휴대폰 인증 키 받는 API 호출(요금 문제로 닫아놓음)
-            // get("/member/phone?phoneNumber="+phoneNumber, {})
+            // get("/api/member/phone?phoneNumber="+phoneNumber, {})
             //     .then((data) => {
             //         authKey = data.authKey;
             //     })
@@ -134,7 +134,7 @@
         const signNickName = document.getElementById("nickname").value;
         const signPhoneNumber = document.getElementById("phoneNumber").value;
 
-        post("/member/new", {
+        post("/api/member/new", {
             email: signEmail,
             password: signPassword,
             name: signName,

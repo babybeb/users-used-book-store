@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemService {
     
     private final ItemRepository itemRepository;
-    //    private final PurchaseService purchaseService;
     private final PurchaseRepository purchaseRepository;
     private final MemberRepository memberRepository;
     

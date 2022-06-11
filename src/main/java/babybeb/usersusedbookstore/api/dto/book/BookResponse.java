@@ -30,7 +30,7 @@ public class BookResponse {
     @Enumerated(EnumType.STRING)
     private Category category;
     
-    public static BookResponse toItemResponse(Book book) {
+    public static BookResponse toBookResponse(Book book) {
         return new BookResponse(book.getIsbn(), book.getTitle(), book.getBookPrice(),
                                 book.getPublisher(), book.getAuthor(), book.getPage(),
                                 book.getKdc(), book.getCategory());

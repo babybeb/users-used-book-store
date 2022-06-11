@@ -25,6 +25,11 @@ public class ItemRepository {
     }
     
     public Item findOne(Long id) {
-        return em.find(Item.class,id);
+        return em.find(Item.class, id);
+    }
+    
+    public Long delete(Long itemId) {
+        em.remove(findOne(itemId));
+        return itemId;
     }
 }

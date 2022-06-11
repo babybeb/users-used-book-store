@@ -53,11 +53,11 @@ public class Item {
 //    @JoinColumn(name = "chat_room_id")
 //    private List<ChatRoom> chatRooms = new ArrayList<>();
     
-    public Item(Book book, int itemPrice, ItemCondition itemCondition, LocalDateTime createDate, DealArea dealArea) {
+    public Item(Book book, int itemPrice, ItemCondition itemCondition, DealArea dealArea) {
         this.book = book;
         this.itemPrice = itemPrice;
         this.itemCondition = itemCondition;
-        this.createDate = createDate;
+        this.createDate = LocalDateTime.now();
         this.dealArea = dealArea;
         this.dealStatus = DealStatus.SALE;
         this.hit = 0;

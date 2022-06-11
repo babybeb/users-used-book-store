@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 정보</title>
+</head>
+<script>
+    //onload function 으로 start 를 지정
+    window.onload = start;
+    var memberId;
+
+    async function get(path, headers = {}){
+        const url = path;
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
+    //onload function
+    function start(){
+        get("/api/sign/session", {})
+            .then((data) => {
+                //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
+                if(data.nickname != "" && data.memberId != null){
+                    const target = document.getElementById("nickname");
+                    target.innerHTML = data.nickname+" 님";
+                    memberId = data.memberId;
+                } else {
+                    alert("로그인 후에 이용해주세요");
+                    location.replace("/home.html");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+</script>
+<body>
+<h1>상품 정보</h1>
+<p id="nickname"></p>
+</body>
+</html>

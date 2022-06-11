@@ -16,6 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/sign")
 public class SignController {
 
     private final MemberService memberService;
@@ -23,7 +24,7 @@ public class SignController {
     /**
      * API 부분
      */
-    @PostMapping("/sign")
+    @PostMapping()
     public signInResponse signIn(
             HttpServletRequest requestSession,
             @Valid @RequestBody
@@ -36,7 +37,7 @@ public class SignController {
         return new signInResponse(findMember.getNickname());
     }
 
-    @DeleteMapping("/sign")
+    @DeleteMapping()
     public void signOut(
             HttpServletRequest requestSession) {
         HttpSession session = requestSession.getSession();

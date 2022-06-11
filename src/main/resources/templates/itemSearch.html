@@ -74,7 +74,6 @@
         } else if(select == "dealArea"){
             path = "/api/item/search/dealarea?dealarea="+encodeURIComponent(value);
         } else {
-            alert("기본검색");
             path = "/api/item/search";
         }
         get(path, {})
@@ -127,7 +126,7 @@
                     //아이템 정보
                     const itemPrice = document.createElement("p");
                     itemPrice.setAttribute("id", "itemPrice"+i.toString());
-                    itemPrice.innerHTML = "condition: "+data.data[i].itemPrice;
+                    itemPrice.innerHTML = "itemPrice: "+data.data[i].itemPrice;
                     itemForm.appendChild(itemPrice);
 
                     const condition = document.createElement("p");
@@ -153,6 +152,12 @@
                     hit.innerHTML = "hit: "+data.data[i].hit;
                     itemForm.appendChild(status);
 
+                    const selectButton = document.createElement("button");
+                    selectButton.setAttribute("type", "button");
+                    selectButton.setAttribute("onclick", "selectItem(this)");
+                    selectButton.innerHTML = "상품 보기";
+                    itemForm.appendChild(selectButton);
+
                     const line = document.createElement("hr");
                     itemForm.appendChild(line);
 
@@ -162,6 +167,10 @@
             .catch((error) => {
                 console.log(error);
             });
+    }
+
+    function selectItem(e){
+
     }
 
 </script>

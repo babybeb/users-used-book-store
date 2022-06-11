@@ -1,19 +1,22 @@
 package babybeb.usersusedbookstore.repository;
 
+import babybeb.usersusedbookstore.domain.Category;
 import babybeb.usersusedbookstore.domain.Item;
+import babybeb.usersusedbookstore.domain.dealarea.DealArea;
+import babybeb.usersusedbookstore.domain.dealarea.First;
+import babybeb.usersusedbookstore.domain.dealarea.Second;
 import java.util.List;
-import javax.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-@RequiredArgsConstructor
-public class ItemSearchRepository {
+public interface ItemSearchRepository extends JpaRepository<Item, Long> {
     
-    private final EntityManager em;
+    public List<Item> findAll();
     
-    public List<Item> findAll() {
-        return em.createQuery("select i from Item i", Item.class)
-            .getResultList();
-    }
+    public List<Item> findByBookTitleContains(String title);
+    
+    public List<Item> findAllByBookCategory(Category category);
+    
+//    public List<Item> findAllByDealArea(DealArea dealArea);
+    
+    public List<Item> findByDealAreaFirstAndDealAreaSecond(First first, Second second);
 }

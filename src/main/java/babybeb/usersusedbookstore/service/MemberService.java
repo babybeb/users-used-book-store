@@ -93,6 +93,30 @@ public class MemberService {
         }
     }
 
+    //전화번호로 회원 조회
+    public Member findByPhoneNumber(String phoneNumber){
+        List<Member> members = memberRepository.findByPhoneNumber(phoneNumber);
+        if(members.size() == 1){
+            return members.get(0);
+        } else {
+            throw new IllegalStateException("중복 전화번호가 존재합니다.");
+        }
+    }
+
+    //회원이 존재하는 회원인지 확인
+    public String isAlreadyExists(String option){
+        List<Member> emailMembers = memberRepository.findByEmail(option);
+        List<Member> phoneMembers = memberRepository.findByPhoneNumber(option);
+        if(emailMembers.size() == 1) {
+            return "email";
+        }
+        else if(phoneMembers.size() == 1){
+            return "phone";
+        } else {
+            return "false";
+        }
+    }
+
     /**
      * 회원 정보
      */

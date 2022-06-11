@@ -41,7 +41,7 @@
         //메인화면에서 검색으로 넘어온 값이 있는 지 확인, 이후에 검색 값을 보여줌
         var searchSelect;
         var searchValue;
-        if(sessionStorage.getItem("searchValue") != ""){
+        if(sessionStorage.getItem("searchValue") !== ""){
             const searchText = document.getElementById("searchText");
             const selectButton = document.getElementById("select");
 
@@ -61,96 +61,90 @@
         const searchSelect = document.getElementById("select").value;
         const searchValue = document.getElementById("searchText").value;
 
-        sendSearchBook(searchSelect, searchValue);
+        sendSearchItem(searchSelect, searchValue);
         return false;
     }
 
     function sendSearchItem(select, value){
         var path;
-        if(select == "title"){
+        if(select === "title"){
             path = "/api/item/search/title?title="+encodeURIComponent(value);
-        } else if(select == "category"){
+        } else if(select === "category"){
             path = "/api/item/search/category?category="+encodeURIComponent(value);
-        } else if(select == "dealArea"){
+        } else if(select === "dealArea"){
             path = "/api/item/search/dealarea?dealarea="+encodeURIComponent(value);
         } else {
             path = "/api/item/search";
         }
         get(path, {})
             .then((data) => {
-                console.log(data.count);
-                console.log(data.data[0].book);
-                console.log(data.data[0].itemCondition);
-                console.log(data.data[0].createDate);
-                console.log(data.data[0].dealStatus);
                 const container = document.getElementById("container");
-                if(container.childElementCount != 0){
+                if(container.childElementCount !== 0){
                     const temp = document.getElementById("searchBoard");
                     container.removeChild(temp);
                 }
-                const board = document.createElement("section");
+                const board = document.createElement("container");
                 board.setAttribute("id", "searchBoard");
                 container.appendChild(board);
-                if(data.length == 0){
+                if(data.length === 0){
                     const itemForm = document.createElement("form");
                     const text = document.createElement("p");
                     text.innerHTML = "상품이 없습니다.";
                     itemForm.appendChild(text);
                     board.appendChild(itemForm);
                 }
-                for(var i = 0; i < data.count ; i++){
+                for(var i = 0; i < data.length ; i++){
                     //책 정보
                     const itemForm = document.createElement("form");
-                    itemForm.setAttribute("id", "bookForm"+i.toString());
+
+                    const itemId = document.createElement("p");
+                    itemId.innerHTML = "itemId: "+data[i].id;
+                    itemForm.appendChild(itemId);
 
                     const title = document.createElement("p");
-                    title.setAttribute("id", "title"+i.toString());
-                    title.innerHTML = "title: "+data.data[i].book.title;
+                    title.innerHTML = "title: "+data[i].book.title;
                     itemForm.appendChild(title);
 
                     const publisher = document.createElement("p");
-                    publisher.setAttribute("id", "publisher"+i.toString());
-                    publisher.innerHTML = "publisher: "+data.data[i].book.publisher;
+                    publisher.innerHTML = "publisher: "+data[i].book.publisher;
                     itemForm.appendChild(publisher);
 
                     const author = document.createElement("p");
-                    author.setAttribute("id", "author"+i.toString());
-                    author.innerHTML = "author: "+data.data[i].book.author;
+                    author.innerHTML = "author: "+data[i].book.author;
                     itemForm.appendChild(author);
 
                     const category = document.createElement("p");
-                    category.setAttribute("id", "category"+i.toString());
-                    category.innerHTML = "category: "+data.data[i].book.category;
+                    category.innerHTML = "category: "+data[i].book.category;
                     itemForm.appendChild(category);
 
                     //아이템 정보
                     const itemPrice = document.createElement("p");
-                    itemPrice.setAttribute("id", "itemPrice"+i.toString());
-                    itemPrice.innerHTML = "itemPrice: "+data.data[i].itemPrice;
+                    itemPrice.innerHTML = "itemPrice: "+data[i].itemPrice;
                     itemForm.appendChild(itemPrice);
 
                     const condition = document.createElement("p");
-                    condition.setAttribute("id", "condition"+i.toString());
-                    condition.innerHTML = "condition: "+data.data[i].itemCondition;
+                    condition.innerHTML = "condition: "+data[i].itemCondition;
                     itemForm.appendChild(condition);
 
                     const date = document.createElement("p");
-                    date.setAttribute("id", "data"+i.toString());
-                    date.innerHTML = "date: "+data.data[i].createDate[0]+"년 "
-                        +data.data[i].createDate[1]+"월 " +data.data[i].createDate[2]+"일 "
-                        +data.data[i].createDate[3]+"시 " +data.data[i].createDate[4]+"분 "
-                        +data.data[i].createDate[5]+"초 ";
+                    date.innerHTML = "date: "+data[i].createDate[0]+"년 "
+                        +data[i].createDate[1]+"월 " +data[i].createDate[2]+"일 "
+                        +data[i].createDate[3]+"시 " +data[i].createDate[4]+"분 "
+                        +data[i].createDate[5]+"초 ";
                     itemForm.appendChild(date);
 
                     const status = document.createElement("p");
-                    status.setAttribute("id", "status"+i.toString());
-                    status.innerHTML = "status: "+data.data[i].dealStatus;
+                    status.innerHTML = "status: "+data[i].dealStatus;
                     itemForm.appendChild(status);
 
+                    const dealArea = document.createElement("p");
+                    dealArea.innerHTML = "dealArea: "+data[i].dealArea.first+", "+
+                        data[i].dealArea.second;
+                    itemForm.appendChild(dealArea);
+
                     const hit = document.createElement("p");
-                    hit.setAttribute("id", "hit"+i.toString());
-                    hit.innerHTML = "hit: "+data.data[i].hit;
-                    itemForm.appendChild(status);
+                    hit.innerHTML = "hit: "+data[i].hit;
+                    itemForm.appendChild(hit);
 
                     const selectButton = document.createElement("button");
                     selectButton.setAttribute("type", "button");
@@ -170,12 +164,18 @@
     }
 
     function selectItem(e){
-
+        const parent = e.parentElement;
+        var temp = []
+        temp = parent.childNodes[0].innerHTML.split(": ");
+        const itemId = temp[1];
+        sessionStorage.setItem("itemId", itemId);
+        window.open("itemInfo.html", "_self");
     }
 
 </script>
 <body>
     <h1>판매중인 책 검색</h1>
+    <p id="nickname"></p>
     <h3>검색 조건을 선택하고 검색하세요</h3>
     <select id="select">
         <option value="title">책 제목</option>
@@ -187,6 +187,7 @@
     <hr>
 
     <div id="container">
+
     </div>
 </body>
 </html>

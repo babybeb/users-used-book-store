@@ -106,7 +106,7 @@ public class MemberService {
     //회원이 존재하는 회원인지 확인
     public String isAlreadyExists(String option){
         List<Member> emailMembers = memberRepository.findByEmail(option);
-        List<Member> phoneMembers = memberRepository.findByEmail(option);
+        List<Member> phoneMembers = memberRepository.findByPhoneNumber(option);
         if(emailMembers.size() == 1) {
             return "email";
         }

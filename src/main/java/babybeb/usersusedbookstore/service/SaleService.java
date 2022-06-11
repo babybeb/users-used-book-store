@@ -41,6 +41,11 @@ public class SaleService {
         return saleRepository.findOne(saleId);
     }
 
+    //아이템 아이디로 조회하기
+    public Sale findByItem(Long itemId){
+        return saleRepository.findByItemId(itemId);
+    }
+
     /**
      * 판매 삭제하기
      */

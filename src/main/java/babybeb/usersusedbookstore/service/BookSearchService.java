@@ -182,7 +182,7 @@ public class BookSearchService {
      */
     private int adjustPrePrice(String originPrePrice) {
         
-        if (originPrePrice.equals("비매품/무료") || originPrePrice.equals("미정")
+        if (originPrePrice.equals("비매품/무료") || originPrePrice.equals("미정") || originPrePrice.equals("세트가미정")
             || originPrePrice.isEmpty()) {
             return 0;
         } else {

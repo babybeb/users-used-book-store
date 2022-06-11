@@ -32,13 +32,108 @@
         get("/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
-                if(data.nickname != "" && data.memberId != null){
-                    const target = document.getElementById("nickname");
-                    target.innerHTML = data.nickname+" 님";
-                    memberId = data.memberId;
-                } else {
-                    alert("로그인 후에 이용해주세요");
-                    location.replace("/home.html");
+                const target = document.getElementById("nickname");
+                target.innerHTML = data.nickname+" 님";
+                memberId = data.memberId;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        //메인화면에서 검색으로 넘어온 값이 있는 지 확인, 이후에 검색 값을 보여줌
+        if(sessionStorage.getItem("searchValue") != ""){
+            const searchText = document.getElementById("searchText");
+            const selectButton = document.getElementById("select");
+
+            const searchSelect = sessionStorage.getItem("searchSelect");
+            const searchValue = sessionStorage.getItem("searchValue");
+
+            searchText.value = searchValue;
+            selectButton.value = searchSelect;
+
+            sendSearchBook(searchSelect, searchValue);
+        }
+    }
+
+    function searchBook(){
+        const searchSelect = document.getElementById("select").value;
+        const searchValue = document.getElementById("searchText").value;
+
+        sendSearchBook(searchSelect, searchValue);
+        return false;
+    }
+
+    function sendSearchBook(select, value){
+        var path;
+        if(select == "title"){
+            path = "/api/book/title?title="+encodeURIComponent(value);
+        } else if(select == "author"){
+            path = "/api/book/title?author="+encodeURIComponent(value);
+        }
+        get(path, {})
+            .then((data) => {
+                const container = document.getElementById("container");
+                if(container.childElementCount != 0){
+                    const temp = document.getElementById("searchBoard");
+                    container.removeChild(temp);
+                }
+                const board = document.createElement("section");
+                board.setAttribute("id", "searchBoard");
+                container.appendChild(board);
+                if(data.length == 0){
+                    const bookForm = document.createElement("form");
+                    const text = document.createElement("p");
+                    text.innerHTML = "책이 없습니다.";
+                    bookForm.appendChild(text);
+                    board.appendChild(bookForm);
+                }
+                for(var i = 0; i < data.length ; i++){
+                    const bookForm = document.createElement("form");
+                    bookForm.setAttribute("id", "bookForm"+i.toString());
+
+                    const isbn = document.createElement("p");
+                    isbn.setAttribute("id", "isbn"+i.toString());
+                    isbn.innerHTML = "isbn: "+data[i].isbn;
+                    bookForm.appendChild(isbn);
+
+                    const title = document.createElement("p");
+                    title.setAttribute("id", "title"+i.toString());
+                    title.innerHTML = "title: "+data[i].title;
+                    bookForm.appendChild(title);
+
+                    const bookPrice = document.createElement("p");
+                    bookPrice.setAttribute("id", "bookPrice"+i.toString());
+                    bookPrice.innerHTML = "bookPrice: "+data[i].bookPrice;
+                    bookForm.appendChild(bookPrice);
+
+                    const publisher = document.createElement("p");
+                    publisher.setAttribute("id", "publisher"+i.toString());
+                    publisher.innerHTML = "publisher: "+data[i].publisher;
+                    bookForm.appendChild(publisher);
+
+                    const author = document.createElement("p");
+                    author.setAttribute("id", "author"+i.toString());
+                    author.innerHTML = "author: "+data[i].author;
+                    bookForm.appendChild(author);
+
+                    const page = document.createElement("p");
+                    page.setAttribute("id", "page"+i.toString());
+                    page.innerHTML = "page: "+data[i].page;
+                    bookForm.appendChild(page);
+
+                    const kdc = document.createElement("p");
+                    kdc.setAttribute("id", "kdc"+i.toString());
+                    kdc.innerHTML = "kdc: "+data[i].kdc;
+                    bookForm.appendChild(kdc);
+
+                    const category = document.createElement("p");
+                    category.setAttribute("id", "category"+i.toString());
+                    category.innerHTML = "category: "+data[i].category;
+                    bookForm.appendChild(category);
+
+                    const line = document.createElement("hr");
+                    bookForm.appendChild(line);
+
+                    board.appendChild(bookForm);
                 }
             })
             .catch((error) => {
@@ -46,44 +141,6 @@
             });
     }
 
-    function search(){
-        const searchValue = document.getElementById("searchValue").value;
-        const select = document.getElementById("select").value;
-
-        if(select === "title"){
-            bookSearchByTitle(searchValue);
-        } else if(select === "author"){
-            bookSearchByAuthor(searchValue);
-        } else {
-            alert("잘못된 조건 선택");
-        }
-    }
-
-    function bookSearchByTitle(searchText){
-        const textTitle = searchText;
-        get("/title", {
-            title: searchText,
-        })
-            .then((data) => {
-
-            })
-            .catch((error) => {
-
-            });
-    }
-
-    function bookSearchByAuthor(searchText){
-        const textAuthor = searchText;
-        get("/author", {
-            author: searchText,
-        })
-            .then((data) => {
-
-            })
-            .catch((error) => {
-
-            });
-    }
 </script>
 <body>
     <h1>책 검색</h1>
@@ -92,8 +149,11 @@
         <option value="title">책 제목</option>
         <option value="author">책 저자</option>
     </select>
-    <input type="text" id="bookTitle" placeholder="검색 값 입력">
-    <button type="button" id="searchValue" onclick="search()">검색</button>
+    <input type="text" id="searchText" name="title" placeholder="검색 값 입력">
+    <button type="submit" onclick="return searchBook()">검색</button>
     <hr>
+
+    <div id="container">
+    </div>
 </body>
 </html>

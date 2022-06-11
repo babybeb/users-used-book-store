@@ -38,6 +38,8 @@
     }
 
     function start(){
+        sessionStorage.setItem("searchValue", "");
+        sessionStorage.setItem("searchSelect", "");
         get("/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
@@ -54,6 +56,11 @@
                     signOut.innerHTML = "로그아웃";
                     signOut.setAttribute("onClick", "signOut()");
                     p.appendChild(signOut);
+
+                    const info = document.createElement("button");
+                    info.innerHTML = "내 정보 보기";
+                    info.setAttribute("onClick", "myInfo()");
+                    p.appendChild(info);
                 }
                 isSignIn = true;
             })
@@ -69,11 +76,11 @@
     }
 
     function signIn(){
-        window.open('/sign.html', 'signIn', 'left=100, top=100, width=400, height=500');
+        window.open('/sign.html', '_self');
     }
 
     function join(){
-        window.open('/createMemberForm.html', 'join', 'left=100, top=100, width=400, height=500');
+        window.open('/createMemberForm.html', '_self');
     }
 
     function sale(){
@@ -82,8 +89,21 @@
         } else {
             alert("로그인 후 이용해주세요");
         }
-
     }
+
+    function myInfo(){
+        window.open("/member.html", "_self");
+    }
+
+    function itemSearch(){
+        const searchSelect = document.getElementById("select").value;
+        const searchValue = document.getElementById("searchText").value;
+        sessionStorage.setItem("searchSelect", searchSelect);
+        sessionStorage.setItem("searchValue", searchValue);
+        window.open("/itemSearch.html", "_self");
+        return false;
+    }
+
 </script>
 <body>
     <h1>Ur's ur</h1>
@@ -96,17 +116,21 @@
 
     <section class="search">
         <form method="Get">
-            <input type="text" class="form-control" id="searchText" required>
-            <span class="border"></span>
-            <button type="submit">검색</button>
-            <button type="button" onClick="sale()">판매등록</button>
+            <select id="select">
+                <option value="word">책 제목</option>
+                <option value="category">카테고리</option>
+                <option value="address">지역</option>
+            </select>
+            <input type="text" id="searchText" name="title" placeholder="검색 값 입력" required>
+            <button type="submit" id="searchValue" onclick="return itemSearch()">검색</button>
         </form>
     </section>
 
+    <button type="button" onclick="sale()">판매등록</button>
     <div id="parent">
         <section class="sign" id="sign">
-            <button type="button" onClick="signIn()">로그인</button>
-            <button type="button" onClick="join()">회원가입</button>
+            <button type="button" onclick="signIn()">로그인</button>
+            <button type="button" onclick="join()">회원가입</button>
         </section>
     </div>
 </body>

@@ -43,10 +43,17 @@
                 }
                 get("/api/member/"+memberId+"/sales", {})
                     .then((data) => {
+                        const title = data.title;
+                        const price = data.price;
+                        const hit = data.hit;
+                        const itemCondition = data.itemCondition;
+                        const dealArea = data.dealArea;
+                        const createDate = data.createDete;
+
 
                     })
                     .catch((error) => {
-
+                       console.log(error);
                     });
             })
             .catch((error) => {

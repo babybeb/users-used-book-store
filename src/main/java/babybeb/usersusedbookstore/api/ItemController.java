@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -86,7 +87,7 @@ public class ItemController {
      * @return "존재하지 않는 회원입니다." 또는 ItemResponse
      */
     @ApiOperation(value = "itemId와 ChangeDealStatusRequest를 받아 Item의 DealStatus 변경")
-    @PostMapping("/{item_id}")
+    @PatchMapping("/{item_id}")
     public ResponseEntity<ItemResponse> changeDealStatus(
         @PathVariable("item_id") Long itemId,
         @RequestBody @Valid ChangeDealStatusRequest request) {

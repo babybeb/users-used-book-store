@@ -13,6 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ItemDto {
     
+    private Long id;
     private Book book;
     private int itemPrice;
     private ItemCondition itemCondition;

@@ -38,9 +38,8 @@
     }
 
     function start(){
-        sessionStorage.setItem("searchValue", "");
-        sessionStorage.setItem("searchSelect", "");
-        get("/session", {})
+        sessionStorage.clear();
+        get("/api/sign/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
                 if(data.nickname != "" && data.nickname != null){
@@ -71,7 +70,7 @@
     }
 
     function signOut(){
-        del("/sign", {});
+        del("/api/sign", {});
         location.reload();
     }
 

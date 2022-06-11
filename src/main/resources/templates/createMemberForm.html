@@ -5,6 +5,10 @@
     <title>회원가입</title>
 </head>
 <script>
+    var emailAuthKey;
+    var phoneAuthKey;
+    var isEmailAuth = false;
+    var isPhoneAuth = false;
     async function post(path, body, headers = {}){
         const url = path;
         const options = {
@@ -24,6 +28,105 @@
         }
     }
 
+    function emailAuth(e) {
+        const buttonParent = e.parentElement;
+        const parent = document.getElementById("emailAuthForm");
+        const authInput = document.createElement("input");
+        const authButton = document.createElement("button");
+        const email = document.getElementById("email");
+        if(email.value.length < 8){
+            alert("이메일을 확인해주세요");
+        } else {
+            buttonParent.removeChild(e);
+
+            authInput.setAttribute("type", "text");
+            authInput.setAttribute("id", "emailAuthText");
+            authInput.setAttribute("placeholder", "인증번호 입력");
+            parent.appendChild(authInput);
+
+            authButton.setAttribute("type", "button");
+            authButton.setAttribute("onclick", "emailAuthAction()");
+            authButton.innerHTML = "인증";
+            parent.appendChild(authButton);
+
+            emailAuthKey = "4231";
+            //이메일 인증 키 받는 API 호출
+        }
+    }
+
+    function emailAuthAction(){
+        const inputKey = document.getElementById("emailAuthText");
+        const emailInput = document.getElementById("email");
+        emailInput.setAttribute("readOnly", "true");
+        console.log("input:"+inputKey.value);
+        console.log("authKey:"+emailAuthKey);
+        if(emailAuthKey == inputKey.value){
+            alert("인증되었습니다.");
+            isEmailAuth = true;
+        } else {
+            alert("인증 번호를 정확히 입력해주세요");
+            inputKey.value = "";
+        }
+    }
+
+    function phoneAuth(e){
+        const buttonParent = e.parentElement;
+        const parent = document.getElementById("phoneAuthForm");
+        const authInput = document.createElement("input");
+        const authButton = document.createElement("button");
+        const phoneNumber = document.getElementById("phoneNumber");
+        if(phoneNumber.value.length < 11){
+            alert("전화번호를 확인해주세요");
+        } else {
+            buttonParent.removeChild(e);
+
+            authInput.setAttribute("type", "text");
+            authInput.setAttribute("id", "phoneAuthText");
+            authInput.setAttribute("placeholder", "인증번호 입력");
+            parent.appendChild(authInput);
+
+            authButton.setAttribute("type", "button");
+            authButton.setAttribute("onclick", "phoneAuthAction()");
+            authButton.innerHTML = "인증";
+            parent.appendChild(authButton);
+
+            phoneAuthKey = "1234"; //임시 인증키
+
+            //휴대폰 인증 키 받는 API 호출(요금 문제로 닫아놓음)
+            // get("/member/phone?phoneNumber="+phoneNumber, {})
+            //     .then((data) => {
+            //         authKey = data.authKey;
+            //     })
+            //     .catch((error) => {
+            //         console.log(error);
+            //     });
+        }
+    }
+
+    function phoneAuthAction(){
+        const inputKey = document.getElementById("phoneAuthText");
+        const phoneNumberInput = document.getElementById("phoneNumber");
+        phoneNumberInput.setAttribute("readOnly", "true");
+        console.log("input:"+inputKey.value);
+        console.log("authKey:"+phoneAuthKey);
+        if(phoneAuthKey == inputKey.value){
+            alert("인증되었습니다.");
+            isPhoneAuth = true;
+        } else {
+            alert("인증 번호를 정확히 입력해주세요");
+            inputKey.value = "";
+        }
+    }
+
+    function signUpCheck(){
+        if(isPhoneAuth==true && isEmailAuth==true){
+            signUp();
+        } else {
+            alert("이메일 인증과 휴대폰 인증을 완료해주세요");
+        }
+        return false;
+    }
+
     function signUp(){
         const signEmail = document.getElementById("email").value;
         const signPassword = document.getElementById("password").value;
@@ -41,20 +144,22 @@
             const userId = data.id;
             alert("회원가입이 완료되었습니다.");
             if(userId != null){
-                window.open('', '_self').close();
+                location.replace("home.html");
             }
         }).catch((error) => {
             console.log(error);
             alert("회원가입에 실패했습니다.");
         });
     }
+
 </script>
 <body>
     <h1>회원가입</h1>
     <section class="signUp" id="board">
         <label for="email">이메일:</label>
-        <input type="text" id="email" class="form-control" placeholder="email@test.com" required>
-        <button type="button">이메일 인증</button><br>
+        <input type="email" id="email" class="form-control" placeholder="email@test.com" required>
+        <button type="button" onclick="emailAuth(this)">이메일 인증</button>
+        <div id="emailAuthForm"></div><br>
 
         <label for="password">비밀번호:</label>
         <input type="password" id="password" class="form-control" required><br>
@@ -66,9 +171,11 @@
         <input type="text" id="nickname" class="form-control" required><br>
 
         <label for="phoneNumber">전화번호:</label>
-        <input type="text" id="phoneNumber" class="form-control" placeholder="'-' 없이 적어주세요" required><br>
+        <input type="text" id="phoneNumber" class="form-control" placeholder="'-' 없이 적어주세요" required>
+        <button type="button" onclick="phoneAuth(this)">인증</button>
+        <div id="phoneAuthForm"></div><br>
 
-        <button type="button" onclick="signUp()">회원가입</button>
+        <button type="submit" onclick="return signUpCheck()">회원가입</button>
     </section>
 </body>
 </html>

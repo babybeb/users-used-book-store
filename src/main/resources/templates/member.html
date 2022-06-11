@@ -27,6 +27,24 @@
         }
     }
 
+    async function del(path, headers = {}){
+        const url = path;
+        const options = {
+            method: "DEL",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
     //onload function
     function start(){
         get("/session", {})
@@ -40,6 +58,23 @@
                     alert("로그인 후에 이용해주세요");
                     location.replace("/home.html");
                 }
+                get("/member/"+memberId, {})
+                    .then((data) => {
+                        const email = document.getElementById("email");
+                        const name = document.getElementById("name");
+                        const nickname = document.getElementById("nickname");
+                        const phoneNumber = document.getElementById("phoneNumber");
+                        const auth = document.getElementById("auth");
+
+                        email.value = data.email;
+                        name.value = data.name;
+                        nickname.value = data.nickname;
+                        phoneNumber.value = data.phoneNumber;
+                        auth.innerHTML = data.auth;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             })
             .catch((error) => {
                 console.log(error);
@@ -47,15 +82,26 @@
     }
 
     function updateMember(){
-
+        window.open("updateMember.html", "_self");
     }
 
     function deleteMember(){
-
+        del("/member/"+memberId, {})
+            .then((data) => {
+                alert("회원 탈퇴가 완료되었습니다.");
+                location.replace("home.html");
+            })
+            .catch((error) => {
+               console.log=(error);
+            });
     }
 
     function salesList(){
+        window.open("saleList.html", "_self");
+    }
 
+    function purchaseList(){
+        window.open("purchaseList.html", "_self");
     }
 
 </script>
@@ -64,20 +110,21 @@
     <section class="signUp">
         <form method="Post">
             <label for="email">이메일:</label>
-            <span id="email"></span><br>
+            <input type="text" id="email" readonly><br>
 
             <label for="name">이름:</label>
-            <span id="name"></span><br>
+            <input type="text" id="name" readonly><br>
 
             <label for="nickname">닉네임:</label>
-            <span id="nickname"></span><br>
+            <input type="text" id="nickname" readonly><br>
 
             <label for="phoneNumber">전화번호:</label>
-            <span id="phoneNumber"></span><br>
+            <input type="text" id="phoneNumber" readonly><br>
 
-            <button type="button" onclick="updateMember()">내 정보 수정</button>
-            <button type="button" onclick="deleteMember()">회원탈퇴</button><br>
             <button type="button" onclick="salesList()">판매목록보기</button>
+            <button type="button" onclick="purchaseList()">구매목록보기</button>
+            <button type="button" onclick="updateMember()">내 정보 수정</button><br>
+            <button type="button" onclick="deleteMember()">회원탈퇴</button>
         </form>
     </section>
 </body>

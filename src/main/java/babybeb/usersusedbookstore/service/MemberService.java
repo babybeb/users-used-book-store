@@ -95,11 +95,11 @@ public class MemberService {
 
     //전화번호로 회원 조회
     public Member findByPhoneNumber(String phoneNumber){
-        List<Member> members = memberRepository.findByEmail(phoneNumber);
+        List<Member> members = memberRepository.findByPhoneNumber(phoneNumber);
         if(members.size() == 1){
             return members.get(0);
         } else {
-            throw new IllegalStateException("중복 이메일이 존재합니다.");
+            throw new IllegalStateException("중복 전화번호가 존재합니다.");
         }
     }
 

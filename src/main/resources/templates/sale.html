@@ -7,11 +7,13 @@
 <script>
     //onload function 으로 start 를 지정
     window.onload = start;
+    var memberId;
+    var selectBook = false;
 
-    async function post(path, body, headers = {}){
+    async function postPut(path, method, body, headers = {}){
         const url = path;
         const options = {
-            method: "POST",
+            method: method,
             headers: {
                 "Content-Type": "application/json",
                 ...headers,
@@ -47,12 +49,18 @@
 
     //onload function
     function start(){
-        get("/session", {})
+        const book = document.getElementById("book");
+        const title = sessionStorage.getItem("title");
+        if(title !== ""){
+            book.innerHTML = sessionStorage.getItem("title");
+        }
+        get("/api/sign/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
                 if(data.nickname != "" && data.nickname != null){
                     const target = document.getElementById("nickname");
                     target.innerHTML = data.nickname+" 님";
+                    memberId = data.memberId;
                 } else {
                     alert("로그인 후에 이용해주세요");
                     location.replace("/home.html");
@@ -66,12 +74,46 @@
     function saveSale(){
         const price = document.getElementById("price").value;
         const condition = document.getElementById("condition").value;
+        const isbn = sessionStorage.getItem("isbn");
+        const title = sessionStorage.getItem("title");
+        const bookPrice = sessionStorage.getItem("bookPrice");
+        const publisher = sessionStorage.getItem("publish");
+        const author = sessionStorage.getItem("author");
+        const page = sessionStorage.getItem("page");
+        const kdc = sessionStorage.getItem("kdc");
+        const Category = sessionStorage.getItem("category");
+        const DealArea = sessionStorage.getItem("dealArea");
 
-        post("/sale/", {})
+        postPut("/items/"+memberId, "POST",{
+            price: price,
+            itemCondition: condition,
+            isbn: isbn,
+            title: title,
+            bookPrice: bookPrice,
+            publisher: publisher,
+            author: author,
+            page: page,
+            kdc: kdc,
+            Category: Category,
+            DealArea: DealArea,
+        })
             .then((data) => {
-                //반환값으로 item 의 id 값이 넘어올거임
+                console.log(data);
+                //이미지 등록 부분
                 const itemId = data.itemId;
-                post("/item/")
+                const imageCount = document.getElementById("bookImage").childElementCount;
+                for(var i = 0; i < imageCount; i++){
+                    const image = document.getElementById("inputFile"+i).value;
+                    postPut("/item/"+itemId+"/images", "POST", {
+                        multipartFiles: image,
+                    })
+                        .then((date) => {
+                            console.log(data.id);
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -79,7 +121,8 @@
     }
 
     function bookInfo(){
-
+        window.open("bookSearch.html", "_self");
+        selectBook = true;
     }
 
     function loadFiles(e){
@@ -163,7 +206,10 @@
         <p>나쁨 : 사용감이 있고 책 상태가 나쁨. 단, 책을 읽는 데 문제가 없으며 상품으로서의 가치가 남아있어야 함.</p>
         <hr>
 
-        <button type="button" onclick="bookInfo()">책 검색</button><br>
+        <div>
+            선택된 책 : <span id="book">없음</span>
+            <button type="button" onclick="bookInfo()">책 검색</button><br>
+        </div>
         <hr>
 
         <label for="bookImage">책 사진</label>

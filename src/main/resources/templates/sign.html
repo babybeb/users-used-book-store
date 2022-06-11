@@ -28,7 +28,7 @@
         const signEmail = document.getElementById("email").value;
         const signPassword = document.getElementById("password").value;
 
-        post("/sign", {
+        post("/api/sign", {
             email: signEmail,
             password: signPassword,
         })

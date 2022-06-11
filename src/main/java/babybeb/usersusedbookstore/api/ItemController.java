@@ -6,6 +6,7 @@ import babybeb.usersusedbookstore.api.dto.item.ItemResponse;
 import babybeb.usersusedbookstore.api.dto.item.SaveItemRequest;
 import babybeb.usersusedbookstore.api.dto.item.UpdateItemRequest;
 import babybeb.usersusedbookstore.domain.Book;
+import babybeb.usersusedbookstore.domain.DealStatus;
 import babybeb.usersusedbookstore.domain.Item;
 import babybeb.usersusedbookstore.service.ItemService;
 import babybeb.usersusedbookstore.service.MemberService;
@@ -38,6 +39,7 @@ public class ItemController {
     
     /**
      * Item 저장
+     *
      * @param memberId
      * @param request
      * @return itemId
@@ -66,6 +68,7 @@ public class ItemController {
     
     /**
      * Item 삭제
+     *
      * @param itemId
      * @return return itemId
      */
@@ -73,6 +76,11 @@ public class ItemController {
     @DeleteMapping("/{item_id}")
     public ResponseEntity<Long> deleteItem(
         @PathVariable("item_id") Long itemId) {
+        
+        Item findItem = itemService.findById(itemId);
+        if (findItem.getDealStatus().equals(DealStatus.SALE)) {
+            return new ResponseEntity("이미 거래 완료된 상품은 삭제할 수 없습니다.", HttpStatus.OK);
+        }
         
         itemService.deleteItem(itemId);
         saleService.cancelSale(itemId);
@@ -82,6 +90,7 @@ public class ItemController {
     
     /**
      * DealStatus 변경
+     *
      * @param itemId
      * @param request
      * @return "존재하지 않는 회원입니다." 또는 ItemResponse
@@ -98,14 +107,16 @@ public class ItemController {
             // 실재하는 회원인지 검사
             Long buyerId = 0l;
             String option = memberService.isAlreadyExists(request.getBuyerInfo());
-            if (option.isEqual("email")) { // option 값은 enum이나 int로 바꿔도 될듯?
+            if (option.equals("email")) { // option 값은 enum이나 int로 바꿔도 될듯?
                 buyerId = memberService.findByEmail(request.getBuyerInfo()).getId();
-            } else if (option.isEqual("phone")) {
+            } else if (option.equals("phone")) {
                 buyerId = memberService.findByPhoneNumber(request.getBuyerInfo()).getId();
             } else {
                 return new ResponseEntity("존재하지 않는 회원입니다.", HttpStatus.OK);
             }
             purchaseService.savePurchase(buyerId, findItem);
+        } else if (findItem.getDealStatus().equals(DealStatus.SALE)) {
+            return new ResponseEntity("이미 거래 완료된 상품에 대해서는 거래 상태를 변경할 수 없습니다.", HttpStatus.OK);
         }
         itemService.changeDealStatus(findItem, request.getDealStatus());
         
@@ -114,6 +125,7 @@ public class ItemController {
     
     /**
      * Item 수정
+     *
      * @param itemId
      * @param request
      * @return ItemResponse
@@ -127,12 +139,17 @@ public class ItemController {
         Item findItem = itemService.findById(itemId);
         itemService.updateItem(itemId, findItem.getBook(), request.getItemPrice(),
                                request.getItemCondition(), request.getDealArea());
+    
+        if (findItem.getDealStatus().equals(DealStatus.SALE)) {
+            return new ResponseEntity("이미 거래 완료된 상품에 대해서는 상품 상태를 변경할 수 없습니다.", HttpStatus.OK);
+        }
         
         return ResponseEntity.ok(ItemResponse.toItemResponse(itemService.findById(itemId)));
     }
     
     /**
      * Item 찾기
+     *
      * @param itemId
      * @return ItemResponse
      */

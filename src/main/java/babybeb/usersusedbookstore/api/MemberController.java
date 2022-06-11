@@ -116,12 +116,11 @@ public class MemberController {
     }
 
     //휴대폰 인증 API
-    @PostMapping("member/phone")
-    public MemberPhoneAuthResponse MemberPhone(
-            @RequestBody @Valid MemberPhoneAuthRequest request) {
+    @GetMapping("member/phone")
+    public MemberPhoneAuthResponse MemberPhone(@RequestParam String phoneNumber) {
         Random random = new Random();
         String authKey = String.valueOf(random.nextInt(8888) + 1111);
-        messageService.sendMessage(request.getPhoneNumber(), authKey);
+        messageService.sendMessage(phoneNumber, authKey);
         return new MemberPhoneAuthResponse(authKey);
     }
 }

@@ -2,6 +2,7 @@ package babybeb.usersusedbookstore.service;
 
 import babybeb.usersusedbookstore.MailUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class MailSendService {
 
     private final JavaMailSender mailSender;
     private int size;
+
+    @Value("${Email.fromEmail}")
+    private String fromEmail;
 
     /**
      * 인증키 생성
@@ -51,15 +55,13 @@ public class MailSendService {
         try{
             MailUtils sendMail = new MailUtils(mailSender);
             sendMail.setSubject("회원가입 이메일 인증");
-            sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
-                    .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.<p>")
-                    .append("<a href='http://localhost:8080/member/signUpConfirm?email=")
-                    .append(email)
-                    .append("&authKey=")
+            sendMail.setText(new StringBuffer().append("<h1>중고 서적 직거래 사이트</h1>")
+                    .append("<p>아래의 코드를 입력해서 회원가입을 완료합니다.<p>")
+                    .append("<P>authKey=")
                     .append(authKey)
-                    .append("' target='_blank'>이메일 인증 확인</a>")
+                    .append("</P>")
                     .toString());
-            sendMail.setFrom("Ur's ur", "중고 서적 직거래 사이트");
+            sendMail.setFrom(fromEmail, "중고 서적 직거래 사이트");
             sendMail.setTo(email);
             sendMail.send();
         } catch (MessagingException e){
@@ -67,7 +69,6 @@ public class MailSendService {
         } catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }
-
         return authKey;
     }
 }

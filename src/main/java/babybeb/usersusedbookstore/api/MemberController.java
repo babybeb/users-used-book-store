@@ -2,10 +2,7 @@ package babybeb.usersusedbookstore.api;
 
 import babybeb.usersusedbookstore.api.dto.book.BookResponse;
 import babybeb.usersusedbookstore.api.dto.member.*;
-import babybeb.usersusedbookstore.domain.Book;
-import babybeb.usersusedbookstore.domain.Item;
-import babybeb.usersusedbookstore.domain.Member;
-import babybeb.usersusedbookstore.domain.Sale;
+import babybeb.usersusedbookstore.domain.*;
 import babybeb.usersusedbookstore.domain.dto.MemberDto;
 import babybeb.usersusedbookstore.service.MailSendService;
 import babybeb.usersusedbookstore.service.MemberService;
@@ -22,6 +19,7 @@ import java.util.Random;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -32,7 +30,7 @@ public class MemberController {
      * API 부분
      */
     //회원가입 API
-    @PostMapping("/member/new")
+    @PostMapping("/new")
     public SaveMemberResponse saveMember(
             @RequestBody
             @Valid SaveMemberRequest request) {
@@ -43,7 +41,7 @@ public class MemberController {
     }
 
     //회원정보 수정 API
-    @PutMapping("/member/{id}")
+    @PutMapping("/{id}")
     public UpdateMemberResponse UpdateMember(
             @PathVariable("id") Long memberId,
             @RequestBody @Valid UpdateMemberRequest request) {
@@ -56,7 +54,7 @@ public class MemberController {
     }
 
     //회원정보 조회 API
-    @GetMapping("/member/{id}")
+    @GetMapping("/{id}")
     public MemberInfoResponse MemberInfo(@PathVariable("id") Long memberId) {
         Member findMember = memberService.findOne(memberId);
         return new MemberInfoResponse(findMember.getEmail(), findMember.getPassword(),
@@ -65,7 +63,7 @@ public class MemberController {
     }
 
     //회원탈퇴 API
-    @DeleteMapping("/member/{id}")
+    @DeleteMapping("/{id}")
     public MemberRemoveResponse MemberRemove(@PathVariable("id") Long memberId) {
         Member findMember = memberService.findOne(memberId);
         memberService.removeMember(findMember.getId());
@@ -73,50 +71,43 @@ public class MemberController {
     }
 
     //회원 판매 기록 조회 API
-    @GetMapping("member/{id}/sales")
+    @GetMapping("/{id}/sales")
     public ResponseEntity<List<MemberSalesResponse>> MemberSales(@PathVariable("id") Long memberId) {
         List<Sale> sales = memberService.findSales(memberId);
         List<MemberSalesResponse> result = new ArrayList<>();
         for (Sale sale : sales) {
             Item item = sale.getItem();
             result.add(MemberSalesResponse.toItemResponse(
-                    new Item(item.getBook(), item.getItemPrice(), item.getItemCondition(), item.getCreateDate(),
-                            item.getDealArea())));
+                    new ResponseItem(item.getBook(), item.getItemPrice(), item.getHit(),
+                            item.getItemCondition(), item.getDealArea(), item.getCreateDate())));
         }
         return ResponseEntity.ok(result);
     }
 
 
-    //회원 구매 기록 조회 API (미완성)
-//    @GetMapping("member/{id}/purchases")
-//    public MemberPurchasesResponse MemberPurchases(@PathVariable("id") Long id) {
-//        return new MemberPurchasesResponse();
-//    }
+    //회원 구매 기록 조회 API
+    @GetMapping("/{id}/purchases")
+    public ResponseEntity<List<MemberPurchasesResponse>> MemberPurchases(@PathVariable("id") Long memberId) {
+        List<Purchase> purchases = memberService.findPurchases(memberId);
+        List<MemberPurchasesResponse> result = new ArrayList<>();
+        for (Purchase purchase : purchases) {
+            Item item = purchase.getItem();
+            result.add(MemberPurchasesResponse.toItemResponse(
+                    new ResponseItem(item.getBook(), item.getItemPrice(), item.getHit(),
+                            item.getItemCondition(), item.getDealArea(), item.getCreateDate())));
+        }
+        return ResponseEntity.ok(result);
+    }
 
     //이메일 인증 API
-    @PostMapping("member/email")
-    public MemberEmailAuthResponse MemberEmail(
-            @RequestBody @Valid MemberEmailAuthRequest request) {
-        String authKey = mailSendService.sendAuthMail(request.getEmail());
+    @GetMapping("/email")
+    public MemberEmailAuthResponse MemberEmail(@RequestParam String email) {
+        String authKey = mailSendService.sendAuthMail(email);
         return new MemberEmailAuthResponse(authKey);
     }
 
-    //이메일 인증 확인 API
-    @GetMapping("/member/{email}/{authkey}")
-    public MemberEmailAuthAcceptResponse EmailAuthAccept(
-        @PathVariable("email") String email,
-        @PathVariable("authkey") String authKey){
-
-        Member findMember = memberService.findByEmail(email);
-        if(findMember.getEmailKey() == authKey){
-            return new MemberEmailAuthAcceptResponse(findMember.getName());
-        } else {
-            throw new IllegalStateException("인증이 안되었습니다.");
-        }
-    }
-
     //휴대폰 인증 API
-    @GetMapping("member/phone")
+    @GetMapping("/phone")
     public MemberPhoneAuthResponse MemberPhone(@RequestParam String phoneNumber) {
         Random random = new Random();
         String authKey = String.valueOf(random.nextInt(8888) + 1111);

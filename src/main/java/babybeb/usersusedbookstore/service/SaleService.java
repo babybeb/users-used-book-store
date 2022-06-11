@@ -18,31 +18,20 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final MemberRepository memberRepository;
-    private final ItemService itemService;
 
     /**
      * 판매 등록하기
      */
     @Transactional
-    public Long addSale(Long memberId, BookDto dto, int itemPrice, ItemCondition condition, LocalDateTime createTime,
-                        DealArea dealArea){
+    public Long addSale(Long memberId, Item item){
         //맴버 조회
         Member member = memberRepository.findOne(memberId);
-
-        //판매상품 정보 입력
-        Book book = new Book(dto.getIsbn(), dto.getTitle(), dto.getPrice(), dto.getPublisher(), dto.getAuthor(),
-                dto.getPage(), dto.getKdc(), dto.getCategory());
-
-        //판매상품 생성
-        Item item = new Item(book, itemPrice, condition, createTime, dealArea);
 
         //판매 생성
         Sale sale = Sale.createSale(member, item);
 
-        //판매정보 저장
-        itemService.saveItem(item);
         saleRepository.save(sale);
-        return item.getId();
+        return sale.getId();
     }
 
     /**
@@ -56,8 +45,8 @@ public class SaleService {
      * 판매 삭제하기
      */
     @Transactional
-    public void cancelSale(Long saleId){
-        Sale sale = saleRepository.findOne(saleId);
+    public void cancelSale(Long itemId){
+        Sale sale = saleRepository.findByItemId(itemId);
         saleRepository.removeSale(sale);
     }
 

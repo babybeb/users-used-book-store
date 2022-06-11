@@ -28,6 +28,11 @@ public class SaleRepository {
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
+    public Sale findByItemId(Long itemId){
+        return em.createQuery("select s from Sale s where s.item.id = :itemId", Sale.class)
+                .setParameter("itemId", itemId)
+                .getSingleResult();
+    }
 
     public void removeSale(Sale sale){
         em.remove(sale);

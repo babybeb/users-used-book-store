@@ -38,7 +38,7 @@ public class BookSearchController {
         }
         
         for (BookDto bookDto : bookDtoList) {
-            result.add(BookResponse.toItemResponse(
+            result.add(BookResponse.toBookResponse(
                 new Book(bookDto.getIsbn(), bookDto.getTitle(), bookDto.getPrice(),
                          bookDto.getPublisher(), bookDto.getAuthor(), bookDto.getPage(),
                          bookDto.getKdc(), bookDto.getCategory())));

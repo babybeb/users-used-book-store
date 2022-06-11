@@ -36,13 +36,13 @@ public class PurchaseService {
     /**
      * 구매 등록하기
      */
-//    @Transactional
-//    public Long savePurchase(Long memberId, Item item) {
-//        Member findMember = memberRepository.findOne(memberId);
-//        Purchase purchase = new Purchase(findMember, item);
-//        Long id = purchaseRepository.save(purchase);
-//        return id;
-//    }
+    @Transactional
+    public Long savePurchase(Long memberId, Item item) {
+        Member findMember = memberRepository.findOne(memberId);
+        Purchase purchase = new Purchase(findMember, item);
+        Long id = purchaseRepository.save(purchase);
+        return id;
+    }
     
     public Purchase findById(Long purchaseId) {
         return purchaseRepository.findOne(purchaseId);

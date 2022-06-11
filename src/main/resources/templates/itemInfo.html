@@ -40,14 +40,32 @@
                     alert("로그인 후에 이용해주세요");
                     location.replace("/home.html");
                 }
+
             })
             .catch((error) => {
                 console.log(error);
             });
     }
+
+    function changeDealStatus(){
+
+    }
 </script>
 <body>
-<h1>상품 정보</h1>
-<p id="nickname"></p>
+    <h1>상품 정보</h1>
+    <p id="nickname"></p>
+    <hr>
+    <p id="itemId"></p>
+    <p id="title"></p>
+    <p id="publisher"></p>
+    <p id="author"></p>
+    <p id="category"></p>
+    <p id="itemPrice"></p>
+    <p id="condition"></p>
+    <p id="date"></p>
+    <p id="status"></p>
+    <p id="dealArea"></p>
+    <p id="hit"></p>
+    <button type="button" onclick="changeDealStatus()">거래 상태 변경</button>
 </body>
 </html>

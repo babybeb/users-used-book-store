@@ -13,6 +13,7 @@ import babybeb.usersusedbookstore.service.MemberService;
 import babybeb.usersusedbookstore.service.PurchaseService;
 import babybeb.usersusedbookstore.service.SaleService;
 import io.swagger.annotations.ApiOperation;
+import java.io.UnsupportedEncodingException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -78,8 +79,9 @@ public class ItemController {
         @PathVariable("item_id") Long itemId) {
         
         Item findItem = itemService.findById(itemId);
-        if (findItem.getDealStatus().equals(DealStatus.SALE)) {
-            return new ResponseEntity("이미 거래 완료된 상품은 삭제할 수 없습니다.", HttpStatus.OK);
+        if (findItem.getDealStatus().equals(DealStatus.COMP)) {
+            return new ResponseEntity("Cannot delete products that have already been traded.",
+                                      HttpStatus.OK);
         }
         
         itemService.deleteItem(itemId);
@@ -112,11 +114,13 @@ public class ItemController {
             } else if (option.equals("phone")) {
                 buyerId = memberService.findByPhoneNumber(request.getBuyerInfo()).getId();
             } else {
-                return new ResponseEntity("존재하지 않는 회원입니다.", HttpStatus.OK);
+                return new ResponseEntity("Member does not exist.", HttpStatus.OK);
             }
             purchaseService.savePurchase(buyerId, findItem);
-        } else if (findItem.getDealStatus().equals(DealStatus.SALE)) {
-            return new ResponseEntity("이미 거래 완료된 상품에 대해서는 거래 상태를 변경할 수 없습니다.", HttpStatus.OK);
+        } else if (findItem.getDealStatus().equals(DealStatus.COMP)) {
+            return new ResponseEntity(
+                "Transaction status cannot be changed for products that have already been traded.",
+                HttpStatus.OK);
         }
         itemService.changeDealStatus(findItem, request.getDealStatus());
         
@@ -139,9 +143,11 @@ public class ItemController {
         Item findItem = itemService.findById(itemId);
         itemService.updateItem(itemId, findItem.getBook(), request.getItemPrice(),
                                request.getItemCondition(), request.getDealArea());
-    
-        if (findItem.getDealStatus().equals(DealStatus.SALE)) {
-            return new ResponseEntity("이미 거래 완료된 상품에 대해서는 상품 상태를 변경할 수 없습니다.", HttpStatus.OK);
+        
+        if (findItem.getDealStatus().equals(DealStatus.COMP)) {
+            return new ResponseEntity(
+                "Cannot change the product status for products that have already been traded.",
+                HttpStatus.OK);
         }
         
         return ResponseEntity.ok(ItemResponse.toItemResponse(itemService.findById(itemId)));

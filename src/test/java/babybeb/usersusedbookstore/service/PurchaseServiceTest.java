@@ -50,3 +50,4 @@
 ////        assertEquals("판매자 평가 점수는 80점이다.",80,memberService.findOne(member2).getScore());
 //    }
 //}
+//}

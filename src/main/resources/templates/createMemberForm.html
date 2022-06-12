@@ -49,8 +49,17 @@
             authButton.innerHTML = "인증";
             parent.appendChild(authButton);
 
+            //임시 인증 키
             emailAuthKey = "4231";
+
             //이메일 인증 키 받는 API 호출
+            // get("/api/member/email?email="+email, {})
+            //     .then((data) => {
+            //         emailAuthKey = data.authKey;
+            //     })
+            //     .catch((error) => {
+            //         console.log(error);
+            //     });
         }
     }
 
@@ -95,7 +104,7 @@
             //휴대폰 인증 키 받는 API 호출(요금 문제로 닫아놓음)
             // get("/api/member/phone?phoneNumber="+phoneNumber, {})
             //     .then((data) => {
-            //         authKey = data.authKey;
+            //         phoneAuthKey = data.authKey;
             //     })
             //     .catch((error) => {
             //         console.log(error);

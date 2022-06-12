@@ -33,4 +33,12 @@ public class SaleController {
         Member buyer = memberService.findOne(request.getBuyerId());
         return new RateBuyerResponse(buyer.getNickname(), request.getRate());
     }
+
+    //아이템으로 판매 검색하기 API
+    @GetMapping("{itemId}")
+    public SaleToItemResponse SaleToItem(@PathVariable("itemId") Long itemId){
+        Sale sale = saleService.findByItem(itemId);
+        Member member = sale.getMember();
+        return new SaleToItemResponse(member.getNickname(), member.getPhoneNumber(), member.getEmail());
+    }
 }

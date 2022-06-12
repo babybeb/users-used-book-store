@@ -40,4 +40,9 @@ public class ItemSearchService {
 //        return itemSearchRepository.findAllByDealArea(new DealArea(First.valueOf(first), Second.valueOf(second)));
         return itemSearchRepository.findByDealAreaFirstAndDealAreaSecond(First.valueOf(first), Second.valueOf(second));
     }
+    
+    public List<Item> findAllByDealArea(String first) {
+        System.out.println("second가 비어있음");
+        return itemSearchRepository.findByDealAreaFirst(First.valueOf(first));
+    }
 }

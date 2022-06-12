@@ -42,17 +42,12 @@ jobs:
           secretKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           bucket: ${{ secrets.BUCKET }}
           aws-region: ap-northeast-2
-          
-#         # ISBN, MAIL, PHONE
-#       - name: ISBN, MAIL, PHONE
-#         uses: 
-#         with:
           apiKey: ${{ secrets.APIKEY }}
           apiSecret: ${{ secrets.APISECRET }}
           certKey: ${{ secrets.CERTKEY }}
           emailPassWord : ${{ secrets.EMAILPASSWORD }}
           fromEmail : ${{ secrets.FROMEMAIL }}
-          fromNumber : ${{ secrets.FROMNUMBER }}}          
+          fromNumber : ${{ secrets.FROMNUMBER }} 
         
       - name: Build with Gradle
         run: ./gradlew clean build

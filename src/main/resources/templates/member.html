@@ -85,17 +85,6 @@
         window.open("updateMember.html", "_self");
     }
 
-    function deleteMember(){
-        del("/api/member/"+memberId, {})
-            .then((data) => {
-                alert("회원 탈퇴가 완료되었습니다.");
-                location.replace("home.html");
-            })
-            .catch((error) => {
-               console.log=(error);
-            });
-    }
-
     function salesList(){
         window.open("saleList.html", "_self");
     }
@@ -124,7 +113,6 @@
             <button type="button" onclick="salesList()">판매목록보기</button>
             <button type="button" onclick="purchaseList()">구매목록보기</button>
             <button type="button" onclick="updateMember()">내 정보 수정</button><br>
-            <button type="button" onclick="deleteMember()">회원탈퇴</button>
         </form>
     </section>
 </body>

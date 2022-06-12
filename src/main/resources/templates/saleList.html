@@ -114,6 +114,15 @@
                 console.log(error);
             });
     }
+
+    function selectSale(e){
+        const parent = e.parentElement;
+        var temp = []
+        temp = parent.childNodes[0].innerHTML.split(": ");
+        const itemId = temp[1];
+        sessionStorage.setItem("itemId", itemId);
+        window.open("itemInfo.html", "_self");
+    }
 </script>
 <body>
     <h1>판매 목록</h1>

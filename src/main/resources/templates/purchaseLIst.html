@@ -43,10 +43,70 @@
                 }
                 get("/api/member/"+memberId+"/purchases", {})
                     .then((data) => {
+                        const board = document.getElementById("container");
 
+                        if(data.length == 0){
+                            const PurchaseList = document.createElement("form");
+                            const text = document.createElement("p");
+                            text.innerHTML = "상품이 없습니다.";
+                            PurchaseList.appendChild(text);
+                            board.appendChild(PurchaseList);
+                        }
+
+                        for(var i = 0; i < data.length; i++){
+                            const PurchaseList = document.createElement("form");
+                            PurchaseList.setAttribute("id", "bookForm"+i.toString());
+
+                            const itemId = document.createElement("p");
+                            itemId.innerHTML = "itemId: "+data[i].id;
+                            PurchaseList.appendChild(itemId);
+
+                            const title = document.createElement("p");
+                            title.innerHTML = "title: "+data[i].title;
+                            PurchaseList.appendChild(title);
+
+                            const price = document.createElement("p");
+                            price.innerHTML = "price: "+data[i].price;
+                            PurchaseList.appendChild(price);
+
+                            const itemCondition = document.createElement("p");
+                            itemCondition.innerHTML = "itemCondition: "+data[i].itemCondition;
+                            PurchaseList.appendChild(itemCondition);
+
+                            const hit = document.createElement("p");
+                            hit.innerHTML = "hit: "+data[i].hit;
+                            PurchaseList.appendChild(hit);
+
+                            const dealArea = document.createElement("p");
+                            dealArea.innerHTML = "dealArea: "+data[i].dealArea.first+", "+
+                                data[i].dealArea.second;
+                            PurchaseList.appendChild(dealArea);
+
+                            const dealStatus = document.createElement("p");
+                            dealStatus.innerHTML = "dealStatus: "+data[i].dealStatus;
+                            PurchaseList.appendChild(dealStatus);
+
+                            const date = document.createElement("p");
+                            date.innerHTML = "date: "+data[i].createDate[0]+"년 "
+                                +data[i].createDate[1]+"월 " +data[i].createDate[2]+"일 "
+                                +data[i].createDate[3]+"시 " +data[i].createDate[4]+"분 "
+                                +data[i].createDate[5]+"초 ";
+                            PurchaseList.appendChild(date);
+
+                            const selectButton = document.createElement("button");
+                            selectButton.setAttribute("type", "button");
+                            selectButton.setAttribute("onclick", "selectSale(this)");
+                            selectButton.innerHTML = "판매 보기";
+                            PurchaseList.appendChild(selectButton);
+
+                            const line = document.createElement("hr");
+                            PurchaseList.appendChild(line);
+
+                            board.appendChild(PurchaseList);
+                        }
                     })
                     .catch((error) => {
-
+                        console.log(error);
                     });
             })
             .catch((error) => {

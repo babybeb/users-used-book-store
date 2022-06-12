@@ -72,17 +72,17 @@
     }
 
     function saveSale(){
-        const price = document.getElementById("price").value;
+        const price = parseInt(document.getElementById("price").value);
         const condition = document.getElementById("condition").value;
         const isbn = sessionStorage.getItem("isbn");
         const title = sessionStorage.getItem("title");
-        const bookPrice = sessionStorage.getItem("bookPrice");
-        const publisher = sessionStorage.getItem("publish");
+        const bookPrice = parseInt(sessionStorage.getItem("bookPrice"));
+        const publisher = sessionStorage.getItem("publisher");
         const author = sessionStorage.getItem("author");
         const page = sessionStorage.getItem("page");
         const kdc = sessionStorage.getItem("kdc");
-        const Category = sessionStorage.getItem("category");
-        const DealArea = sessionStorage.getItem("dealArea");
+        const category = sessionStorage.getItem("category");
+        const dealArea = "";
 
         postPut("/api/items/"+memberId, "POST",{
             price: price,
@@ -94,8 +94,8 @@
             author: author,
             page: page,
             kdc: kdc,
-            Category: Category,
-            DealArea: DealArea,
+            Category: category,
+            DealArea: dealArea,
         })
             .then((data) => {
                 console.log(data);

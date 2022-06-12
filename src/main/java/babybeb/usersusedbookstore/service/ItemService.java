@@ -43,12 +43,6 @@ public class ItemService {
         return itemRepository.delete(itemId);
     }
     
-//    private void savePurchase(Long buyerId, Item findItem) {
-//        Member findMember = memberRepository.findOne(buyerId);
-//        Purchase purchase = new Purchase(findMember, findItem);
-//        purchaseRepository.save(purchase);
-//    }
-    
     @Transactional
     public void updateItem(Long itemId, Book book, int itemPrice, ItemCondition itemCondition,
                            DealArea dealArea) {
@@ -60,6 +54,7 @@ public class ItemService {
         findItem.changeDealArea(dealArea);
     }
     
+    @Transactional
     public Item findById(Long itemId) {
     
         Item item = itemRepository.findOne(itemId);

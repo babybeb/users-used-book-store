@@ -6,7 +6,8 @@
 <img src="https://img.shields.io/badge/Hibernate-59666C?style=flat-square&logo=Hibernate&logoColor=white"/></a>
 </br>
 <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logoColor=white"/></a></br>
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logoColor=white"/></a></br>
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/H2-4479A1?style=flat-square&logoColor=white"/></a></br>
 
 ### Use Case Diagram
 ![Use Case Diagram](./documents/Use_Case_Diagram.png)

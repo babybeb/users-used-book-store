@@ -108,7 +108,7 @@ public class BookSearchService {
             case '0':
                 category = Category.총류;
                 break;
-                
+            
             case '1':
                 category = Category.철학;
                 break;
@@ -182,7 +182,8 @@ public class BookSearchService {
      */
     private int adjustPrePrice(String originPrePrice) {
         
-        if (originPrePrice.equals("비매품/무료") || originPrePrice.equals("미정") || originPrePrice.equals("세트가미정")
+        if (originPrePrice.equals("비매품/무료") || originPrePrice.equals("미정")
+            || originPrePrice.equals("세트가미정") || originPrePrice.equals("비매품")
             || originPrePrice.isEmpty()) {
             return 0;
         } else {

@@ -71,10 +71,16 @@ public class ItemSearchController {
     
     @ApiOperation(value = "주소별 Item List 반환", notes = "주소별 Item List를 반환합니다. 주소의 이름을 first, second 별로 String으로 받습니다.")
     @GetMapping("/dealarea")
-    public List<ItemDto> findItemsByDealArea(@RequestParam("first") @NotEmpty String first,
-                                             @RequestParam("second") @NotEmpty String second) {
-        
-        List<Item> findItems = itemSearchService.findAllByDealArea(first, second);
+    public List<ItemDto> findItemsByDealArea(@RequestParam @NotEmpty String first,
+                                             @RequestParam(required = false) String second) {
+    
+        List<Item> findItems;
+        if (second == null) {
+            System.out.println("second가 비어있음");
+            findItems = itemSearchService.findAllByDealArea(first);
+        } else {
+            findItems = itemSearchService.findAllByDealArea(first, second);
+        }
         List<ItemDto> result = findItems.stream()
             .map(i -> new ItemDto(i.getId(), i.getBook(), i.getItemPrice(), i.getItemCondition(),
                                   i.getCreateDate(), i.getDealStatus(), i.getDealArea(),

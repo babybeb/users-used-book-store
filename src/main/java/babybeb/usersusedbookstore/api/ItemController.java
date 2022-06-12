@@ -61,13 +61,22 @@ public class ItemController {
                              request.getPublisher(), request.getAuthor(), request.getPage(),
                              request.getKdc(),
                              Category.valueOf(request.getCategory()));
-        CreateItemDto createItemDto = new CreateItemDto(book, request.getPrice(),
-                                                        ItemCondition.valueOf(
-                                                            request.getItemCondition()),
-                                                        new DealArea(
-                                                            First.valueOf(request.getFirst()),
-                                                            Second.valueOf(request.getSecond())));
-        
+        CreateItemDto createItemDto;
+        if (request.getSecond() == "") {
+            createItemDto = new CreateItemDto(book, request.getPrice(),
+                                              ItemCondition.valueOf(
+                                                  request.getItemCondition()),
+                                              new DealArea(
+                                                  First.valueOf(request.getFirst())));
+        } else {
+            createItemDto = new CreateItemDto(book, request.getPrice(),
+                                              ItemCondition.valueOf(
+                                                  request.getItemCondition()),
+                                              new DealArea(
+                                                  First.valueOf(request.getFirst()),
+                                                  Second.valueOf(
+                                                      request.getSecond())));
+        }
         Long itemId = itemService.saveItem(createItemDto);
         
         saleService.addSale(memberId, itemService.findById(itemId));

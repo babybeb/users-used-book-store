@@ -19,4 +19,6 @@ public interface ItemSearchRepository extends JpaRepository<Item, Long> {
 //    public List<Item> findAllByDealArea(DealArea dealArea);
     
     public List<Item> findByDealAreaFirstAndDealAreaSecond(First first, Second second);
+    
+    public List<Item> findByDealAreaFirst(First first);
 }

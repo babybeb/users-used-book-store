@@ -84,7 +84,7 @@
         const Category = sessionStorage.getItem("category");
         const DealArea = sessionStorage.getItem("dealArea");
 
-        postPut("/items/"+memberId, "POST",{
+        postPut("/api/items/"+memberId, "POST",{
             price: price,
             itemCondition: condition,
             isbn: isbn,

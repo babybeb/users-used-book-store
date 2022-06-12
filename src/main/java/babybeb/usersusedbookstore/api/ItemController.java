@@ -6,14 +6,18 @@ import babybeb.usersusedbookstore.api.dto.item.ItemResponse;
 import babybeb.usersusedbookstore.api.dto.item.SaveItemRequest;
 import babybeb.usersusedbookstore.api.dto.item.UpdateItemRequest;
 import babybeb.usersusedbookstore.domain.Book;
+import babybeb.usersusedbookstore.domain.Category;
 import babybeb.usersusedbookstore.domain.DealStatus;
 import babybeb.usersusedbookstore.domain.Item;
+import babybeb.usersusedbookstore.domain.ItemCondition;
+import babybeb.usersusedbookstore.domain.dealarea.DealArea;
+import babybeb.usersusedbookstore.domain.dealarea.First;
+import babybeb.usersusedbookstore.domain.dealarea.Second;
 import babybeb.usersusedbookstore.service.ItemService;
 import babybeb.usersusedbookstore.service.MemberService;
 import babybeb.usersusedbookstore.service.PurchaseService;
 import babybeb.usersusedbookstore.service.SaleService;
 import io.swagger.annotations.ApiOperation;
-import java.io.UnsupportedEncodingException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,7 +49,9 @@ public class ItemController {
      * @param request
      * @return itemId
      */
-    @ApiOperation(value = "memberId와 SaveItemRequest를 받아 Item 저장")
+    @ApiOperation(value = "memberId와 SaveItemRequest를 받아 Item 저장", notes = "json 형식: int price, "
+        + "String itemCondition, String isbn, String title, int bookPrice, String publisher, "
+        + "String author, int page, String kdc, String category, String first, String second")
     @PostMapping("/{member_id}")
     public ResponseEntity<Long> saveItem(
         @PathVariable("member_id") Long memberId,
@@ -54,10 +60,13 @@ public class ItemController {
         Book book = new Book(request.getIsbn(), request.getTitle(), request.getBookPrice(),
                              request.getPublisher(), request.getAuthor(), request.getPage(),
                              request.getKdc(),
-                             request.getCategory());
+                             Category.valueOf(request.getCategory()));
         CreateItemDto createItemDto = new CreateItemDto(book, request.getPrice(),
-                                                        request.getItemCondition(),
-                                                        request.getDealArea());
+                                                        ItemCondition.valueOf(
+                                                            request.getItemCondition()),
+                                                        new DealArea(
+                                                            First.valueOf(request.getFirst()),
+                                                            Second.valueOf(request.getSecond())));
         
         Long itemId = itemService.saveItem(createItemDto);
         

@@ -1,6 +1,7 @@
 package babybeb.usersusedbookstore.api.dto.member;
 
 import babybeb.usersusedbookstore.domain.Book;
+import babybeb.usersusedbookstore.domain.DealStatus;
 import babybeb.usersusedbookstore.domain.ItemCondition;
 import babybeb.usersusedbookstore.domain.dealarea.DealArea;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,11 @@ public class ResponseItem {
     private Book book;
 
     //아이템 정보
+    private Long id;
     private int price;
     private int hit;
     private ItemCondition itemCondition;
     private DealArea dealArea;
     private LocalDateTime createDate;
+    private DealStatus dealStatus;
 }

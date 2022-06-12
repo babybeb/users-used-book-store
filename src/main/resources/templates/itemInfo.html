@@ -29,6 +29,24 @@
         }
     }
 
+    async function del(path, headers = {}){
+        const url = path;
+        const options = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
     async function patch(path, body, headers = {}){
         const url = path;
         const options = {
@@ -108,6 +126,7 @@
                                         changeStatusReserve.setAttribute("onclick", "changeDealStatusReserved()");
                                         changeStatusReserve.innerHTML = "거래 예약";
                                         board.appendChild(changeStatusReserve);
+
                                     } else if(status === "RESERVED"){
                                         const changeStatusSale = document.createElement("button");
                                         changeStatusSale.setAttribute("type", "button");
@@ -177,6 +196,17 @@
             })
             .catch((error) => {
                 console.log(error);
+            });
+    }
+
+    function delItem(){
+        del("/api/items/"+itemId, {})
+            .then((data) => {
+                alert("삭제가 완료되었습니다.");
+                location.replace("home.html");
+            })
+            .catch((error) => {
+               console.log(error);
             });
     }
 </script>

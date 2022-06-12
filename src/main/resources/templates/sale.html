@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>판매 등록하기</title>
-</head>
-<script>
-    //onload function 으로 start 를 지정
-    window.onload = start;
-    var memberId;
-    var selectBook = false;
+    <head>
+        <meta charset="UTF-8">
+        <title>판매 등록하기</title>
+    </head>
+    <script>
+        //onload function 으로 start 를 지정
+        window.onload = start;
+        var memberId;
+        var selectBook = false;
 
-    async function postPut(path, method, body, headers = {}){
-        const url = path;
-        const options = {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-                ...headers,
-            },
-            body: JSON.stringify(body),
-        };
-        const res = await fetch(url, options);
-        const data = await res.json();
-        if(res.ok){
-            return data;
-        } else {
-            throw Error(data);
+        async function postPut(path, method, body, headers = {}) {
+            const url = path;
+            const options = {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json",
+                    ...headers,
+                },
+                body: JSON.stringify(body),
+            };
+            const res = await fetch(url, options);
+            const data = await res.json();
+            if (res.ok) {
+                return data;
+            } else {
+                throw Error(data);
+            }
         }
-    }
 
-    async function get(path, headers = {}){
-        const url = path;
-        const options = {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                ...headers,
-            },
-        };
-        const res = await fetch(url, options);
-        const data = await res.json();
-        if(res.ok){
-            return data;
-        } else {
-            throw Error(data);
+        async function postData(url = '', data = {}) {
+            // 옵션 기본 값은 *로 강조
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE 등
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data), // body의 데이터 유형은 반드시 "Content-Type" 헤더와 일치해야 함
+            });
+            return response.json(); // JSON 응답을 네이티브 JavaScript 객체로 파싱
         }
-    }
 
-    //onload function
-    function start(){
-        const book = document.getElementById("book");
-        const title = sessionStorage.getItem("title");
-        if(title !== ""){
-            book.innerHTML = sessionStorage.getItem("title");
+        async function get(path, headers = {}) {
+            const url = path;
+            const options = {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...headers,
+                },
+            };
+            const res = await fetch(url, options);
+            const data = await res.json();
+            if (res.ok) {
+                return data;
+            } else {
+                throw Error(data);
+            }
         }
-        get("/api/sign/session", {})
+
+        //onload function
+        function start() {
+            const book = document.getElementById("book");
+            const title = sessionStorage.getItem("title");
+            if (title !== "") {
+                book.innerHTML = sessionStorage.getItem("title");
+            }
+            get("/api/sign/session", {})
             .then((data) => {
                 //로그인상태인지 확인하는 매핑(로그인 시 nickname 반환, 아니면 "" 반환)
-                if(data.nickname != "" && data.nickname != null){
+                if (data.nickname != "" && data.nickname != null) {
                     const target = document.getElementById("nickname");
-                    target.innerHTML = data.nickname+" 님";
+                    target.innerHTML = data.nickname + " 님";
                     memberId = data.memberId;
                 } else {
                     alert("로그인 후에 이용해주세요");
@@ -69,158 +87,215 @@
             .catch((error) => {
                 console.log(error);
             });
-    }
+        }
 
-    function saveSale(){
-        const price = parseInt(document.getElementById("price").value);
-        const condition = document.getElementById("condition").value;
-        const isbn = sessionStorage.getItem("isbn");
-        const title = sessionStorage.getItem("title");
-        const bookPrice = parseInt(sessionStorage.getItem("bookPrice"));
-        const publisher = sessionStorage.getItem("publisher");
-        const author = sessionStorage.getItem("author");
-        const page = sessionStorage.getItem("page");
-        const kdc = sessionStorage.getItem("kdc");
-        const category = sessionStorage.getItem("category");
-        const dealArea = "";
+        function saveSale() {
+            const price = parseInt(document.getElementById("price").value);
+            const condition = document.getElementById("condition").value;
+            const isbn = sessionStorage.getItem("isbn");
+            const title = sessionStorage.getItem("title");
+            const bookPrice = parseInt(sessionStorage.getItem("bookPrice"));
+            const publisher = sessionStorage.getItem("publisher");
+            const author = sessionStorage.getItem("author");
+            const page = sessionStorage.getItem("page");
+            const kdc = sessionStorage.getItem("kdc");
+            const category = sessionStorage.getItem("category");
+            // const first = sessionStorage.getItem("first");
+            // const second = sessionStorage.getItem("second");
 
-        postPut("/api/items/"+memberId, "POST",{
-            price: price,
-            itemCondition: condition,
-            isbn: isbn,
-            title: title,
-            bookPrice: bookPrice,
-            publisher: publisher,
-            author: author,
-            page: page,
-            kdc: kdc,
-            Category: category,
-            DealArea: dealArea,
-        })
+            // 임시로 지역 설정함. 폼에 지역 선택하는 거 추가해야 합니다.
+            const first = "충청남도";
+            const second = "아산시";
+            console.log(price);
+            console.log(condition);
+            console.log(isbn);
+            console.log(title);
+            console.log(bookPrice);
+            console.log(publisher);
+            console.log(author);
+            console.log(page);
+            console.log(kdc);
+            console.log(category);
+            console.log(first);
+            console.log(second);
+
+            // 예전 코드 주석처리함. 필요하면 주석 풀어서 사용하세요.
+            //   postPut("/api/items/" + memberId, "POST", {
+            //     price: price,
+            //     itemCondition: condition,
+            //     isbn: isbn,
+            //     title: title,
+            //     bookPrice: bookPrice,
+            //     publisher: publisher,
+            //     author: author,
+            //     page: page,
+            //     kdc: kdc,
+            //     category: category,
+            //     first: first,
+            //     second: second
+            //   })
+            //   .then(response)
+            //   .then((data) => {
+            //     console.log(data)
+            //     console.log(data.itemId);
+            //     //이미지 등록 부분
+            //     const itemId = data.itemId;
+            //     const imageCount = document.getElementById("bookImage").childElementCount;
+            //     for (var i = 0; i < imageCount; i++) {
+            //       const image = document.getElementById("inputFile" + i).value;
+            //       postPut("/item/" + itemId + "/images", "POST", {
+            //         multipartFiles: image,
+            //       })
+            //       .then((data) => {
+            //         console.log(data.id);
+            //       })
+            //       .catch((error) => {
+            //         console.log(error);
+            //       })
+            //     }
+            //   })
+            //   .catch((error) => {
+            //     console.log(error);
+            //   });
+            // }
+
+            postData("/api/items/" + memberId,
+                {
+                    price: price,
+                    itemCondition: condition,
+                    isbn: isbn,
+                    title: title,
+                    bookPrice: bookPrice,
+                    publisher: publisher,
+                    author: author,
+                    page: page,
+                    kdc: kdc,
+                    category: category,
+                    first: first,
+                    second: second
+                })
             .then((data) => {
                 console.log(data);
                 //이미지 등록 부분
-                const itemId = data.itemId;
+                const itemId = data; // 여기까지 잘됨
                 const imageCount = document.getElementById("bookImage").childElementCount;
                 for(var i = 0; i < imageCount; i++){
                     const image = document.getElementById("inputFile"+i).value;
                     postPut("/item/"+itemId+"/images", "POST", {
                         multipartFiles: image,
                     })
-                        .then((date) => {
-                            console.log(data.id);
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+                    .then((date) => {
+                        console.log(data.id);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
                 }
             })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+        }
 
-    function bookInfo(){
-        window.open("bookSearch.html", "_self");
-        selectBook = true;
-    }
+        function bookInfo() {
+            window.open("bookSearch.html", "_self");
+            selectBook = true;
+        }
 
-    function loadFiles(e){
-        const file = e.files[0];
-        const child = e.parentElement.parentElement.childNodes;
-        const container = child[1];
-        const childCount = container.childElementCount
-        if(childCount != 0){
-            const temp = container.childNodes;
-            for(var i = 0; i < childCount ; i++){
-                container.removeChild(temp[i]);
+        function loadFiles(e) {
+            const file = e.files[0];
+            const child = e.parentElement.parentElement.childNodes;
+            const container = child[1];
+            const childCount = container.childElementCount
+            if (childCount != 0) {
+                const temp = container.childNodes;
+                for (var i = 0; i < childCount; i++) {
+                    container.removeChild(temp[i]);
+                }
+            }
+            const newImage = document.createElement("img");
+            newImage.setAttribute("class", "img");
+            newImage.src = URL.createObjectURL(file);
+            newImage.style.width = "100px";
+            newImage.style.height = "100px";
+
+            container.appendChild(newImage);
+        }
+
+        function addInput() {
+            const parent = document.getElementById("table");
+            const childCount = parent.childElementCount;
+
+            if (childCount >= 5) {
+                alert("사진은 5개 까지만 올릴 수 있습니다.");
+            } else {
+                const tr = document.createElement("tr");
+                const table = document.getElementById("table");
+                table.appendChild(tr);
+
+                const td1 = document.createElement("td");
+                td1.setAttribute("id", "td1" + childCount.toString());
+                tr.appendChild(td1);
+                const td2 = document.createElement("td");
+                td2.setAttribute("id", "td2" + childCount.toString());
+                tr.appendChild(td2);
+
+                const inputLabel = document.createElement("label");
+                inputLabel.setAttribute("class", "input");
+                inputLabel.setAttribute("for", "inputFile" + childCount.toString());
+                inputLabel.innerHTML = "사진 업로드";
+
+                const newInput = document.createElement("input");
+                newInput.setAttribute("type", "file");
+                newInput.setAttribute("name", "bookImage");
+                newInput.setAttribute("accept", "image/*");
+                newInput.setAttribute("onchange", "loadFiles(this)");
+                newInput.setAttribute("id", "inputFile" + childCount.toString());
+                newInput.setAttribute("style", "display:none");
+
+                td1.appendChild(inputLabel);
+                td1.appendChild(newInput);
             }
         }
-        const newImage = document.createElement("img");
-        newImage.setAttribute("class", "img");
-        newImage.src = URL.createObjectURL(file);
-        newImage.style.width = "100px";
-        newImage.style.height = "100px";
+    </script>
+    <body>
+        <h1>판매 등록화면</h1>
+        <section class="user" id="user">
+            <p id="nickname"></p>
+        </section>
+        <section class="sale" id="board">
+            <label for="price">가격:</label>
+            <input type="text" id="price" class="form-control" required><br><br>
 
-        container.appendChild(newImage);
-    }
+            <hr>
+            <label for="condition">상품 상태</label>
+            <select name="condition" id="condition" required>
+                <option value="MINT">매우 좋음</option>
+                <option value="VERY_GOOD">좋음</option>
+                <option value="GOOD">보통</option>
+                <option value="NOT_GOOD">나쁨</option>
+                <option value="BAD">매우나쁨</option>
+            </select>
+            <p>매우 좋음 : 미개봉 혹은 책이 새것같은 상태</p>
+            <p>좋음 : 사용감은 있지만 구성품이 모두 있고 책 상태가 매우 좋음</p>
+            <p>보통 : 사용감이 있고 구성품이 전부 있진 않지만 책 상태가 좋음</p>
+            <p>안좋음 : 사용감이 있고 책 상태가 좋지 않음. 또는 책에 낙서가 있음.</p>
+            <p>나쁨 : 사용감이 있고 책 상태가 나쁨. 단, 책을 읽는 데 문제가 없으며 상품으로서의 가치가 남아있어야 함.</p>
+            <hr>
 
-    function addInput(){
-        const parent = document.getElementById("table");
-        const childCount = parent.childElementCount;
+            <div>
+                선택된 책 : <span id="book">없음</span>
+                <button type="button" onclick="bookInfo()">책 검색</button>
+                <br>
+            </div>
+            <hr>
 
-        if(childCount >= 5){
-            alert("사진은 5개 까지만 올릴 수 있습니다.");
-        } else {
-            const tr = document.createElement("tr");
-            const table = document.getElementById("table");
-            table.appendChild(tr);
+            <label for="bookImage">책 사진</label>
+            <div id="bookImage">
+                <table id="table">
+                </table>
+            </div>
+            <button type="button" onclick="addInput()">파일추가</button>
 
-            const td1 = document.createElement("td");
-            td1.setAttribute("id", "td1"+childCount.toString());
-            tr.appendChild(td1);
-            const td2 = document.createElement("td");
-            td2.setAttribute("id", "td2"+childCount.toString());
-            tr.appendChild(td2);
-
-            const inputLabel = document.createElement("label");
-            inputLabel.setAttribute("class", "input");
-            inputLabel.setAttribute("for", "inputFile"+childCount.toString());
-            inputLabel.innerHTML = "사진 업로드";
-
-            const newInput = document.createElement("input");
-            newInput.setAttribute("type", "file");
-            newInput.setAttribute("name", "bookImage");
-            newInput.setAttribute("accept", "image/*");
-            newInput.setAttribute("onchange", "loadFiles(this)");
-            newInput.setAttribute("id", "inputFile"+childCount.toString());
-            newInput.setAttribute("style", "display:none");
-
-            td1.appendChild(inputLabel);
-            td1.appendChild(newInput);
-        }
-    }
-</script>
-<body>
-    <h1>판매 등록화면</h1>
-    <section class="user" id="user">
-        <p id="nickname"></p>
-    </section>
-    <section class="sale" id="board">
-        <label for="price">가격:</label>
-        <input type="text" id="price" class="form-control" required><br><br>
-
-        <hr>
-        <label for="condition">상품 상태</label>
-        <select name = "condition" id="condition" required>
-            <option value="mint">매우 좋음</option>
-            <option value="veryGood">좋음</option>
-            <option value="good">보통</option>
-            <option value="notGood">나쁨</option>
-            <option value="bad">매우나쁨</option>
-        </select>
-        <p>매우 좋음 : 미개봉 혹은 책이 새것같은 상태</p>
-        <p>좋음 : 사용감은 있지만 구성품이 모두 있고 책 상태가 매우 좋음</p>
-        <p>보통 : 사용감이 있고 구성품이 전부 있진 않지만 책 상태가 좋음</p>
-        <p>안좋음 : 사용감이 있고 책 상태가 좋지 않음. 또는 책에 낙서가 있음.</p>
-        <p>나쁨 : 사용감이 있고 책 상태가 나쁨. 단, 책을 읽는 데 문제가 없으며 상품으로서의 가치가 남아있어야 함.</p>
-        <hr>
-
-        <div>
-            선택된 책 : <span id="book">없음</span>
-            <button type="button" onclick="bookInfo()">책 검색</button><br>
-        </div>
-        <hr>
-
-        <label for="bookImage">책 사진</label>
-        <div id="bookImage">
-            <table id="table">
-            </table>
-        </div>
-        <button type="button" onclick="addInput()">파일추가</button>
-
-        <hr>
-        <button type="button" onclick="saveSale()">판매 등록</button>
-    </section>
-</body>
+            <hr>
+            <button type="button" onclick="saveSale()">판매 등록</button>
+        </section>
+    </body>
 </html>

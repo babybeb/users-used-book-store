@@ -8,6 +8,8 @@
     //onload function 으로 start 를 지정
     window.onload = start;
     var memberId;
+    var itemId;
+    var status;
 
     async function get(path, headers = {}){
         const url = path;
@@ -17,6 +19,25 @@
                 "Content-Type": "application/json",
                 ...headers,
             },
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
+    async function patch(path, body, headers = {}){
+        const url = path;
+        const options = {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+            body: JSON.stringify(body),
         };
         const res = await fetch(url, options);
         const data = await res.json();
@@ -40,15 +61,123 @@
                     alert("로그인 후에 이용해주세요");
                     location.replace("/home.html");
                 }
+                itemId = sessionStorage.getItem("itemId");
+                get("/api/items/"+itemId, {})
+                    .then((data) => {
+                        status = data.dealStatus;
+                        document.getElementById("itemId").innerHTML = "itemId: "+ data.id;
+                        document.getElementById("title").innerHTML = "title: "+ data.book.title;
+                        document.getElementById("publisher").innerHTML = "publisher: "+ data.book.publisher;
+                        document.getElementById("author").innerHTML = "author: "+ data.book.author;
+                        document.getElementById("category").innerHTML = "category: "+ data.book.category;
+                        document.getElementById("itemPrice").innerHTML = "itemPrice: "+ data.itemPrice;
+                        document.getElementById("condition").innerHTML = "condition: "+ data.itemCondition;
+                        document.getElementById("date").innerHTML = "date: "+ data.createDate[0]+"년 "
+                            +data.createDate[1]+"월 " +data.createDate[2]+"일 "
+                            +data.createDate[3]+"시 " +data.createDate[4]+"분 "
+                            +data.createDate[5]+"초 ";
+                        document.getElementById("status").innerHTML = "status: "+ data.dealStatus;
+                        document.getElementById("dealArea").innerHTML = "dealArea: "+ data.dealArea.first+", "+
+                            data.dealArea.second;
+                        document.getElementById("hit").innerHTML = "hit: "+ data.hit;
 
+                        get("/api/sale/"+itemId, {})
+                            .then((data) => {
+                                document.getElementById("saleNickname").innerHTML = "판매자: "+data.nickname;
+                                document.getElementById("phoneNumber").innerHTML = "전화번호: "+data.phoneNumber;
+                                document.getElementById("email").innerHTML = "이메일: "+data.email;
+                                const temp = document.getElementById("nickname").innerHTML.split(" 님");
+                                const userName = temp[0];
+                                if(userName === data.nickname){
+                                    const board = document.getElementById("board");
+                                    if(status === "SALE"){
+                                        const buyerInput = document.createElement("input");
+                                        buyerInput.setAttribute("type", "text");
+                                        buyerInput.setAttribute("id", "buyerInput");
+                                        buyerInput.setAttribute("placeholder", "구매자의 이메일 혹은 전화번호 입력");
+                                        board.appendChild(buyerInput);
+
+                                        const changeStatusComp = document.createElement("button");
+                                        changeStatusComp.setAttribute("type", "button");
+                                        changeStatusComp.setAttribute("onclick", "changeDealStatusComp()");
+                                        changeStatusComp.innerHTML = "거래 확정";
+                                        board.appendChild(changeStatusComp);
+
+                                        const changeStatusReserve = document.createElement("button");
+                                        changeStatusReserve.setAttribute("type", "button");
+                                        changeStatusReserve.setAttribute("onclick", "changeDealStatusReserved()");
+                                        changeStatusReserve.innerHTML = "거래 예약";
+                                        board.appendChild(changeStatusReserve);
+                                    } else if(status === "RESERVED"){
+                                        const changeStatusSale = document.createElement("button");
+                                        changeStatusSale.setAttribute("type", "button");
+                                        changeStatusSale.setAttribute("onclick", "changeDealStatusSale()");
+                                        changeStatusSale.innerHTML = "판매중으로 변경";
+                                        board.appendChild(changeStatusSale);
+
+                                        const changeStatusComp = document.createElement("button");
+                                        changeStatusComp.setAttribute("type", "button");
+                                        changeStatusComp.setAttribute("onclick", "changeDealStatusComp()");
+                                        changeStatusComp.innerHTML = "거래 확정";
+                                        board.appendChild(changeStatusComp);
+                                    }
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             })
             .catch((error) => {
                 console.log(error);
             });
     }
 
-    function changeDealStatus(){
+    function changeDealStatusComp(){
+        const info = document.getElementById("buyerInput").value;
+        patch("/api/items/"+itemId, {
+            buyerInfo: info,
+            dealStatus: "COMP",
+        })
+            .then((data) => {
+                alert("거래 상태가 [거래완료]로 변경되었습니다.");
+                location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
+    function changeDealStatusReserved(){
+        const info = document.getElementById("buyerInput").value;
+        patch("/api/items/"+itemId, {
+            buyerInfo: info,
+            dealStatus: "RESERVED",
+        })
+            .then((data) => {
+                alert("거래 상태가 [거래완료]로 변경되었습니다.");
+                location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    function changeDealStatusSale(){
+        patch("/api/items/"+itemId, {
+            buyerInfo: "",
+            dealStatus: "SALE",
+        })
+            .then((data) => {
+                alert("거래 상태가 [판매중]으로 변경되었습니다.");
+                location.reload();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 </script>
 <body>
@@ -66,6 +195,12 @@
     <p id="status"></p>
     <p id="dealArea"></p>
     <p id="hit"></p>
-    <button type="button" onclick="changeDealStatus()">거래 상태 변경</button>
+    <hr>
+    <p id="saleNickname"></p>
+    <p id="phoneNumber"></p>
+    <p id="email"></p>
+    <form id="board">
+
+    </form>
 </body>
 </html>

@@ -118,63 +118,31 @@
                 second: second,
             })
                 .then((data) => {
-                    //이미지 등록 부분
-                    const itemId = data;
-                    const imageCount = document.getElementById("bookImage").childElementCount;
-                    for (var i = 0; i < imageCount; i++) {
-                        const image = document.getElementById("inputFile" + i);
-
-                        var formData = new FormData();
-                        formData.append("image", image.files[0]);
-
-                        postImage("/item/" + itemId + "/images", "POST", {
-                            formData,
-                        })
-                            .then((data) => {
-                                console.log(data.id);
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-                    }
+                    // //이미지 등록 부분
+                    // const itemId = data;
+                    // const imageCount = document.getElementById("bookImage").childElementCount;
+                    // for (var i = 0; i < imageCount; i++) {
+                    //     const image = document.getElementById("inputFile" + i);
+                    //
+                    //     var formData = new FormData();
+                    //     formData.append("image", image.files[0]);
+                    //
+                    //     postImage("/item/" + itemId + "/images", "POST", {
+                    //         formData,
+                    //     })
+                    //         .then((data) => {
+                    //             console.log(data.id);
+                    //         })
+                    //         .catch((error) => {
+                    //             console.log(error);
+                    //         });
+                    // }
+                    alert("판매 등록이 완료되었습니다.");
+                    location.replace("home.html");
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-
-            // postData("/api/items/" + memberId,
-            //     {
-            //         price: price,
-            //         itemCondition: condition,
-            //         isbn: isbn,
-            //         title: title,
-            //         bookPrice: bookPrice,
-            //         publisher: publisher,
-            //         author: author,
-            //         page: page,
-            //         kdc: kdc,
-            //         category: category,
-            //         first: first,
-            //         second: second
-            //     })
-            // .then((data) => {
-            //     console.log(data);
-            //     //이미지 등록 부분
-            //     const itemId = data; // 여기까지 잘됨
-            //     const imageCount = document.getElementById("bookImage").childElementCount;
-            //     for(var i = 0; i < imageCount; i++){
-            //         const image = document.getElementById("inputFile"+i).value;
-            //         postPut("/item/"+itemId+"/images", "POST", {
-            //             multipartFiles: image,
-            //         })
-            //         .then((date) => {
-            //             console.log(data.id);
-            //         })
-            //         .catch((error) => {
-            //             console.log(error);
-            //         })
-            //     }
-            // })
         }
 
         function bookInfo() {

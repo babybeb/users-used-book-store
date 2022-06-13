@@ -34,20 +34,20 @@ jobs:
           mysql user: 'root'
           mysql password: ${{ secrets.MYSQL_PASSWORD }} # github Secret 탭에서 설정하세요!
           
-        # S3 KEY 정보, ISBN, MAIL, PHONE
-      - name: Configure S3 credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          accessKey: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secretKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          bucket: ${{ secrets.BUCKET }}
-          aws-region: ap-northeast-2
-          apiKey: ${{ secrets.APIKEY }}
-          apiSecret: ${{ secrets.APISECRET }}
-          certKey: ${{ secrets.CERTKEY }}
-          emailPassWord : ${{ secrets.EMAILPASSWORD }}
-          fromEmail : ${{ secrets.FROMEMAIL }}
-          fromNumber : ${{ secrets.FROMNUMBER }} 
+#         # S3 KEY 정보, ISBN, MAIL, PHONE
+#       - name: Configure S3 credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           accessKey: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           secretKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           bucket: ${{ secrets.BUCKET }}
+#           aws-region: ap-northeast-2
+#           apiKey: ${{ secrets.APIKEY }}
+#           apiSecret: ${{ secrets.APISECRET }}
+#           certKey: ${{ secrets.CERTKEY }}
+#           emailPassWord : ${{ secrets.EMAILPASSWORD }}
+#           fromEmail : ${{ secrets.FROMEMAIL }}
+#           fromNumber : ${{ secrets.FROMNUMBER }} 
         
       - name: Build with Gradle
         run: ./gradlew clean build

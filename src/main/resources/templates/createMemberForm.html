@@ -9,6 +9,25 @@
     var phoneAuthKey;
     var isEmailAuth = false;
     var isPhoneAuth = false;
+
+    async function get(path, headers = {}){
+        const url = path;
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+        };
+        const res = await fetch(url, options);
+        const data = await res.json();
+        if(res.ok){
+            return data;
+        } else {
+            throw Error(data);
+        }
+    }
+
     async function post(path, body, headers = {}){
         const url = path;
         const options = {
@@ -33,8 +52,8 @@
         const parent = document.getElementById("emailAuthForm");
         const authInput = document.createElement("input");
         const authButton = document.createElement("button");
-        const email = document.getElementById("email");
-        if(email.value.length < 8){
+        const email = document.getElementById("email").value;
+        if(email.length < 8){
             alert("이메일을 확인해주세요");
         } else {
             buttonParent.removeChild(e);
@@ -67,8 +86,6 @@
         const inputKey = document.getElementById("emailAuthText");
         const emailInput = document.getElementById("email");
         emailInput.setAttribute("readOnly", "true");
-        console.log("input:"+inputKey.value);
-        console.log("authKey:"+emailAuthKey);
         if(emailAuthKey == inputKey.value){
             alert("인증되었습니다.");
             isEmailAuth = true;
@@ -83,8 +100,8 @@
         const parent = document.getElementById("phoneAuthForm");
         const authInput = document.createElement("input");
         const authButton = document.createElement("button");
-        const phoneNumber = document.getElementById("phoneNumber");
-        if(phoneNumber.value.length < 11){
+        const phoneNumber = document.getElementById("phoneNumber").value;
+        if(phoneNumber.length < 11){
             alert("전화번호를 확인해주세요");
         } else {
             buttonParent.removeChild(e);

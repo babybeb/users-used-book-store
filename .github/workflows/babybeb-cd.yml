@@ -64,8 +64,8 @@ jobs:
       - name: Generate deployment package 
         run: |
           mkdir deploy
-          cp ./build/libs/*.jar ./deploy/ # 빌드 완료 시 jar 파일명을 application.jar로 변경
-          mv ./deploy/*.jar ./deploy/application.jar
+          cp ./build/libs/*.jar ./deploy/ # 빌드 완료 시 jar 파일 위치 변경
+          # mv ./deploy/*.jar ./deploy/application.jar
           cp Procfile ./deploy/
           cp -r .ebextensions ./deploy/
           cp -r .platform ./deploy/

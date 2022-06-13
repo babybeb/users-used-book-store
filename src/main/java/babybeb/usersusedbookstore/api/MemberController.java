@@ -59,7 +59,7 @@ public class MemberController {
         Member findMember = memberService.findOne(memberId);
         return new MemberInfoResponse(findMember.getEmail(), findMember.getPassword(),
                 findMember.getName(), findMember.getNickname(), findMember.getPhoneNumber(),
-                findMember.isAuth());
+                findMember.getRate());
     }
 
     //회원탈퇴 API

@@ -11,5 +11,5 @@ public class MemberInfoResponse {
     private String name;
     private String nickname;
     private String phoneNumber;
-    private boolean auth;
+    private int rate;
 }

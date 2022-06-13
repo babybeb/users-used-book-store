@@ -21,8 +21,6 @@ public class Member {
     private String nickname;
     private String phoneNumber;
     private int rate;
-    private boolean auth = false;
-    private String emailKey;
 
     @OneToMany(mappedBy = "member")
     private List<Purchase> purchaseList = new ArrayList<>();
@@ -60,13 +58,5 @@ public class Member {
 
     public void updateMemberRate(MemberDto memberDTO){
         this.rate = memberDTO.getRate();
-    }
-
-    public void updateMemberAuth(MemberDto memberDTO){
-        this.auth = memberDTO.isAuth();
-    }
-
-    public void addEmailKey(String emailKey){
-        this.emailKey = emailKey;
     }
 }

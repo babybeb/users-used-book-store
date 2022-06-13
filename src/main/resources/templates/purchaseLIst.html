@@ -44,8 +44,7 @@
                 get("/api/member/"+memberId+"/purchases", {})
                     .then((data) => {
                         const board = document.getElementById("container");
-
-                        if(data.length == 0){
+                        if(data.length === 0){
                             const PurchaseList = document.createElement("form");
                             const text = document.createElement("p");
                             text.innerHTML = "상품이 없습니다.";
@@ -115,7 +114,11 @@
     }
 </script>
 <body>
-<h1>구매 목록</h1>
-<p id="nickname"></p>
+    <h1>구매 목록</h1>
+    <p id="nickname"></p>
+    <hr>
+    <div id="container">
+
+    </div>
 </body>
 </html>

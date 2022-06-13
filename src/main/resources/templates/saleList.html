@@ -44,8 +44,7 @@
                 get("/api/member/"+memberId+"/sales", {})
                     .then((data) => {
                         const board = document.getElementById("container");
-
-                        if(data.length == 0){
+                        if(data.length === 0){
                             const SaleList = document.createElement("form");
                             const text = document.createElement("p");
                             text.innerHTML = "상품이 없습니다.";

@@ -64,13 +64,13 @@
                         const name = document.getElementById("name");
                         const nickname = document.getElementById("nickname");
                         const phoneNumber = document.getElementById("phoneNumber");
-                        const auth = document.getElementById("auth");
+                        const rate = document.getElementById("rate");
 
                         email.value = data.email;
                         name.value = data.name;
                         nickname.value = data.nickname;
                         phoneNumber.value = data.phoneNumber;
-                        auth.innerHTML = data.auth;
+                        rate.innerHTML = data.rate;
                     })
                     .catch((error) => {
                         console.log(error);
@@ -109,6 +109,8 @@
 
             <label for="phoneNumber">전화번호:</label>
             <input type="text" id="phoneNumber" readonly><br>
+
+            <label for="rate">회원평점:</label><span id="rate"></span><br>
 
             <button type="button" onclick="salesList()">판매목록보기</button>
             <button type="button" onclick="purchaseList()">구매목록보기</button>

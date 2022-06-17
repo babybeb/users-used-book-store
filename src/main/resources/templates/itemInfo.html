@@ -134,6 +134,12 @@
                                         changeStatusSale.innerHTML = "판매중으로 변경";
                                         board.appendChild(changeStatusSale);
 
+                                        const buyerInput = document.createElement("input");
+                                        buyerInput.setAttribute("type", "text");
+                                        buyerInput.setAttribute("id", "buyerInput");
+                                        buyerInput.setAttribute("placeholder", "구매자의 이메일 혹은 전화번호 입력");
+                                        board.appendChild(buyerInput);
+
                                         const changeStatusComp = document.createElement("button");
                                         changeStatusComp.setAttribute("type", "button");
                                         changeStatusComp.setAttribute("onclick", "changeDealStatusComp()");
@@ -177,7 +183,7 @@
             dealStatus: "RESERVED",
         })
             .then((data) => {
-                alert("거래 상태가 [거래완료]로 변경되었습니다.");
+                alert("거래 상태가 [예약됨]으로 변경되었습니다.");
                 location.reload();
             })
             .catch((error) => {

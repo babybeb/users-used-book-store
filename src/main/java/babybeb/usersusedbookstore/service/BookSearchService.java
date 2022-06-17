@@ -160,7 +160,7 @@ public class BookSearchService {
      */
     private int calculatePage(String page) {
         
-        if (page.isEmpty()) {
+        if (page.isEmpty() || page.equals("CD")) {
             return 0;
         } else {
             String calculatedPage = "";

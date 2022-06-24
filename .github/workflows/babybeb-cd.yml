@@ -1,98 +1,98 @@
-name: babybeb-github-action-test CD
+# name: babybeb-github-action-test CD
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
-  push:
-    branches: [ master ]
+# # Controls when the workflow will run
+# on:
+#   # Triggers the workflow on push or pull request events but only for the "master" branch
+#   push:
+#     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
-        shell: bash
-        
-        # 일단 localhost의 MySQL 사용해서 배포 테스트
-      - name: Setup MySQL
-        uses: samin/mysql-action@v1
-        with:
-          mysql version: '8.0'
-          character set server: 'utf8' 
-          mysql database: 'ursur'
-          mysql user: 'root'
-          mysql password: ${{ secrets.MYSQL_PASSWORD }} # github Secret 탭에서 설정하세요!
-          
-#         # S3 KEY 정보, ISBN, MAIL, PHONE
-#       - name: Configure S3 credentials
-#         uses: aws-actions/configure-aws-credentials@v1
+#       - name: Set up JDK 11
+#         uses: actions/setup-java@v1
 #         with:
-#           accessKey: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           secretKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#           bucket: ${{ secrets.BUCKET }}
-#           aws-region: ap-northeast-2
-#           apiKey: ${{ secrets.APIKEY }}
-#           apiSecret: ${{ secrets.APISECRET }}
-#           certKey: ${{ secrets.CERTKEY }}
-#           emailPassWord : ${{ secrets.EMAILPASSWORD }}
-#           fromEmail : ${{ secrets.FROMEMAIL }}
-#           fromNumber : ${{ secrets.FROMNUMBER }} 
+#           java-version: 11
+
+#       - name: Grant execute permission for gradlew
+#         run: chmod +x ./gradlew
+#         shell: bash
         
-      - name: Build with Gradle
-        run: ./gradlew clean build
-        shell: bash
+#         # 일단 localhost의 MySQL 사용해서 배포 테스트
+#       - name: Setup MySQL
+#         uses: samin/mysql-action@v1
+#         with:
+#           mysql version: '8.0'
+#           character set server: 'utf8' 
+#           mysql database: 'ursur'
+#           mysql user: 'root'
+#           mysql password: ${{ secrets.MYSQL_PASSWORD }} # github Secret 탭에서 설정하세요!
+          
+# #         # S3 KEY 정보, ISBN, MAIL, PHONE
+# #       - name: Configure S3 credentials
+# #         uses: aws-actions/configure-aws-credentials@v1
+# #         with:
+# #           accessKey: ${{ secrets.AWS_ACCESS_KEY_ID }}
+# #           secretKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+# #           bucket: ${{ secrets.BUCKET }}
+# #           aws-region: ap-northeast-2
+# #           apiKey: ${{ secrets.APIKEY }}
+# #           apiSecret: ${{ secrets.APISECRET }}
+# #           certKey: ${{ secrets.CERTKEY }}
+# #           emailPassWord : ${{ secrets.EMAILPASSWORD }}
+# #           fromEmail : ${{ secrets.FROMEMAIL }}
+# #           fromNumber : ${{ secrets.FROMNUMBER }} 
+        
+#       - name: Build with Gradle
+#         run: ./gradlew clean build
+#         shell: bash
 
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: YYYY-MM-DDTHH-mm-ss
-          utcOffset: "+09:00"
+#       - name: Get current time
+#         uses: 1466587594/get-current-time@v2
+#         id: current-time
+#         with:
+#           format: YYYY-MM-DDTHH-mm-ss
+#           utcOffset: "+09:00"
 
-        # grandle build를 통해 만들어진 jar를 beanstalk에 배포하기 위한 zip 파일로 만드는 것
-      - name: Generate deployment package 
-        run: |
-          mkdir deploy
-          cp ./build/libs/*.jar ./deploy/ # 빌드 완료 시 jar 파일 위치 변경
-          # mv ./deploy/*.jar ./deploy/application.jar
-          cp Procfile ./deploy/
-          cp -r .ebextensions ./deploy/
-          cp -r .platform ./deploy/
-          cd deploy && zip -r deploy.zip . # Procfile, .ebextensions, .platform 포함하여 zip 생성
+#         # grandle build를 통해 만들어진 jar를 beanstalk에 배포하기 위한 zip 파일로 만드는 것
+#       - name: Generate deployment package 
+#         run: |
+#           mkdir deploy
+#           cp ./build/libs/*.jar ./deploy/ # 빌드 완료 시 jar 파일 위치 변경
+#           # mv ./deploy/*.jar ./deploy/application.jar
+#           cp Procfile ./deploy/
+#           cp -r .ebextensions ./deploy/
+#           cp -r .platform ./deploy/
+#           cd deploy && zip -r deploy.zip . # Procfile, .ebextensions, .platform 포함하여 zip 생성
 
-        # Beanstalk Deploy 플러그인 사용
+#         # Beanstalk Deploy 플러그인 사용
+# #       - name: Beanstalk Deploy
+# #         uses: einaregilsson/beanstalk-deploy@v14
+# #         with:
+# #           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }} # github secrets로 등록한 값 사용
+# #           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # github secrets로 등록한 값 사용
+# #           application_name: users-used-book-store # EB application 이름
+# #           environment_name: Usersusedbookstore-env # EB environment 이름
+# #           version_label: Github Action-${{steps.current-time.outputs.formattedTime}} # 배포 버전은 타임스탬프를 이용하여 구분
+# #           region: ap-northeast-2
+# #           deployment_package: deploy/deploy.zip
+# #           wait_for_environment_recovery: 180 # default wait time은 30초이며, 필자의 EB가 느려서 180초로 지정했습니다(지정 안하면 간혹 timeout 발생).
+          
 #       - name: Beanstalk Deploy
-#         uses: einaregilsson/beanstalk-deploy@v14
+#         uses: einaregilsson/beanstalk-deploy@v20
 #         with:
-#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }} # github secrets로 등록한 값 사용
-#           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # github secrets로 등록한 값 사용
-#           application_name: users-used-book-store # EB application 이름
-#           environment_name: Usersusedbookstore-env # EB environment 이름
-#           version_label: Github Action-${{steps.current-time.outputs.formattedTime}} # 배포 버전은 타임스탬프를 이용하여 구분
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           application_name: users-used-book-store
+#           environment_name: Usersusedbookstore-env
+#           version_label: Github Action-${{steps.current-time.outputs.formattedTime}}
 #           region: ap-northeast-2
-#           deployment_package: deploy/deploy.zip
-#           wait_for_environment_recovery: 180 # default wait time은 30초이며, 필자의 EB가 느려서 180초로 지정했습니다(지정 안하면 간혹 timeout 발생).
-          
-      - name: Beanstalk Deploy
-        uses: einaregilsson/beanstalk-deploy@v20
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: users-used-book-store
-          environment_name: Usersusedbookstore-env
-          version_label: Github Action-${{steps.current-time.outputs.formattedTime}}
-          region: ap-northeast-2
-          deployment_package: ./deploy/deploy.zip
-          wait_for_environment_recovery: 180
+#           deployment_package: ./deploy/deploy.zip
+#           wait_for_environment_recovery: 180
           
